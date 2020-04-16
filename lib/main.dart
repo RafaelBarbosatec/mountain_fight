@@ -2,9 +2,10 @@ import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:mountain_fight/MountainMap.dart';
 
+double tileSize;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Flame.util.setLandscape();
+//  await Flame.util.setLandscape();
   await Flame.util.fullScreen();
   runApp(
     MaterialApp(
@@ -27,6 +28,11 @@ class Game extends StatefulWidget {
 class _GameState extends State<Game> {
   @override
   Widget build(BuildContext context) {
+    Size sizeScreen = MediaQuery.of(context).size;
+    tileSize = ((sizeScreen.height < sizeScreen.width)
+            ? sizeScreen.height
+            : sizeScreen.width) /
+        14;
     return BonfireWidget(
       joystick: Joystick(
         pathSpriteBackgroundDirectional: 'joystick_background.png',
@@ -45,7 +51,7 @@ class _GameState extends State<Game> {
       map: MountainMap.map(),
       decorations: [],
       enemies: [],
-      constructionMode: true,
+//      constructionMode: true,
     );
   }
 }
