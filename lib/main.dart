@@ -29,10 +29,10 @@ class _GameState extends State<Game> {
   @override
   Widget build(BuildContext context) {
     Size sizeScreen = MediaQuery.of(context).size;
-    tileSize = ((sizeScreen.height > sizeScreen.width)
+    tileSize = ((sizeScreen.height < sizeScreen.width)
             ? sizeScreen.height
             : sizeScreen.width) /
-        32;
+        15;
     tileSize = tileSize.round().toDouble();
     return BonfireWidget(
       joystick: Joystick(
