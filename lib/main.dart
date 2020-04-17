@@ -32,7 +32,8 @@ class _GameState extends State<Game> {
     tileSize = ((sizeScreen.height > sizeScreen.width)
             ? sizeScreen.height
             : sizeScreen.width) /
-        26;
+        32;
+    tileSize = tileSize.round().toDouble();
     return BonfireWidget(
       joystick: Joystick(
         pathSpriteBackgroundDirectional: 'joystick_background.png',

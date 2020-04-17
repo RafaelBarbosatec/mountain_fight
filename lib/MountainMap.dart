@@ -25,6 +25,7 @@ class MountainMap {
               x.toDouble(),
               y.toDouble(),
             ),
+            size: tileSize,
           ));
         }
 
@@ -35,6 +36,7 @@ class MountainMap {
               x.toDouble(),
               y.toDouble(),
             ),
+            size: tileSize,
           ));
         }
 
@@ -45,6 +47,7 @@ class MountainMap {
               x.toDouble(),
               y.toDouble(),
             ),
+            size: tileSize,
           ));
         }
 
@@ -55,6 +58,7 @@ class MountainMap {
               x.toDouble(),
               y.toDouble(),
             ),
+            size: tileSize,
           ));
         }
 
@@ -65,6 +69,7 @@ class MountainMap {
               x.toDouble(),
               y.toDouble(),
             ),
+            size: tileSize,
           ));
         }
 
@@ -75,6 +80,7 @@ class MountainMap {
               x.toDouble(),
               y.toDouble(),
             ),
+            size: tileSize,
           ));
         }
 
@@ -85,6 +91,7 @@ class MountainMap {
               x.toDouble(),
               y.toDouble(),
             ),
+            size: tileSize,
           ));
         }
 
@@ -95,6 +102,7 @@ class MountainMap {
               x.toDouble(),
               y.toDouble(),
             ),
+            size: tileSize,
           ));
         }
 
@@ -106,6 +114,7 @@ class MountainMap {
               x.toDouble(),
               y.toDouble(),
             ),
+            size: tileSize,
           ));
         }
       });
