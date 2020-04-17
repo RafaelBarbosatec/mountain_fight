@@ -29,10 +29,10 @@ class _GameState extends State<Game> {
   @override
   Widget build(BuildContext context) {
     Size sizeScreen = MediaQuery.of(context).size;
-    tileSize = ((sizeScreen.height < sizeScreen.width)
+    tileSize = ((sizeScreen.height > sizeScreen.width)
             ? sizeScreen.height
             : sizeScreen.width) /
-        14;
+        26;
     return BonfireWidget(
       joystick: Joystick(
         pathSpriteBackgroundDirectional: 'joystick_background.png',
@@ -49,8 +49,7 @@ class _GameState extends State<Game> {
         ],
       ),
       map: MountainMap.map(),
-      decorations: [],
-      enemies: [],
+      decorations: MountainMap.decorations(),
 //      constructionMode: true,
     );
   }
