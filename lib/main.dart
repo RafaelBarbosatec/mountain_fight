@@ -51,7 +51,7 @@ class _GameState extends State<Game> {
       ),
       map: MountainMap.map(),
       decorations: MountainMap.decorations(),
-//      constructionMode: true,
+      constructionMode: true,
     );
   }
 }

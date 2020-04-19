@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:bonfire/bonfire.dart';
 import 'package:flame/spritesheet.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,109 +9,50 @@ class MountainMap {
     textureWidth: 16,
     textureHeight: 16,
     columns: 7,
-    rows: 13,
+    rows: 30,
   );
 
   static MapWorld map() {
     List<Tile> tileList = List();
-    List.generate(20, (y) {
+    int limitBottom = 25;
+    List.generate(50, (y) {
       List.generate(50, (x) {
-        if (x == 3 && y == 3) {
+        if (x >= 0 && x < 4 && y >= 0 && y <= limitBottom) {
           tileList.add(Tile.fromSprite(
-            spriteSheet.getSprite(4, 3),
-            Position(
-              x.toDouble(),
-              y.toDouble(),
-            ),
+            spriteSheet.getSprite(11, 5),
+            getPosition(x, y),
             size: tileSize,
           ));
         }
 
-        if (x > 3 && x < 20 && y == 3) {
+        if (x == 4 && y >= 4 && y <= 8) {
           tileList.add(Tile.fromSprite(
-            spriteSheet.getSprite(4, 4),
-            Position(
-              x.toDouble(),
-              y.toDouble(),
-            ),
+            spriteSheet.getSprite(11, 0),
+            getPosition(x, y),
             size: tileSize,
           ));
         }
 
-        if (x == 20 && y == 3) {
+        if (x == 4 && y == 9) {
           tileList.add(Tile.fromSprite(
-            spriteSheet.getSprite(4, 5),
-            Position(
-              x.toDouble(),
-              y.toDouble(),
-            ),
+            spriteSheet.getSprite(12, 0),
+            getPosition(x, y),
             size: tileSize,
           ));
         }
 
-        if (x == 20 && y > 3 && y < 13) {
+        if (x >= 5 && x <= 7 && y == 9) {
           tileList.add(Tile.fromSprite(
-            spriteSheet.getSprite(5, 5),
-            Position(
-              x.toDouble(),
-              y.toDouble(),
-            ),
+            spriteSheet.getSprite(12, 1),
+            getPosition(x, y),
             size: tileSize,
           ));
         }
 
-        if (x == 20 && y == 13) {
+        if (x == 8 && y == 9) {
           tileList.add(Tile.fromSprite(
-            spriteSheet.getSprite(6, 5),
-            Position(
-              x.toDouble(),
-              y.toDouble(),
-            ),
-            size: tileSize,
-          ));
-        }
-
-        if (x == 3 && y > 3 && y < 13) {
-          tileList.add(Tile.fromSprite(
-            spriteSheet.getSprite(5, 3),
-            Position(
-              x.toDouble(),
-              y.toDouble(),
-            ),
-            size: tileSize,
-          ));
-        }
-
-        if (x == 3 && y == 13) {
-          tileList.add(Tile.fromSprite(
-            spriteSheet.getSprite(6, 3),
-            Position(
-              x.toDouble(),
-              y.toDouble(),
-            ),
-            size: tileSize,
-          ));
-        }
-
-        if (x > 3 && x < 20 && y == 13) {
-          tileList.add(Tile.fromSprite(
-            spriteSheet.getSprite(6, 4),
-            Position(
-              x.toDouble(),
-              y.toDouble(),
-            ),
-            size: tileSize,
-          ));
-        }
-
-        if (x > 3 && x < 20 && y > 3 && y < 13) {
-          tileList.add(Tile.fromSprite(
-            spriteSheet.getSprite(
-                0, Random().nextInt(100) % 2 == 0 ? 0 : Random().nextInt(3)),
-            Position(
-              x.toDouble(),
-              y.toDouble(),
-            ),
+            spriteSheet.getSprite(22, 1),
+            getPosition(x, y),
             size: tileSize,
           ));
         }
@@ -128,43 +67,43 @@ class MountainMap {
     return [
       GameDecoration.sprite(
         spriteSheet.getSprite(1, 6),
-        initPosition: getPosition(5, 10),
+        initPosition: getPositionInWorld(5, 10),
         height: tileSize,
         width: tileSize,
       ),
       GameDecoration.sprite(
         spriteSheet.getSprite(1, 6),
-        initPosition: getPosition(15, 4),
+        initPosition: getPositionInWorld(15, 4),
         height: tileSize,
         width: tileSize,
       ),
       GameDecoration.sprite(
         spriteSheet.getSprite(2, 6),
-        initPosition: getPosition(8, 4),
+        initPosition: getPositionInWorld(8, 4),
         height: tileSize,
         width: tileSize,
       ),
       GameDecoration.sprite(
         spriteSheet.getSprite(4, 6),
-        initPosition: getPosition(15, 9),
+        initPosition: getPositionInWorld(15, 9),
         height: tileSize,
         width: tileSize,
       ),
       GameDecoration.sprite(
         spriteSheet.getSprite(4, 6),
-        initPosition: getPosition(15, 7),
+        initPosition: getPositionInWorld(15, 7),
         height: tileSize,
         width: tileSize,
       ),
       GameDecoration.sprite(
         spriteSheet.getSprite(5, 6),
-        initPosition: getPosition(10, 7),
+        initPosition: getPositionInWorld(10, 7),
         height: tileSize,
         width: tileSize,
       ),
       GameDecoration.sprite(
         spriteSheet.getSprite(5, 6),
-        initPosition: getPosition(4, 6),
+        initPosition: getPositionInWorld(4, 6),
         height: tileSize,
         width: tileSize,
       ),
@@ -177,7 +116,11 @@ class MountainMap {
     return c1.compareTo(c2);
   }
 
-  static Position getPosition(int x, int y) {
+  static Position getPositionInWorld(int x, int y) {
     return Position(x * tileSize, y * tileSize);
+  }
+
+  static Position getPosition(int x, int y) {
+    return Position(x.toDouble(), y.toDouble());
   }
 }
