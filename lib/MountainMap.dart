@@ -17,15 +17,76 @@ class MountainMap {
     int limitBottom = 25;
     List.generate(50, (y) {
       List.generate(50, (x) {
-        if (x >= 0 && x < 4 && y >= 0 && y <= limitBottom) {
+        /// INICIO DA PRAIA
+        //WATER
+        if (x >= 0 && x <= 3 && y >= 0 && y <= limitBottom) {
           tileList.add(Tile.fromSprite(
-            spriteSheet.getSprite(11, 5),
+            spriteSheet.getSprite(11, 4),
             getPosition(x, y),
             size: tileSize,
           ));
         }
 
-        if (x == 4 && y >= 4 && y <= 8) {
+        //WATER
+        if (x >= 4 && x <= 7 && y >= 10 && y <= limitBottom) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(11, 4),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        //WATER
+        if (x >= 8 && x <= 9 && y >= 20 && y <= limitBottom) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(11, 4),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        //WATER
+        if (x >= 4 && x <= 14 && y >= 0 && y < 2) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(11, 4),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        if (x == 4 && y == 2) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(10, 0),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        if (x >= 5 && x <= 14 && y == 2) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(10, 1),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        if (x == 15 && y == 2) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(23, 1),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        if (x == 15 && y < 2 && y >= 0) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(11, 0),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        if (x == 4 && y >= 3 && y <= 8) {
           tileList.add(Tile.fromSprite(
             spriteSheet.getSprite(11, 0),
             getPosition(x, y),
@@ -56,6 +117,121 @@ class MountainMap {
             size: tileSize,
           ));
         }
+
+        if (x == 8 && y > 9 && y < 19) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(11, 0),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        if (x == 8 && y == 19) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(12, 0),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        if (x == 9 && y == 19) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(12, 1),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        if (x == 10 && y == 19) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(22, 1),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        if (x == 10 && y > 19 && y < limitBottom) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(11, 0),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        if (x == 10 && y == limitBottom) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(12, 0),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        if (x > 10 && x <= 15 && y == limitBottom) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(12, 1),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        if (x > 10 && x <= 20 && y == limitBottom) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(12, 1),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        //AREIA
+        if (x > 4 && x <= 15 && y >= 3 && y <= 8) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(11, 1),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        if (x > 8 && x <= 15 && y >= 9 && y <= 18) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(11, 1),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        if (x > 10 && x <= 20 && y >= 19 && y <= 24) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(11, 1),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        /// FIM DA PRAIA
+
+        if (x == 16 && y >= 0 && y < 18) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(17, 2),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        if (x == 16 && y == 18) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(14, 4),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        if (x >= 17 && x <= 20 && y == 18) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(16, 1),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
       });
     });
     tileList
@@ -64,50 +240,7 @@ class MountainMap {
   }
 
   static List<GameDecoration> decorations() {
-    return [
-      GameDecoration.sprite(
-        spriteSheet.getSprite(1, 6),
-        initPosition: getPositionInWorld(5, 10),
-        height: tileSize,
-        width: tileSize,
-      ),
-      GameDecoration.sprite(
-        spriteSheet.getSprite(1, 6),
-        initPosition: getPositionInWorld(15, 4),
-        height: tileSize,
-        width: tileSize,
-      ),
-      GameDecoration.sprite(
-        spriteSheet.getSprite(2, 6),
-        initPosition: getPositionInWorld(8, 4),
-        height: tileSize,
-        width: tileSize,
-      ),
-      GameDecoration.sprite(
-        spriteSheet.getSprite(4, 6),
-        initPosition: getPositionInWorld(15, 9),
-        height: tileSize,
-        width: tileSize,
-      ),
-      GameDecoration.sprite(
-        spriteSheet.getSprite(4, 6),
-        initPosition: getPositionInWorld(15, 7),
-        height: tileSize,
-        width: tileSize,
-      ),
-      GameDecoration.sprite(
-        spriteSheet.getSprite(5, 6),
-        initPosition: getPositionInWorld(10, 7),
-        height: tileSize,
-        width: tileSize,
-      ),
-      GameDecoration.sprite(
-        spriteSheet.getSprite(5, 6),
-        initPosition: getPositionInWorld(4, 6),
-        height: tileSize,
-        width: tileSize,
-      ),
-    ];
+    return [];
   }
 
   static int compareTo(Rect r1, Rect r2) {
