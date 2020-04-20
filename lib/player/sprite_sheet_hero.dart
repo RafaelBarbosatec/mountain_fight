@@ -11,5 +11,5 @@ class SpriteSheetHero {
     );
   }
 
-  static SpriteSheet get hero1 => _create('heroes/heroesSpriteSheet.png');
+  static SpriteSheet get hero1 => _create('heroes/hero1.png');
 }
