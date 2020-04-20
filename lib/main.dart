@@ -1,5 +1,6 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
+import 'package:mountain_fight/GamePlayer.dart';
 import 'package:mountain_fight/MountainMap.dart';
 
 double tileSize;
@@ -49,6 +50,7 @@ class _GameState extends State<Game> {
           ),
         ],
       ),
+      player: GamePlayer(Position(5 * tileSize, 5 * tileSize)),
       map: MountainMap.map(),
       decorations: MountainMap.decorations(),
     );

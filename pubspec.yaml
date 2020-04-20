@@ -42,6 +42,7 @@ flutter:
     - assets/
     - assets/images/
     - assets/images/tile/
+    - assets/images/heroes/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

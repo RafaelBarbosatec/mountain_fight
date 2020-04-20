@@ -313,7 +313,6 @@ class MountainMap {
             spriteSheet.getSprite(9, 2),
             getPosition(x, y),
             size: tileSize,
-            collision: true,
           ));
         }
 
