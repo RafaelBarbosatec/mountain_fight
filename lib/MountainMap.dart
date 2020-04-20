@@ -67,6 +67,7 @@ class MountainMap {
             spriteSheet.getSprite(10, 1),
             getPosition(x, y),
             size: tileSize,
+            collision: true,
           ));
         }
 
@@ -83,6 +84,7 @@ class MountainMap {
             spriteSheet.getSprite(11, 0),
             getPosition(x, y),
             size: tileSize,
+            collision: true,
           ));
         }
 
@@ -91,6 +93,7 @@ class MountainMap {
             spriteSheet.getSprite(11, 0),
             getPosition(x, y),
             size: tileSize,
+            collision: true,
           ));
         }
 
@@ -107,6 +110,7 @@ class MountainMap {
             spriteSheet.getSprite(12, 1),
             getPosition(x, y),
             size: tileSize,
+            collision: true,
           ));
         }
 
@@ -123,6 +127,7 @@ class MountainMap {
             spriteSheet.getSprite(11, 0),
             getPosition(x, y),
             size: tileSize,
+            collision: true,
           ));
         }
 
@@ -139,6 +144,7 @@ class MountainMap {
             spriteSheet.getSprite(12, 1),
             getPosition(x, y),
             size: tileSize,
+            collision: true,
           ));
         }
 
@@ -155,6 +161,7 @@ class MountainMap {
             spriteSheet.getSprite(11, 0),
             getPosition(x, y),
             size: tileSize,
+            collision: true,
           ));
         }
 
@@ -171,14 +178,16 @@ class MountainMap {
             spriteSheet.getSprite(12, 1),
             getPosition(x, y),
             size: tileSize,
+            collision: true,
           ));
         }
 
-        if (x > 10 && x <= 20 && y == limitBottom) {
+        if (x > 10 && x <= 50 && y == limitBottom) {
           tileList.add(Tile.fromSprite(
             spriteSheet.getSprite(12, 1),
             getPosition(x, y),
             size: tileSize,
+            collision: true,
           ));
         }
 
@@ -199,7 +208,31 @@ class MountainMap {
           ));
         }
 
-        if (x > 10 && x <= 20 && y >= 19 && y <= 24) {
+        if (x > 10 && x <= 24 && y >= 21 && y <= 24) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(11, 1),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        if (x == 25 && y >= 21 && y <= 23) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(17, 2),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        if (x == 25 && y == 24) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(14, 4),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        if (x > 10 && x <= 15 && y >= 19 && y <= 24) {
           tileList.add(Tile.fromSprite(
             spriteSheet.getSprite(11, 1),
             getPosition(x, y),
@@ -209,7 +242,7 @@ class MountainMap {
 
         /// FIM DA PRAIA
 
-        if (x == 16 && y >= 0 && y < 18) {
+        if (x == 16 && y >= 0 && y < 20) {
           tileList.add(Tile.fromSprite(
             spriteSheet.getSprite(17, 2),
             getPosition(x, y),
@@ -217,7 +250,7 @@ class MountainMap {
           ));
         }
 
-        if (x == 16 && y == 18) {
+        if (x == 16 && y == 20) {
           tileList.add(Tile.fromSprite(
             spriteSheet.getSprite(14, 4),
             getPosition(x, y),
@@ -225,7 +258,155 @@ class MountainMap {
           ));
         }
 
-        if (x >= 17 && x <= 20 && y == 18) {
+        if (x >= 17 && x <= 24 && y == 20) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(16, 1),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        if (x == 25 && y == 20) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(16, 2),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        if (x >= 17 && x <= 25 && y == 19) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(0, 0),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        if (x >= 17 && x <= 19 && y >= 5 && y <= 18) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(0, 0),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        if (x == 17 && y <= 3 && y >= 0) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(5, 3),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+
+        if (x == 17 && y == 4) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(6, 3),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+
+        if (x >= 18 && x <= 19 && y == 4) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(9, 2),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+
+        if (x == 20 && y == 4) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(8, 5),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+
+        if (x == 20 && y >= 5 && y < 18) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(5, 3),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+
+        if (x == 20 && y == 18) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(6, 3),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+
+        if (x == 21 && y == 18) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(6, 4),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+
+        if (x >= 22 && x <= 23 && y == 18) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(9, 2),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        if (x >= 24 && x <= 25 && y == 18) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(6, 4),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+
+        if (x == 26 && y == 18) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(8, 5),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+
+        if (x == 26 && y >= 19 && y <= 22) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(5, 3),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+
+        if (x == 26 && y == 23) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(6, 3),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+
+        if (x >= 27 && x <= 50 && y == 23) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(6, 4),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+
+        if (x >= 26 && x <= 50 && y == 24) {
           tileList.add(Tile.fromSprite(
             spriteSheet.getSprite(16, 1),
             getPosition(x, y),
