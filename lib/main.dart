@@ -1,7 +1,8 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
-import 'package:mountain_fight/GamePlayer.dart';
-import 'package:mountain_fight/MountainMap.dart';
+import 'package:mountain_fight/mountain_map.dart';
+import 'package:mountain_fight/player/game_player.dart';
+import 'package:mountain_fight/player/sprite_sheet_hero.dart';
 
 double tileSize;
 void main() async {
@@ -50,7 +51,10 @@ class _GameState extends State<Game> {
           ),
         ],
       ),
-      player: GamePlayer(Position(5 * tileSize, 5 * tileSize)),
+      player: GamePlayer(
+        Position(5 * tileSize, 5 * tileSize),
+        SpriteSheetHero.hero1,
+      ),
       map: MountainMap.map(),
       decorations: MountainMap.decorations(),
       constructionModeColor: Colors.black,
