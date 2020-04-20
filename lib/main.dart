@@ -53,6 +53,7 @@ class _GameState extends State<Game> {
       player: GamePlayer(Position(5 * tileSize, 5 * tileSize)),
       map: MountainMap.map(),
       decorations: MountainMap.decorations(),
+      constructionModeColor: Colors.black,
     );
   }
 }
