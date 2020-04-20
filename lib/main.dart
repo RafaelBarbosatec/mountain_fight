@@ -53,7 +53,7 @@ class _GameState extends State<Game> {
       ),
       player: GamePlayer(
         Position(5 * tileSize, 5 * tileSize),
-        SpriteSheetHero.hero1,
+        SpriteSheetHero.hero2,
       ),
       map: MountainMap.map(),
       decorations: MountainMap.decorations(),
