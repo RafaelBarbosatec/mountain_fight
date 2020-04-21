@@ -1,5 +1,6 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
+import 'package:mountain_fight/interface/player_interface.dart';
 import 'package:mountain_fight/mountain_map.dart';
 import 'package:mountain_fight/player/game_player.dart';
 import 'package:mountain_fight/player/sprite_sheet_hero.dart';
@@ -55,6 +56,7 @@ class _GameState extends State<Game> {
         Position(5 * tileSize, 5 * tileSize),
         SpriteSheetHero.hero2,
       ),
+      interface: PlayerInterface(),
       map: MountainMap.map(),
       decorations: MountainMap.decorations(),
       constructionModeColor: Colors.black,

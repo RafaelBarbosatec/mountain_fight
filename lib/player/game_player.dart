@@ -1,4 +1,5 @@
 import 'package:bonfire/bonfire.dart';
+import 'package:flame/animation.dart';
 import 'package:mountain_fight/main.dart';
 
 class GamePlayer extends Player {
@@ -20,4 +21,16 @@ class GamePlayer extends Player {
             life: 200,
             speed: 2.5,
             collision: Collision(height: 16, width: 16));
+
+  void showEmote(Animation emoteAnimation) {
+    gameRef.add(
+      AnimatedFollowerObject(
+        animation: emoteAnimation,
+        target: this,
+        width: position.width / 2,
+        height: position.width / 2,
+        positionFromTarget: Position(25, -10),
+      ),
+    );
+  }
 }

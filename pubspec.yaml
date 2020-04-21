@@ -43,6 +43,7 @@ flutter:
     - assets/images/
     - assets/images/tile/
     - assets/images/heroes/
+    - assets/images/emotes/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
