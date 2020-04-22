@@ -665,6 +665,80 @@ class MountainMap {
             collision: true,
           ));
         }
+
+        //ponte
+        if (x == 29 && y == 12) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(21, 0),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+        if (x == 30 && y == 12) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(21, 1),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        if (x == 31 && y == 12) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(21, 2),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        if (x == 29 && y <= 11 && y >= 9) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(20, 0),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        if (x == 31 && y <= 11 && y >= 9) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(20, 2),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        if (x == 30 && y <= 11 && y >= 9) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(20, 1),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        if (x == 29 && y == 8) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(19, 0),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        if (x == 30 && y == 8) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(19, 1),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        if (x == 31 && y == 8) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(19, 2),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        // fin da ponte
       });
     });
     tileList
