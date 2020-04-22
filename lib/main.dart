@@ -60,7 +60,7 @@ class _GameState extends State<Game> {
       constructionModeColor: Colors.black,
       collisionAreaColor: Colors.purple.withOpacity(0.4),
       constructionMode: true,
-      showCollisionArea: true,
+//      showCollisionArea: true,
     );
   }
 }

@@ -737,8 +737,66 @@ class MountainMap {
             size: tileSize,
           ));
         }
-
         // fin da ponte
+
+        // inicio grama
+        if (x >= 18 && x <= 49 && y >= 0 && y <= 3) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(0, 0),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        if (x >= 21 && x <= 49 && y == 4) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(0, 0),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        if (x >= 21 && x <= 36 && y >= 5 && y <= 7) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(0, 0),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        if (x >= 21 && x <= 24 && y >= 8 && y <= 17) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(0, 0),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        if (x >= 25 && x <= 36 && y >= 13 && y <= 17) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(0, 0),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        if (x >= 27 && x <= 49 && y >= 18 && y <= 22) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(0, 0),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        if (x >= 42 && x <= 49 && y >= 5 && y <= 17) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(0, 0),
+            getPosition(x, y),
+            size: tileSize,
+          ));
+        }
+
+        // finaliza grama
       });
     });
     tileList
