@@ -412,6 +412,259 @@ class MountainMap {
             size: tileSize,
           ));
         }
+
+        // INICIO ILHA
+
+        if (x == 25 && y == 8) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(25, 2),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+
+        if (x >= 26 && x <= 28 && y == 8) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(25, 3),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+
+        if (x >= 32 && x <= 36 && y == 8) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(25, 3),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+
+        if (x == 25 && y >= 9 && y <= 11) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(26, 2),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+
+        if (x == 25 && y == 12) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(28, 2),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+
+        if (x >= 26 && x <= 28 && y == 12) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(28, 3),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+
+        if (x >= 32 && x <= 36 && y == 12) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(28, 3),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+
+        if (x == 37 && y == 12) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(18, 4),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+
+        if (x == 37 && y >= 13 && y <= 16) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(26, 2),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+
+        if (x == 37 && y == 17) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(28, 2),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+
+        if (x >= 38 && x <= 40 && y == 17) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(28, 3),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+
+        if (x == 41 && y == 17) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(28, 6),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+
+        if (x == 41 && y <= 16 && y >= 6) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(27, 6),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+
+        if (x == 41 && y == 5) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(25, 6),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+
+        if (x <= 40 && x >= 38 && y == 5) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(25, 4),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+
+        if (x == 37 && y == 5) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(25, 2),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+
+        if (x == 37 && y >= 6 && y <= 7) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(27, 2),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+
+        if (x == 37 && y == 8) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(19, 4),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+
+        //Water
+        if (x >= 38 && x <= 40 && y >= 6 && y <= 16) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(26, 3),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+
+        //Water
+        if (x == 37 && y == 9) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(27, 3),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+
+        //Water
+        if (x == 37 && y == 10) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(26, 3),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+
+        //Water
+        if (x == 37 && y == 11) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(27, 3),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+
+        //water
+        if (x >= 32 && x <= 36 && y >= 9 && y <= 11) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(26, 3),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+
+        //water
+        if (x >= 26 && x <= 28 && y == 9) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(26, 3),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+
+        //water
+        if (x == 26 && y == 10) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(27, 3),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+
+        //water
+        if (x >= 27 && x <= 28 && y == 10) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(26, 3),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
+        //water
+        if (x >= 26 && x <= 28 && y == 11) {
+          tileList.add(Tile.fromSprite(
+            spriteSheet.getSprite(26, 3),
+            getPosition(x, y),
+            size: tileSize,
+            collision: true,
+          ));
+        }
       });
     });
     tileList
