@@ -805,7 +805,94 @@ class MountainMap {
   }
 
   static List<GameDecoration> decorations() {
-    return [];
+    return [
+      GameDecoration.sprite(
+        spriteSheet.getSprite(1, 6),
+        initPosition: getPositionInWorld(17, 9),
+        height: tileSize,
+        width: tileSize,
+        collision: Collision(
+          width: tileSize,
+          height: tileSize,
+        ),
+      ),
+      GameDecoration.sprite(
+        spriteSheet.getSprite(24, 3),
+        initPosition: getPositionInWorld(20, 14),
+        height: tileSize,
+        width: tileSize,
+        frontFromPlayer: true,
+      ),
+      GameDecoration.sprite(
+        spriteSheet.getSprite(24, 4),
+        initPosition: getPositionInWorld(21, 14),
+        height: tileSize,
+        width: tileSize,
+        collision: Collision(
+          width: tileSize,
+          height: tileSize,
+        ),
+      ),
+      GameDecoration.sprite(
+        spriteSheet.getSprite(24, 5),
+        initPosition: getPositionInWorld(22, 14),
+        height: tileSize,
+        width: tileSize,
+        collision: Collision(
+          width: tileSize,
+          height: tileSize,
+        ),
+      ),
+      GameDecoration.sprite(
+        spriteSheet.getSprite(24, 6),
+        initPosition: getPositionInWorld(23, 14),
+        height: tileSize,
+        width: tileSize,
+        frontFromPlayer: true,
+      ),
+      GameDecoration.sprite(
+        spriteSheet.getSprite(23, 3),
+        initPosition: getPositionInWorld(20, 13),
+        height: tileSize,
+        width: tileSize,
+        frontFromPlayer: true,
+      ),
+      GameDecoration.sprite(
+        spriteSheet.getSprite(23, 4),
+        initPosition: getPositionInWorld(21, 13),
+        height: tileSize,
+        width: tileSize,
+        frontFromPlayer: true,
+      ),
+      GameDecoration.sprite(
+        spriteSheet.getSprite(23, 5),
+        initPosition: getPositionInWorld(22, 13),
+        height: tileSize,
+        width: tileSize,
+        frontFromPlayer: true,
+      ),
+      GameDecoration.sprite(
+        spriteSheet.getSprite(23, 6),
+        initPosition: getPositionInWorld(23, 13),
+        height: tileSize,
+        width: tileSize,
+        frontFromPlayer: true,
+      ),
+      GameDecoration.sprite(
+        spriteSheet.getSprite(20, 4),
+        initPosition: getPositionInWorld(21, 12),
+        height: tileSize,
+        width: tileSize,
+        frontFromPlayer: true,
+      ),
+      GameDecoration.sprite(
+        spriteSheet.getSprite(20, 5),
+        initPosition: getPositionInWorld(22, 12),
+        height: tileSize,
+        width: tileSize,
+        frontFromPlayer: true,
+      ),
+    ];
   }
 
   static int compareTo(Rect r1, Rect r2) {
