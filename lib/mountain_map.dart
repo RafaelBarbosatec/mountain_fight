@@ -816,82 +816,26 @@ class MountainMap {
           height: tileSize,
         ),
       ),
-      GameDecoration.sprite(
-        spriteSheet.getSprite(24, 3),
-        initPosition: getPositionInWorld(20, 14),
-        height: tileSize,
-        width: tileSize,
-        frontFromPlayer: true,
-      ),
-      GameDecoration.sprite(
-        spriteSheet.getSprite(24, 4),
-        initPosition: getPositionInWorld(21, 14),
-        height: tileSize,
-        width: tileSize,
-        collision: Collision(
-          width: tileSize,
-          height: tileSize,
-        ),
-      ),
-      GameDecoration.sprite(
-        spriteSheet.getSprite(24, 5),
-        initPosition: getPositionInWorld(22, 14),
-        height: tileSize,
-        width: tileSize,
-        collision: Collision(
-          width: tileSize,
-          height: tileSize,
-        ),
-      ),
-      GameDecoration.sprite(
-        spriteSheet.getSprite(24, 6),
-        initPosition: getPositionInWorld(23, 14),
-        height: tileSize,
-        width: tileSize,
-        frontFromPlayer: true,
-      ),
-      GameDecoration.sprite(
-        spriteSheet.getSprite(23, 3),
-        initPosition: getPositionInWorld(20, 13),
-        height: tileSize,
-        width: tileSize,
-        frontFromPlayer: true,
-      ),
-      GameDecoration.sprite(
-        spriteSheet.getSprite(23, 4),
-        initPosition: getPositionInWorld(21, 13),
-        height: tileSize,
-        width: tileSize,
-        frontFromPlayer: true,
-      ),
-      GameDecoration.sprite(
-        spriteSheet.getSprite(23, 5),
-        initPosition: getPositionInWorld(22, 13),
-        height: tileSize,
-        width: tileSize,
-        frontFromPlayer: true,
-      ),
-      GameDecoration.sprite(
-        spriteSheet.getSprite(23, 6),
-        initPosition: getPositionInWorld(23, 13),
-        height: tileSize,
-        width: tileSize,
-        frontFromPlayer: true,
-      ),
-      GameDecoration.sprite(
-        spriteSheet.getSprite(20, 4),
-        initPosition: getPositionInWorld(21, 12),
-        height: tileSize,
-        width: tileSize,
-        frontFromPlayer: true,
-      ),
-      GameDecoration.sprite(
-        spriteSheet.getSprite(20, 5),
-        initPosition: getPositionInWorld(22, 12),
-        height: tileSize,
-        width: tileSize,
-        frontFromPlayer: true,
-      ),
+      ..._addTree(21, 14),
+      ..._addTree(23, 10),
+      ..._addTree(21, 6),
+      ..._addTree(35, 7),
+      ..._addTree(35, 5),
+      ..._addTree(32, 7),
+      ..._addTree(32, 5),
+      ..._addTree(42, 17),
+      ..._addTree(42, 15),
+      ..._addTree(42, 13),
+      ..._addTree(42, 11),
+      ..._addTree(42, 9),
+      ..._addTree(42, 7),
+      ..._addTree(42, 5),
+      ..._addTree(48, 12),
+      ..._addTree(48, 22),
+      ..._addTree(26, 1),
+      ..._addTree(35, 13),
+      ..._addTree(28, 21),
+      ..._addTree(31, 22),
     ];
   }
 
@@ -907,5 +851,86 @@ class MountainMap {
 
   static Position getPosition(int x, int y) {
     return Position(x.toDouble(), y.toDouble());
+  }
+
+  static List<GameDecoration> _addTree(int x, int y) {
+    return [
+      GameDecoration.sprite(
+        spriteSheet.getSprite(24, 3),
+        initPosition: getPositionInWorld(x - 1, y),
+        height: tileSize,
+        width: tileSize,
+        frontFromPlayer: true,
+      ),
+      GameDecoration.sprite(
+        spriteSheet.getSprite(24, 4),
+        initPosition: getPositionInWorld(x, y),
+        height: tileSize,
+        width: tileSize,
+        collision: Collision(
+          width: tileSize,
+          height: tileSize,
+        ),
+      ),
+      GameDecoration.sprite(
+        spriteSheet.getSprite(24, 5),
+        initPosition: getPositionInWorld(x + 1, y),
+        height: tileSize,
+        width: tileSize,
+        collision: Collision(
+          width: tileSize,
+          height: tileSize,
+        ),
+      ),
+      GameDecoration.sprite(
+        spriteSheet.getSprite(24, 6),
+        initPosition: getPositionInWorld(x + 2, y),
+        height: tileSize,
+        width: tileSize,
+        frontFromPlayer: true,
+      ),
+      GameDecoration.sprite(
+        spriteSheet.getSprite(23, 3),
+        initPosition: getPositionInWorld(x - 1, y - 1),
+        height: tileSize,
+        width: tileSize,
+        frontFromPlayer: true,
+      ),
+      GameDecoration.sprite(
+        spriteSheet.getSprite(23, 4),
+        initPosition: getPositionInWorld(x, y - 1),
+        height: tileSize,
+        width: tileSize,
+        frontFromPlayer: true,
+      ),
+      GameDecoration.sprite(
+        spriteSheet.getSprite(23, 5),
+        initPosition: getPositionInWorld(x + 1, y - 1),
+        height: tileSize,
+        width: tileSize,
+        frontFromPlayer: true,
+      ),
+      GameDecoration.sprite(
+        spriteSheet.getSprite(23, 6),
+        initPosition: getPositionInWorld(x + 2, y - 1),
+        height: tileSize,
+        width: tileSize,
+        frontFromPlayer: true,
+      ),
+      GameDecoration.sprite(
+        spriteSheet.getSprite(20, 4),
+        initPosition: getPositionInWorld(x, y - 2),
+        height: tileSize,
+        width: tileSize,
+        frontFromPlayer: true,
+      ),
+      GameDecoration.sprite(
+        spriteSheet.getSprite(20, 5),
+        initPosition: getPositionInWorld(x + 1, y - 2),
+        height: tileSize,
+        width: tileSize,
+        frontFromPlayer: true,
+      ),
+    ];
   }
 }
