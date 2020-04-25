@@ -836,6 +836,35 @@ class MountainMap {
       ..._addTree(35, 13),
       ..._addTree(28, 21),
       ..._addTree(31, 22),
+      _addRockInWater(12, 1),
+      _addRockInWater(6, 12),
+      _addRockInWater(8, 22),
+      _addPlant(18, 14),
+      _addPlant(34, 17),
+      _addPlant(48, 7),
+      _addPlate(18, 1),
+      _addPlate(21, 15),
+      _addPlate(32, 13),
+      _addFlower(25, 19),
+      _addFlower(38, 22),
+      _addFlower(39, 22),
+      _addFlower(40, 4),
+      _addFlower(48, 10),
+      _addFlower(48, 13),
+      _addFlower(22, 0),
+      ..._addPlantWithFruit(38, 18),
+      ..._addPlantWithFruit(44, 22),
+      ..._addPlantWithFruit(38, 4),
+      ..._addPlantWithFruit(39, 4),
+      _addPlantLow(22, 10),
+      _addPlantLow(21, 9),
+      _addPlantLow(28, 5),
+      _addPlantLow(28, 15),
+      _addPlantLow(34, 15),
+      _addPlantLow(40, 20),
+      _addPlantLow(46, 3),
+      _addPlantLow(48, 5),
+      _addPlantLow(19, 19),
     ];
   }
 
@@ -931,6 +960,81 @@ class MountainMap {
         width: tileSize,
         frontFromPlayer: true,
       ),
+    ];
+  }
+
+  static _addRockInWater(int x, int y) {
+    return GameDecoration.sprite(
+      spriteSheet.getSprite(6, 6),
+      initPosition: getPositionInWorld(x, y),
+      height: tileSize,
+      width: tileSize,
+    );
+  }
+
+  static _addPlant(int x, int y) {
+    return GameDecoration.sprite(
+      spriteSheet.getSprite(4, 6),
+      initPosition: getPositionInWorld(x, y),
+      height: tileSize,
+      width: tileSize,
+      collision: Collision(
+        width: tileSize,
+        height: tileSize,
+      ),
+    );
+  }
+
+  static _addPlantLow(int x, int y) {
+    return GameDecoration.sprite(
+      spriteSheet.getSprite(0, 4),
+      initPosition: getPositionInWorld(x, y),
+      height: tileSize,
+      width: tileSize,
+    );
+  }
+
+  static _addPlate(int x, int y) {
+    return GameDecoration.sprite(
+      spriteSheet.getSprite(2, 6),
+      initPosition: getPositionInWorld(x, y),
+      height: tileSize,
+      width: tileSize,
+      collision: Collision(
+        width: tileSize,
+        height: tileSize,
+      ),
+    );
+  }
+
+  static _addFlower(int x, int y) {
+    return GameDecoration.sprite(
+      spriteSheet.getSprite(15, 4),
+      initPosition: getPositionInWorld(x, y),
+      height: tileSize,
+      width: tileSize,
+    );
+  }
+
+  static _addPlantWithFruit(int x, int y) {
+    return [
+      GameDecoration.sprite(
+        spriteSheet.getSprite(16, 5),
+        initPosition: getPositionInWorld(x, y - 1),
+        height: tileSize,
+        width: tileSize,
+        frontFromPlayer: true,
+      ),
+      GameDecoration.sprite(
+        spriteSheet.getSprite(17, 5),
+        initPosition: getPositionInWorld(x, y),
+        height: tileSize,
+        width: tileSize,
+        collision: Collision(
+          width: tileSize,
+          height: tileSize,
+        ),
+      )
     ];
   }
 }
