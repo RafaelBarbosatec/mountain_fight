@@ -35,7 +35,7 @@ class _GameState extends State<Game> {
     tileSize = ((sizeScreen.height < sizeScreen.width)
             ? sizeScreen.height
             : sizeScreen.width) /
-        15;
+        13;
     tileSize = tileSize.round().toDouble();
     return BonfireWidget(
       joystick: Joystick(
