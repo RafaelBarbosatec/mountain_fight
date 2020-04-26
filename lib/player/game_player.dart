@@ -19,7 +19,7 @@ class GamePlayer extends Player {
             height: tileSize * 1.5,
             initPosition: initPosition,
             life: 200,
-            speed: tileSize / 13,
+            speed: tileSize / 12,
             collision: Collision(height: 16, width: 16));
 
   void showEmote(Animation emoteAnimation) {
