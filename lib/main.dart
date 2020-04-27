@@ -1,7 +1,7 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:mountain_fight/interface/player_interface.dart';
-import 'package:mountain_fight/mountain_map.dart';
+import 'package:mountain_fight/map/mountain_map.dart';
 import 'package:mountain_fight/player/game_player.dart';
 import 'package:mountain_fight/player/sprite_sheet_hero.dart';
 
@@ -61,7 +61,6 @@ class _GameState extends State<Game> {
       decorations: MountainMap.decorations(),
       constructionModeColor: Colors.black,
       collisionAreaColor: Colors.purple.withOpacity(0.4),
-//      constructionMode: true,
 //      showCollisionArea: true,
     );
   }
