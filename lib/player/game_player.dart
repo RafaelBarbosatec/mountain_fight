@@ -19,7 +19,7 @@ class GamePlayer extends Player {
           height: tileSize * 1.5,
           initPosition: initPosition,
           life: 200,
-          speed: tileSize / 12,
+          speed: tileSize / 0.2,
           collision:
               Collision(height: (tileSize * 0.5), width: (tileSize * 0.6)),
         );
