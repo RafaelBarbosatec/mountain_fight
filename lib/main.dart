@@ -31,37 +31,39 @@ class Game extends StatefulWidget {
 class _GameState extends State<Game> {
   @override
   Widget build(BuildContext context) {
-    Size sizeScreen = MediaQuery.of(context).size;
-    tileSize = ((sizeScreen.height < sizeScreen.width)
-            ? sizeScreen.height
-            : sizeScreen.width) /
-        13;
-    tileSize = tileSize.round().toDouble();
-    return BonfireWidget(
-      joystick: Joystick(
-        pathSpriteBackgroundDirectional: 'joystick_background.png',
-        pathSpriteKnobDirectional: 'joystick_knob.png',
-        sizeDirectional: 100,
-        actions: [
-          JoystickAction(
-            actionId: 0,
-            pathSprite: 'joystick_atack.png',
-            pathSpritePressed: 'joystick_atack_selected.png',
-            size: 80,
-            margin: EdgeInsets.only(bottom: 50, right: 50),
-          ),
-        ],
-      ),
-      player: GamePlayer(
-        Position(5 * tileSize, 5 * tileSize),
-        SpriteSheetHero.hero1,
-      ),
-      interface: PlayerInterface(),
-      map: MountainMap.map(),
-      decorations: MountainMap.decorations(),
-      constructionModeColor: Colors.black,
-      collisionAreaColor: Colors.purple.withOpacity(0.4),
+    return LayoutBuilder(builder: (context, constraints) {
+      tileSize = ((constraints.maxHeight < constraints.maxWidth)
+              ? constraints.maxHeight
+              : constraints.maxWidth) /
+          11;
+      tileSize = tileSize.round().toDouble();
+
+      return BonfireWidget(
+        joystick: Joystick(
+          pathSpriteBackgroundDirectional: 'joystick_background.png',
+          pathSpriteKnobDirectional: 'joystick_knob.png',
+          sizeDirectional: 100,
+          actions: [
+            JoystickAction(
+              actionId: 0,
+              pathSprite: 'joystick_atack.png',
+              pathSpritePressed: 'joystick_atack_selected.png',
+              size: 80,
+              margin: EdgeInsets.only(bottom: 50, right: 50),
+            ),
+          ],
+        ),
+        player: GamePlayer(
+          Position(5 * tileSize, 5 * tileSize),
+          SpriteSheetHero.hero1,
+        ),
+        interface: PlayerInterface(),
+        map: MountainMap.map(),
+        decorations: MountainMap.decorations(),
+        constructionModeColor: Colors.black,
+        collisionAreaColor: Colors.purple.withOpacity(0.4),
 //      showCollisionArea: true,
-    );
+      );
+    });
   }
 }

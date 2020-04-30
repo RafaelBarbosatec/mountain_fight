@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:bonfire/bonfire.dart';
 import 'package:flame/animation.dart';
 import 'package:mountain_fight/main.dart';
@@ -19,9 +21,12 @@ class GamePlayer extends Player {
           height: tileSize * 1.5,
           initPosition: initPosition,
           life: 200,
-          speed: tileSize / 0.2,
-          collision:
-              Collision(height: (tileSize * 0.5), width: (tileSize * 0.6)),
+          speed: tileSize / 0.22,
+          collision: Collision(
+            height: (tileSize * 0.5),
+            width: (tileSize * 0.6),
+          ),
+          sizeCentralMovementWindow: Size(tileSize * 2, tileSize * 2),
         );
 
   void showEmote(Animation emoteAnimation) {
