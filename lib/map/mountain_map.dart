@@ -799,8 +799,6 @@ class MountainMap {
         // finaliza grama
       });
     });
-    tileList
-        .sort((t1, t2) => compareTo(t1.positionInWorld, t2.positionInWorld));
     return MapWorld(tileList);
   }
 
