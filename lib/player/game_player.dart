@@ -4,7 +4,7 @@ import 'package:bonfire/bonfire.dart';
 import 'package:flame/animation.dart';
 import 'package:mountain_fight/main.dart';
 
-class GamePlayer extends Player {
+class GamePlayer extends SimplePlayer {
   final Position initPosition;
 
   GamePlayer(this.initPosition, SpriteSheet spriteSheet)
