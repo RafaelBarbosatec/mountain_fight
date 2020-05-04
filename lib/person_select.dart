@@ -2,6 +2,7 @@ import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:mountain_fight/game.dart';
 import 'package:mountain_fight/player/sprite_sheet_hero.dart';
+import 'package:mountain_fight/socket/SocketManager.dart';
 import 'package:mountain_fight/widgets/button_small.dart';
 
 class PersonSelect extends StatefulWidget {
@@ -12,6 +13,8 @@ class PersonSelect extends StatefulWidget {
 class _PersonSelectState extends State<PersonSelect> {
   int count = 0;
   List<SpriteSheet> sprites = List();
+  bool loading = false;
+  bool goGame = false;
 
   @override
   void initState() {
@@ -20,6 +23,33 @@ class _PersonSelectState extends State<PersonSelect> {
     sprites.add(SpriteSheetHero.hero3);
     sprites.add(SpriteSheetHero.hero4);
     sprites.add(SpriteSheetHero.hero5);
+
+    SocketManager().listenConnection((_) {
+      if (goGame) _joinGame();
+    });
+
+    SocketManager().listen('message', (data) {
+      if (data is Map && data['action'] == 'PLAYER_JOIN') {
+        setState(() {
+          loading = false;
+        });
+        if (data['data']['nick'] == 'rafa') {
+          SocketManager().cleanListeners();
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Game(
+                    playerId: data['data']['id'],
+                    idCharacter: count,
+                    position: Position(
+                      double.parse(data['data']['position']['x'].toString()),
+                      double.parse(data['data']['position']['y'].toString()),
+                    ))),
+          );
+        }
+      }
+    });
+
     super.initState();
   }
 
@@ -28,39 +58,42 @@ class _PersonSelectState extends State<PersonSelect> {
     return Scaffold(
       backgroundColor: Colors.cyan[800],
       body: SafeArea(
-        child: Column(
+        child: Stack(
           children: <Widget>[
-            Text(
-              "Select your character",
-              style: TextStyle(color: Colors.white, fontSize: 30),
-            ),
-            Expanded(
-              child: _buildPersons(),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 20),
-              child: Stack(
-                children: <Widget>[
-                  SizedBox(
-                    height: 50,
-                    child: ButtonSmall(
-                      size: 200,
-                      pathSelected: 'assets/images/bottom_large_green2.png',
-                      pathUnSelected: 'assets/images/bottom_large_green1.png',
-                      onPress: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Game(
-                                    idCharacter: count,
-                                  )),
-                        );
-                      },
-                    ),
+            Column(
+              children: <Widget>[
+                Text(
+                  "Select your character",
+                  style: TextStyle(color: Colors.white, fontSize: 30),
+                ),
+                Expanded(
+                  child: _buildPersons(),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: Stack(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 50,
+                        child: ButtonSmall(
+                          size: 200,
+                          pathSelected: 'assets/images/bottom_large_green2.png',
+                          pathUnSelected:
+                              'assets/images/bottom_large_green1.png',
+                          onPress: _goGame,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            )
+                )
+              ],
+            ),
+            if (loading)
+              Container(
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              )
           ],
         ),
       ),
@@ -122,5 +155,24 @@ class _PersonSelectState extends State<PersonSelect> {
         count--;
       });
     }
+  }
+
+  void _goGame() {
+    setState(() {
+      loading = true;
+      goGame = true;
+    });
+    if (!SocketManager().connected) {
+      SocketManager().connect();
+    } else {
+      _joinGame();
+    }
+  }
+
+  void _joinGame() {
+    SocketManager().send('message', {
+      'action': 'CREATE',
+      'data': {'nick': 'rafa', 'skin': count}
+    });
   }
 }

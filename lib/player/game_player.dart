@@ -3,11 +3,14 @@ import 'dart:ui';
 import 'package:bonfire/bonfire.dart';
 import 'package:flame/animation.dart';
 import 'package:mountain_fight/main.dart';
+import 'package:mountain_fight/socket/SocketManager.dart';
 
 class GamePlayer extends SimplePlayer {
   final Position initPosition;
+  final int id;
+  JoystickMoveDirectional atualDiretional;
 
-  GamePlayer(this.initPosition, SpriteSheet spriteSheet)
+  GamePlayer(this.id, this.initPosition, SpriteSheet spriteSheet)
       : super(
           animIdleTop: spriteSheet.createAnimation(0, stepTime: 0.1),
           animIdleBottom: spriteSheet.createAnimation(1, stepTime: 0.1),
@@ -28,6 +31,19 @@ class GamePlayer extends SimplePlayer {
           ),
           sizeCentralMovementWindow: Size(tileSize * 2, tileSize * 2),
         );
+
+  @override
+  void joystickChangeDirectional(JoystickDirectionalEvent event) {
+    if (event.directional != atualDiretional) {
+      atualDiretional = event.directional;
+      SocketManager().send('message', {
+        'action': 'MOVE',
+        'data': {'player_id': id, 'direction': atualDiretional}
+      });
+    }
+
+    super.joystickChangeDirectional(event);
+  }
 
   void showEmote(Animation emoteAnimation) {
     gameRef.add(

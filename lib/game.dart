@@ -8,8 +8,11 @@ import 'package:mountain_fight/player/sprite_sheet_hero.dart';
 
 class Game extends StatefulWidget {
   final int idCharacter;
+  final int playerId;
+  final Position position;
 
-  const Game({Key key, this.idCharacter}) : super(key: key);
+  const Game({Key key, this.idCharacter, this.position, this.playerId})
+      : super(key: key);
   @override
   _GameState createState() => _GameState();
 }
@@ -43,7 +46,9 @@ class _GameState extends State<Game> {
             ],
           ),
           player: GamePlayer(
-            Position(5 * tileSize, 5 * tileSize),
+            widget.playerId,
+            Position(
+                widget.position.x * tileSize, widget.position.y * tileSize),
             _getSprite(),
           ),
           interface: PlayerInterface(),
