@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:mountain_fight/game.dart';
@@ -15,9 +17,11 @@ class _PersonSelectState extends State<PersonSelect> {
   List<SpriteSheet> sprites = List();
   bool loading = false;
   bool goGame = false;
+  String nick;
 
   @override
   void initState() {
+    nick = 'Nick${Random().nextInt(100)}';
     sprites.add(SpriteSheetHero.hero1);
     sprites.add(SpriteSheetHero.hero2);
     sprites.add(SpriteSheetHero.hero3);
@@ -33,9 +37,9 @@ class _PersonSelectState extends State<PersonSelect> {
         setState(() {
           loading = false;
         });
-        if (data['data']['nick'] == 'rafa') {
+        if (data['data']['nick'] == nick) {
           SocketManager().cleanListeners();
-          Navigator.push(
+          Navigator.pushReplacement(
             context,
             MaterialPageRoute(
                 builder: (context) => Game(
@@ -172,7 +176,7 @@ class _PersonSelectState extends State<PersonSelect> {
   void _joinGame() {
     SocketManager().send('message', {
       'action': 'CREATE',
-      'data': {'nick': 'rafa', 'skin': count}
+      'data': {'nick': nick, 'skin': count}
     });
   }
 }
