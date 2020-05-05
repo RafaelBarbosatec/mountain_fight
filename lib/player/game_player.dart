@@ -75,7 +75,14 @@ class GamePlayer extends SimplePlayer {
       }
       SocketManager().send('message', {
         'action': 'MOVE',
-        'data': {'player_id': id, 'direction': diretionalEVent}
+        'data': {
+          'player_id': id,
+          'direction': diretionalEVent,
+          'position': {
+            'x': (positionInWorld.left / tileSize),
+            'y': (positionInWorld.top / tileSize)
+          }
+        }
       });
     }
 
