@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bonfire/bonfire.dart';
 import 'package:flame/animation.dart' as FlameAnimation;
 import 'package:flutter/material.dart';
@@ -8,6 +10,11 @@ class PlayerEnemy extends SimpleEnemy {
   static const REDUCTION_SPEED_DIAGONAL = 0.7;
   final int id;
   final String nick;
+
+  double conpensasionX = 0;
+  double speedConpensasionX = 0;
+  double conpensasionY = 0;
+  double speedConpensasionY = 0;
 
   String currentMove = 'IDLE';
 
@@ -41,17 +48,33 @@ class PlayerEnemy extends SimpleEnemy {
       String action = data['action'];
       if (data['data']['player_id'] == id) {
         if (action == 'MOVE') {
-          positionInWorld = Rect.fromLTWH(
-            double.parse(data['data']['position']['x'].toString()) * tileSize,
-            double.parse(data['data']['position']['y'].toString()) * tileSize,
+          double positionX =
+              double.parse(data['data']['position']['x'].toString()) * tileSize;
+          double positionY =
+              double.parse(data['data']['position']['y'].toString()) * tileSize;
+          Rect newP = Rect.fromLTWH(
+            positionX,
+            positionY,
             positionInWorld.width,
             positionInWorld.height,
           );
+          Point p = Point(newP.center.dx, newP.center.dy);
+          double dist = p.distanceTo(Point(
+            positionInWorld.center.dx,
+            positionInWorld.center.dy,
+          ));
+
+          if (dist > 30) {
+            positionInWorld = newP;
+          }
+
           currentMove = data['data']['direction'];
         }
       }
       if (action == 'PLAYER_LEAVED' && data['data']['id'] == id) {
-        die();
+        if (!isDead) {
+          die();
+        }
       }
     });
   }
