@@ -73,11 +73,12 @@ class _GameState extends State<Game> implements GameListener {
       width: 800,
       height: 800,
       child: LayoutBuilder(builder: (context, constraints) {
-        tileSize = ((constraints.maxHeight < constraints.maxWidth)
-                ? constraints.maxHeight
-                : constraints.maxWidth) /
-            11;
-        tileSize = tileSize.roundToDouble();
+//        tileSize = ((constraints.maxHeight < constraints.maxWidth)
+//                ? constraints.maxHeight
+//                : constraints.maxWidth) /
+//            11;
+//        tileSize = tileSize.roundToDouble();
+        tileSize = 35;
 
         return BonfireWidget(
           joystick: Joystick(
