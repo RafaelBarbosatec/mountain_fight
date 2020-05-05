@@ -1,4 +1,5 @@
 import 'package:bonfire/bonfire.dart';
+import 'package:flame/animation.dart' as FlameAnimation;
 import 'package:flutter/material.dart';
 import 'package:mountain_fight/main.dart';
 import 'package:mountain_fight/socket/SocketManager.dart';
@@ -37,28 +38,31 @@ class PlayerEnemy extends SimpleEnemy {
       fontSize: height / 3.5,
     );
     SocketManager().listen('message', (data) {
+      String action = data['action'];
       if (data['data']['player_id'] == id) {
-        String action = data['action'];
         if (action == 'MOVE') {
           positionInWorld = Rect.fromLTWH(
-            double.parse(data['data']['position']['x'].toString()),
-            double.parse(data['data']['position']['y'].toString()),
+            double.parse(data['data']['position']['x'].toString()) * tileSize,
+            double.parse(data['data']['position']['y'].toString()) * tileSize,
             positionInWorld.width,
             positionInWorld.height,
           );
           currentMove = data['data']['direction'];
         }
       }
+      if (action == 'PLAYER_LEAVED' && data['data']['id'] == id) {
+        die();
+      }
     });
   }
 
   @override
   void update(double dt) {
+    _move(currentMove, dt);
     super.update(dt);
-    _move(currentMove);
   }
 
-  void _move(move) {
+  void _move(move, double dtUpdate) {
     switch (move) {
       case 'LEFT':
         this.customMoveLeft(speed * dtUpdate);
@@ -109,12 +113,31 @@ class PlayerEnemy extends SimpleEnemy {
 
   @override
   void render(Canvas canvas) {
-    _textConfig.withColor(Colors.white).render(
-          canvas,
-          nick,
-          Position(position.left + 2, position.top - 20),
-        );
-    this.drawDefaultLifeBar(canvas, strokeWidth: 4, padding: 0);
+    if (this.isVisibleInMap()) {
+      _textConfig.withColor(Colors.white).render(
+            canvas,
+            nick,
+            Position(position.left + 2, position.top - 20),
+          );
+      this.drawDefaultLifeBar(canvas, strokeWidth: 4, padding: 0);
+    }
+
     super.render(canvas);
+  }
+
+  @override
+  void die() {
+    gameRef.add(
+      AnimatedObjectOnce(
+          animation: FlameAnimation.Animation.sequenced(
+            "smoke_explosin.png",
+            6,
+            textureWidth: 16,
+            textureHeight: 16,
+          ),
+          position: positionInWorld),
+    );
+    remove();
+    super.die();
   }
 }

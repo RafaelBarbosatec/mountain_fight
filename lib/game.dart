@@ -1,4 +1,5 @@
 import 'package:bonfire/bonfire.dart';
+import 'package:flame/animation.dart' as FlameAnimation;
 import 'package:flutter/material.dart';
 import 'package:mountain_fight/PlayerEnemy/PlayerEnemy.dart';
 import 'package:mountain_fight/interface/player_interface.dart';
@@ -36,14 +37,24 @@ class _GameState extends State<Game> implements GameListener {
     SocketManager().listen('message', (data) {
       if (data['action'] == 'PLAYER_JOIN' &&
           data['data']['id'] != widget.playerId) {
+        Position personPosition = Position(
+          double.parse(data['data']['position']['x'].toString()) * tileSize,
+          double.parse(data['data']['position']['y'].toString()) * tileSize,
+        );
         _controller.addEnemy(PlayerEnemy(
           data['data']['id'],
           data['data']['nick'],
-          Position(
-            double.parse(data['data']['position']['x'].toString()) * tileSize,
-            double.parse(data['data']['position']['y'].toString()) * tileSize,
-          ),
+          personPosition,
           _getSprite(data['data']['skin'] ?? 0),
+        ));
+        _controller.addComponent(AnimatedObjectOnce(
+          animation: FlameAnimation.Animation.sequenced(
+            "smoke_explosin.png",
+            6,
+            textureWidth: 16,
+            textureHeight: 16,
+          ),
+          position: Rect.fromLTRB(personPosition.x, personPosition.y, 32, 32),
         ));
       }
     });
@@ -66,7 +77,7 @@ class _GameState extends State<Game> implements GameListener {
                 ? constraints.maxHeight
                 : constraints.maxWidth) /
             11;
-        tileSize = tileSize.roundToDouble();
+        tileSize = 35;
 
         return BonfireWidget(
           joystick: Joystick(
@@ -139,7 +150,7 @@ class _GameState extends State<Game> implements GameListener {
 
   void _addPlayersOn() {
     widget.playersOn.forEach((player) {
-      if (player['id'] != widget.playerId) {
+      if (player != null && player['id'] != widget.playerId) {
         _controller.addEnemy(PlayerEnemy(
           player['id'],
           player['nick'],

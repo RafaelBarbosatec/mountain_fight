@@ -96,9 +96,22 @@ class _PersonSelectState extends State<PersonSelect> {
               ],
             ),
             if (loading)
-              Container(
-                child: Center(
-                  child: CircularProgressIndicator(),
+              InkWell(
+                onTap: () {},
+                child: Container(
+                  color: Colors.white.withOpacity(0.9),
+                  child: Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        CircularProgressIndicator(),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text("Loading")
+                      ],
+                    ),
+                  ),
                 ),
               )
           ],
