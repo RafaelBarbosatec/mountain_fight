@@ -88,44 +88,75 @@ class PlayerEnemy extends SimpleEnemy {
   void _move(move, double dtUpdate) {
     switch (move) {
       case 'LEFT':
-        this.customMoveLeft(speed * dtUpdate);
+        if (positionInWorld.left > 0) {
+          this.customMoveLeft(speed * dtUpdate);
+        }
         break;
       case 'RIGHT':
-        this.customMoveRight(speed * dtUpdate);
+        if (positionInWorld.right <
+            gameRef.gameCamera.maxLeft + gameRef.size.width) {
+          this.customMoveRight(speed * dtUpdate);
+        }
         break;
       case 'UP_RIGHT':
         double speedDiagonal = (speed * REDUCTION_SPEED_DIAGONAL) * dtUpdate;
-        customMoveRight(
-          speedDiagonal,
-        );
-        customMoveTop(speedDiagonal, addAnimation: false);
+        if (positionInWorld.right <
+            gameRef.gameCamera.maxLeft + gameRef.size.width) {
+          customMoveRight(
+            speedDiagonal,
+          );
+        }
+        if (positionInWorld.top > 0) {
+          customMoveTop(speedDiagonal, addAnimation: false);
+        }
         break;
       case 'DOWN_RIGHT':
         double speedDiagonal = (speed * REDUCTION_SPEED_DIAGONAL) * dtUpdate;
-        customMoveRight(
-          speedDiagonal,
-        );
-        customMoveBottom(speedDiagonal, addAnimation: false);
+        if (positionInWorld.right <
+            gameRef.gameCamera.maxLeft + gameRef.size.width) {
+          customMoveRight(
+            speedDiagonal,
+          );
+        }
+        if (positionInWorld.bottom <
+            gameRef.gameCamera.maxTop + gameRef.size.width) {
+          customMoveBottom(speedDiagonal, addAnimation: false);
+        }
+
         break;
       case 'DOWN_LEFT':
         double speedDiagonal = (speed * REDUCTION_SPEED_DIAGONAL) * dtUpdate;
-        customMoveLeft(
-          speedDiagonal,
-        );
-        customMoveBottom(speedDiagonal, addAnimation: false);
+        if (positionInWorld.left > 0) {
+          customMoveLeft(
+            speedDiagonal,
+          );
+        }
+        if (positionInWorld.bottom <
+            gameRef.gameCamera.maxTop + gameRef.size.width) {
+          customMoveBottom(speedDiagonal, addAnimation: false);
+        }
         break;
       case 'UP_LEFT':
         double speedDiagonal = (speed * REDUCTION_SPEED_DIAGONAL) * dtUpdate;
-        customMoveLeft(
-          speedDiagonal,
-        );
-        customMoveTop(speedDiagonal, addAnimation: false);
+        if (positionInWorld.left > 0) {
+          customMoveLeft(
+            speedDiagonal,
+          );
+        }
+        if (positionInWorld.top > 0) {
+          customMoveTop(speedDiagonal, addAnimation: false);
+        }
         break;
       case 'UP':
-        this.customMoveTop(speed * dtUpdate);
+        if (positionInWorld.top > 0) {
+          this.customMoveTop(speed * dtUpdate);
+        }
         break;
       case 'DOWN':
-        this.customMoveBottom(speed * dtUpdate);
+        if (positionInWorld.bottom <
+            gameRef.gameCamera.maxTop + gameRef.size.width) {
+          this.customMoveBottom(speed * dtUpdate);
+        }
         break;
       case 'IDLE':
         this.idle();
