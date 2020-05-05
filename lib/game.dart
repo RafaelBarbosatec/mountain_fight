@@ -27,16 +27,16 @@ class _GameState extends State<Game> implements GameListener {
   void initState() {
     _controller.setListener(this);
     SocketManager().listen('message', (data) {
-      if (data['action'] == 'PLYER_JOIN' &&
+      if (data['action'] == 'PLAYER_JOIN' &&
           data['data']['id'] != widget.playerId) {
         _controller.addEnemy(PlayerEnemy(
           data['data']['id'],
           data['data']['nick'],
           Position(
-            double.parse(data['data']['position']['x'].toString()),
-            double.parse(data['data']['position']['y'].toString()),
+            double.parse(data['data']['position']['x'].toString()) * tileSize,
+            double.parse(data['data']['position']['y'].toString()) * tileSize,
           ),
-          _getSprite(data['data']['skin']),
+          data['data']['skin'] ?? _getSprite(0),
         ));
       }
     });

@@ -1,4 +1,5 @@
 import 'package:bonfire/bonfire.dart';
+import 'package:flutter/material.dart';
 import 'package:mountain_fight/main.dart';
 import 'package:mountain_fight/socket/SocketManager.dart';
 
@@ -8,6 +9,9 @@ class PlayerEnemy extends SimpleEnemy {
   final String nick;
 
   String currentMove = 'IDLE';
+
+  TextConfig _textConfig;
+
   PlayerEnemy(
       this.id, this.nick, Position initPosition, SpriteSheet spriteSheet)
       : super(
@@ -29,6 +33,9 @@ class PlayerEnemy extends SimpleEnemy {
             width: (tileSize * 0.6),
           ),
         ) {
+    _textConfig = TextConfig(
+      fontSize: height / 3.5,
+    );
     SocketManager().listen('message', (data) {
       if (data['data']['player_id'] == id) {
         String action = data['action'];
@@ -92,5 +99,15 @@ class PlayerEnemy extends SimpleEnemy {
         this.idle();
         break;
     }
+  }
+
+  @override
+  void render(Canvas canvas) {
+    _textConfig.withColor(Colors.white).render(
+          canvas,
+          nick,
+          Position(position.left + 2, position.top - 20),
+        );
+    super.render(canvas);
   }
 }
