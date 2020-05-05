@@ -31,6 +31,7 @@ class _PersonSelectState extends State<PersonSelect> {
     SocketManager().listenConnection((_) {
       if (goGame) _joinGame();
     });
+    SocketManager().listenError((_) {});
 
     SocketManager().listen('message', (data) {
       if (data is Map && data['action'] == 'PLAYER_JOIN') {
@@ -43,6 +44,7 @@ class _PersonSelectState extends State<PersonSelect> {
             context,
             MaterialPageRoute(
                 builder: (context) => Game(
+                    playersOn: data['data']['playersON'],
                     nick: nick,
                     playerId: data['data']['id'],
                     idCharacter: count,

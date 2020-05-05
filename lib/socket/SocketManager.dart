@@ -5,6 +5,7 @@ class SocketManager {
   static const LOG = 'SocketManager:';
   static final SocketManager _singleton = SocketManager._internal();
   static IO.Socket socket;
+  static String baseUrl;
   ValueChanged<bool> connectStatus;
 
   factory SocketManager() {
@@ -14,6 +15,7 @@ class SocketManager {
   SocketManager._internal();
 
   static Future configure(String url) async {
+    baseUrl = url;
     socket = IO.io(url, <String, dynamic>{
       'transports': ['websocket'],
     });
@@ -55,6 +57,10 @@ class SocketManager {
 
   void cleanListeners() {
     socket.clearListeners();
+  }
+
+  void close() {
+    socket.disconnect();
   }
 
   bool get connected => socket.connected;

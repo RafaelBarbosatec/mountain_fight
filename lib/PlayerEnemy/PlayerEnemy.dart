@@ -40,6 +40,12 @@ class PlayerEnemy extends SimpleEnemy {
       if (data['data']['player_id'] == id) {
         String action = data['action'];
         if (action == 'MOVE') {
+          positionInWorld = Rect.fromLTWH(
+            double.parse(data['data']['position']['x'].toString()),
+            double.parse(data['data']['position']['y'].toString()),
+            positionInWorld.width,
+            positionInWorld.height,
+          );
           currentMove = data['data']['direction'];
         }
       }

@@ -13,9 +13,15 @@ class Game extends StatefulWidget {
   final int playerId;
   final String nick;
   final Position position;
+  final List<dynamic> playersOn;
 
   const Game(
-      {Key key, this.idCharacter, this.position, this.playerId, this.nick})
+      {Key key,
+      this.idCharacter,
+      this.position,
+      this.playerId,
+      this.nick,
+      this.playersOn})
       : super(key: key);
   @override
   _GameState createState() => _GameState();
@@ -23,6 +29,7 @@ class Game extends StatefulWidget {
 
 class _GameState extends State<Game> implements GameListener {
   GameController _controller = GameController();
+  bool firstUpdate = false;
   @override
   void initState() {
     _controller.setListener(this);
@@ -41,6 +48,12 @@ class _GameState extends State<Game> implements GameListener {
       }
     });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    SocketManager().close();
+    super.dispose();
   }
 
   @override
@@ -118,6 +131,25 @@ class _GameState extends State<Game> implements GameListener {
 
   @override
   void updateGame() {
-    // TODO: implement updateGame
+    if (!firstUpdate) {
+      firstUpdate = true;
+      _addPlayersOn();
+    }
+  }
+
+  void _addPlayersOn() {
+    widget.playersOn.forEach((player) {
+      if (player['id'] != widget.playerId) {
+        _controller.addEnemy(PlayerEnemy(
+          player['id'],
+          player['nick'],
+          Position(
+            double.parse(player['position']['x'].toString()) * tileSize,
+            double.parse(player['position']['y'].toString()) * tileSize,
+          ),
+          _getSprite(player['skin'] ?? 0),
+        ));
+      }
+    });
   }
 }
