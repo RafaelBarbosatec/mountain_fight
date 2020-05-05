@@ -108,6 +108,7 @@ class PlayerEnemy extends SimpleEnemy {
           nick,
           Position(position.left + 2, position.top - 20),
         );
+    this.drawDefaultLifeBar(canvas, strokeWidth: 4, padding: 0);
     super.render(canvas);
   }
 }

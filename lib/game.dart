@@ -36,7 +36,7 @@ class _GameState extends State<Game> implements GameListener {
             double.parse(data['data']['position']['x'].toString()) * tileSize,
             double.parse(data['data']['position']['y'].toString()) * tileSize,
           ),
-          data['data']['skin'] ?? _getSprite(0),
+          _getSprite(data['data']['skin'] ?? 0),
         ));
       }
     });
