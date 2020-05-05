@@ -43,6 +43,7 @@ class _PersonSelectState extends State<PersonSelect> {
             context,
             MaterialPageRoute(
                 builder: (context) => Game(
+                    nick: nick,
                     playerId: data['data']['id'],
                     idCharacter: count,
                     position: Position(
