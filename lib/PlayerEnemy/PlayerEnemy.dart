@@ -98,7 +98,6 @@ class PlayerEnemy extends SimpleEnemy {
         );
         customMoveTop(speedDiagonal, addAnimation: false);
         break;
-        break;
       case 'UP':
         this.customMoveTop(speed * dtUpdate);
         break;
@@ -129,13 +128,14 @@ class PlayerEnemy extends SimpleEnemy {
   void die() {
     gameRef.add(
       AnimatedObjectOnce(
-          animation: FlameAnimation.Animation.sequenced(
-            "smoke_explosin.png",
-            6,
-            textureWidth: 16,
-            textureHeight: 16,
-          ),
-          position: positionInWorld),
+        animation: FlameAnimation.Animation.sequenced(
+          "smoke_explosin.png",
+          6,
+          textureWidth: 16,
+          textureHeight: 16,
+        ),
+        position: positionInWorld,
+      ),
     );
     remove();
     super.die();
