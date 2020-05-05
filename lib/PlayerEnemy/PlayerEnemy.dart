@@ -64,7 +64,7 @@ class PlayerEnemy extends SimpleEnemy {
             positionInWorld.center.dy,
           ));
 
-          if (dist > (tileSize * 0.9)) {
+          if (dist > (tileSize * 0.5)) {
             positionInWorld = newP;
           }
 
