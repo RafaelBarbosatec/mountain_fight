@@ -5,6 +5,7 @@ import 'package:flame/animation.dart' as FlameAnimation;
 import 'package:flutter/material.dart';
 import 'package:mountain_fight/main.dart';
 import 'package:mountain_fight/socket/SocketManager.dart';
+import 'package:mountain_fight/util/buffer_delay.dart';
 
 class PlayerEnemy extends SimpleEnemy {
   static const REDUCTION_SPEED_DIAGONAL = 0.7;
@@ -19,6 +20,8 @@ class PlayerEnemy extends SimpleEnemy {
   String currentMove = 'IDLE';
 
   TextConfig _textConfig;
+
+  BufferDelay _buffer;
 
   PlayerEnemy(
       this.id, this.nick, Position initPosition, SpriteSheet spriteSheet)
@@ -41,6 +44,8 @@ class PlayerEnemy extends SimpleEnemy {
             width: (tileSize * 0.6),
           ),
         ) {
+    _buffer = BufferDelay(500);
+    _buffer.listen(_listenBuffer);
     _textConfig = TextConfig(
       fontSize: height / 3.5,
     );
@@ -193,5 +198,38 @@ class PlayerEnemy extends SimpleEnemy {
     );
     remove();
     super.die();
+  }
+
+  void _listenBuffer(data) {
+    String action = data['action'];
+    if (action == 'MOVE') {
+      double positionX =
+          double.parse(data['data']['position']['x'].toString()) * tileSize;
+      double positionY =
+          double.parse(data['data']['position']['y'].toString()) * tileSize;
+      Rect newP = Rect.fromLTWH(
+        positionX,
+        positionY,
+        positionInWorld.width,
+        positionInWorld.height,
+      );
+      Point p = Point(newP.center.dx, newP.center.dy);
+      double dist = p.distanceTo(Point(
+        positionInWorld.center.dx,
+        positionInWorld.center.dy,
+      ));
+
+      if (dist > (tileSize * 0.5)) {
+        positionInWorld = newP;
+      }
+
+      currentMove = data['data']['direction'];
+    }
+
+    if (action == 'PLAYER_LEAVED') {
+      if (!isDead) {
+        die();
+      }
+    }
   }
 }

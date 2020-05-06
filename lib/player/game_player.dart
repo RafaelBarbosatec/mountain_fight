@@ -81,7 +81,8 @@ class GamePlayer extends SimplePlayer {
           'position': {
             'x': (positionInWorld.left / tileSize),
             'y': (positionInWorld.top / tileSize)
-          }
+          },
+          'time': DateTime.now().toIso8601String()
         }
       });
     }
