@@ -37,6 +37,14 @@ class SocketManager {
       print('$LOG error - $value');
       handler(value);
     });
+    socket.on('connect_error', (value) {
+      print('$LOG connect_error - $value');
+      handler(value);
+    });
+    socket.on('reconnect_error', (value) {
+      print('$LOG reconnect_error - $value');
+      handler(value);
+    });
   }
 
   void listen(String event, ValueChanged<dynamic> handler) {

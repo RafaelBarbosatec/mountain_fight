@@ -10,7 +10,7 @@ void main() async {
   await Flame.util.setLandscape();
   await Flame.util.fullScreen();
 
-  SocketManager.configure('http://mountainfight.herokuapp.com');
+  SocketManager.configure('http://mountainfight.omv.jandersonlemos.com');
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
