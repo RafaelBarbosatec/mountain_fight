@@ -19,6 +19,9 @@ class SocketManager {
     socket = IO.io(url, <String, dynamic>{
       'transports': ['websocket'],
     });
+    socket.on('connect', (value) {
+      print('$LOG conneced - $value');
+    });
   }
 
   IO.Socket connect() {

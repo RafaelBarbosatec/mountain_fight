@@ -16,8 +16,8 @@ class _PersonSelectState extends State<PersonSelect> {
   int count = 0;
   List<SpriteSheet> sprites = List();
   bool loading = false;
-  bool goGame = false;
   String nick;
+  String statusServer = "";
 
   @override
   void initState() {
@@ -29,9 +29,15 @@ class _PersonSelectState extends State<PersonSelect> {
     sprites.add(SpriteSheetHero.hero5);
 
     SocketManager().listenConnection((_) {
-      if (goGame) _joinGame();
+      setState(() {
+        statusServer = 'CONNECTED';
+      });
     });
-    SocketManager().listenError((_) {});
+    SocketManager().listenError((_) {
+      setState(() {
+        statusServer = 'ERROR: $_';
+      });
+    });
 
     SocketManager().listen('message', (data) {
       if (data is Map && data['action'] == 'PLAYER_JOIN') {
@@ -113,7 +119,14 @@ class _PersonSelectState extends State<PersonSelect> {
                     ),
                   ),
                 ),
-              )
+              ),
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: Text(
+                statusServer,
+                style: TextStyle(fontSize: 8),
+              ),
+            )
           ],
         ),
       ),
@@ -178,14 +191,13 @@ class _PersonSelectState extends State<PersonSelect> {
   }
 
   void _goGame() {
-    setState(() {
-      loading = true;
-      goGame = true;
-    });
-    if (!SocketManager().connected) {
-      SocketManager().connect();
-    } else {
+    if (SocketManager().connected) {
+      setState(() {
+        loading = true;
+      });
       _joinGame();
+    } else {
+      print('Server não conectado.');
     }
   }
 

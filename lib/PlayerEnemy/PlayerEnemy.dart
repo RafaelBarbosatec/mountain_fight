@@ -44,7 +44,7 @@ class PlayerEnemy extends SimpleEnemy {
             width: (tileSize * 0.6),
           ),
         ) {
-    _buffer = BufferDelay(500);
+    _buffer = BufferDelay(400);
     _buffer.listen(_listenBuffer);
     _textConfig = TextConfig(
       fontSize: height / 3.5,
@@ -53,27 +53,12 @@ class PlayerEnemy extends SimpleEnemy {
       String action = data['action'];
       if (data['data']['player_id'] == id) {
         if (action == 'MOVE') {
-          double positionX =
-              double.parse(data['data']['position']['x'].toString()) * tileSize;
-          double positionY =
-              double.parse(data['data']['position']['y'].toString()) * tileSize;
-          Rect newP = Rect.fromLTWH(
-            positionX,
-            positionY,
-            positionInWorld.width,
-            positionInWorld.height,
+          _buffer.add(
+            data['data'],
+            DateTime.parse(
+              data['data']['time'].toString(),
+            ),
           );
-          Point p = Point(newP.center.dx, newP.center.dy);
-          double dist = p.distanceTo(Point(
-            positionInWorld.center.dx,
-            positionInWorld.center.dy,
-          ));
-
-          if (dist > (tileSize * 0.5)) {
-            positionInWorld = newP;
-          }
-
-          currentMove = data['data']['direction'];
         }
       }
       if (action == 'PLAYER_LEAVED' && data['data']['id'] == id) {
@@ -201,35 +186,32 @@ class PlayerEnemy extends SimpleEnemy {
   }
 
   void _listenBuffer(data) {
-    String action = data['action'];
-    if (action == 'MOVE') {
-      double positionX =
-          double.parse(data['data']['position']['x'].toString()) * tileSize;
-      double positionY =
-          double.parse(data['data']['position']['y'].toString()) * tileSize;
-      Rect newP = Rect.fromLTWH(
-        positionX,
-        positionY,
-        positionInWorld.width,
-        positionInWorld.height,
-      );
-      Point p = Point(newP.center.dx, newP.center.dy);
-      double dist = p.distanceTo(Point(
-        positionInWorld.center.dx,
-        positionInWorld.center.dy,
-      ));
-
-      if (dist > (tileSize * 0.5)) {
-        positionInWorld = newP;
-      }
-
-      currentMove = data['data']['direction'];
+    if (data['direction'] == 'IDLE') {
+      _corrigirPosicao(data);
     }
 
-    if (action == 'PLAYER_LEAVED') {
-      if (!isDead) {
-        die();
-      }
+    currentMove = data['direction'];
+  }
+
+  void _corrigirPosicao(data) {
+    double positionX =
+        double.parse(data['position']['x'].toString()) * tileSize;
+    double positionY =
+        double.parse(data['position']['y'].toString()) * tileSize;
+    Rect newP = Rect.fromLTWH(
+      positionX,
+      positionY,
+      positionInWorld.width,
+      positionInWorld.height,
+    );
+    Point p = Point(newP.center.dx, newP.center.dy);
+    double dist = p.distanceTo(Point(
+      positionInWorld.center.dx,
+      positionInWorld.center.dy,
+    ));
+
+    if (dist > (tileSize * 0.5)) {
+      positionInWorld = newP;
     }
   }
 }
