@@ -10,15 +10,10 @@ void main() async {
   await Flame.util.setLandscape();
   await Flame.util.fullScreen();
 
-  SocketManager.configure('http://mountainfight.omv.jandersonlemos.com');
+  SocketManager.configure('http://mountainfight.herokuapp.com');
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        textTheme: TextTheme(
-          body1: TextStyle(fontFamily: 'Normal'),
-        ),
-      ),
       home: PersonSelect(),
     ),
   );
