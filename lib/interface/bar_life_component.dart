@@ -18,7 +18,7 @@ class BarLifeComponent extends InterfaceComponent {
       : super(
           id: 3,
           position: Position(20, 20),
-          sprite: Sprite(''),
+          sprite: null,
           width: 120,
           height: 40,
         );
