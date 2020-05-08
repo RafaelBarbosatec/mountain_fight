@@ -45,7 +45,7 @@ class BufferDelay {
           _timeLine.add(Delay(delay > 0 ? delay : this.delay));
         }
         _timeLine.add(Frame(value, time));
-        run();
+        verifyNext();
       }
     }
   }
