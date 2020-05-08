@@ -50,7 +50,8 @@ class PlayerEnemy extends SimpleEnemy {
       fontSize: height / 3.5,
     );
     SocketManager().listen('message', (data) {
-      if (data['time'] != null) {
+      String action = data['action'];
+      if (data['time'] != null && (action == 'MOVE' || action == 'ATTACK')) {
         _buffer.add(
           data,
           DateTime.parse(
@@ -58,6 +59,16 @@ class PlayerEnemy extends SimpleEnemy {
           ),
         );
       }
+
+      if (data['action'] == 'RECEIVED_DAMAGE') {
+        if (life > 0) {
+          life -= double.parse(data['data']['damage'].toString());
+          if (life <= 0) {
+            die();
+          }
+        }
+      }
+
       if (data['action'] == 'PLAYER_LEAVED' && data['data']['id'] == id) {
         if (!isDead) {
           die();
@@ -190,14 +201,6 @@ class PlayerEnemy extends SimpleEnemy {
       }
       if (action == 'ATTACK') {
         _execAttack();
-      }
-      if (action == 'RECEIVED_DAMAGE') {
-        if (life > 0) {
-          life -= double.parse(data['data']['damage'].toString());
-          if (life <= 0) {
-            die();
-          }
-        }
       }
     }
   }
