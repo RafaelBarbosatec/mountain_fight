@@ -3,12 +3,14 @@ import 'dart:ui';
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:mountain_fight/PlayerEnemy/PlayerEnemy.dart';
+import 'package:mountain_fight/interface/bar_life_component.dart';
 import 'package:mountain_fight/player/game_player.dart';
 
 class PlayerInterface extends GameInterface {
   OverlayEntry _overlayEntryEmotes;
   int countEnemy = 0;
   static int countEmotes = 10;
+
   SpriteSheet spriteSheetEmotes = SpriteSheet(
     imageName: 'emotes/emotes1.png',
     textureWidth: 32,
@@ -29,6 +31,7 @@ class PlayerInterface extends GameInterface {
           _showDialog();
         }));
     addNicks(size);
+    add(BarLifeComponent());
     super.resize(size);
   }
 

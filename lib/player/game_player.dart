@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:bonfire/bonfire.dart';
@@ -11,8 +12,10 @@ class GamePlayer extends SimplePlayer {
   final Position initPosition;
   final int id;
   final String nick;
+  double stamina = 100;
   JoystickMoveDirectional atualDiretional;
   TextConfig _textConfig;
+  Timer _timerStamina;
 
   GamePlayer(this.id, this.nick, this.initPosition, SpriteSheet spriteSheet)
       : super(
@@ -38,6 +41,35 @@ class GamePlayer extends SimplePlayer {
     _textConfig = TextConfig(
       fontSize: height / 3.5,
     );
+  }
+
+  void _verifyStamina() {
+    if (_timerStamina == null) {
+      _timerStamina = Timer(Duration(milliseconds: 150), () {
+        _timerStamina = null;
+      });
+    } else {
+      return;
+    }
+
+    stamina += 2;
+    if (stamina > 100) {
+      stamina = 100;
+    }
+  }
+
+  void decrementStamina(int i) {
+    stamina -= i;
+    if (stamina < 0) {
+      stamina = 0;
+    }
+  }
+
+  @override
+  void update(double dt) {
+    if (isDead) return;
+    _verifyStamina();
+    super.update(dt);
   }
 
   @override
@@ -122,6 +154,10 @@ class GamePlayer extends SimplePlayer {
   }
 
   void _execAttack() {
+    if (stamina < 25) {
+      return;
+    }
+    decrementStamina(25);
     SocketManager().send('message', {
       'action': 'ATTACK',
       'time': DateTime.now().toIso8601String(),
