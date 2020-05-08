@@ -17,7 +17,7 @@ class _PersonSelectState extends State<PersonSelect> {
   List<SpriteSheet> sprites = List();
   bool loading = false;
   String nick;
-  String statusServer = "";
+  String statusServer = "conecting";
 
   @override
   void initState() {
@@ -122,9 +122,12 @@ class _PersonSelectState extends State<PersonSelect> {
               ),
             Align(
               alignment: Alignment.bottomLeft,
-              child: Text(
-                statusServer,
-                style: TextStyle(fontSize: 8),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  statusServer,
+                  style: TextStyle(fontSize: 9, color: Colors.white),
+                ),
               ),
             )
           ],
