@@ -186,14 +186,11 @@ class PlayerEnemy extends SimpleEnemy {
   }
 
   void _listenBuffer(data) {
-    if (data['direction'] == 'IDLE') {
-      _corrigirPosicao(data);
-    }
-
+    _correctPosition(data);
     currentMove = data['direction'];
   }
 
-  void _corrigirPosicao(data) {
+  void _correctPosition(data) {
     double positionX =
         double.parse(data['position']['x'].toString()) * tileSize;
     double positionY =
@@ -210,7 +207,7 @@ class PlayerEnemy extends SimpleEnemy {
       positionInWorld.center.dy,
     ));
 
-    if (dist > (tileSize * 0.5)) {
+    if (dist > (speed * 0.4)) {
       positionInWorld = newP;
     }
   }
