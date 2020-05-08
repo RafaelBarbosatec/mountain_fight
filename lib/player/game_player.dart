@@ -106,18 +106,19 @@ class GamePlayer extends SimplePlayer {
           diretionalEVent = 'IDLE';
           break;
       }
-      SocketManager().send('message', {
-        'action': 'MOVE',
-        'time': DateTime.now().toIso8601String(),
-        'data': {
-          'player_id': id,
-          'direction': diretionalEVent,
-          'position': {
-            'x': (positionInWorld.left / tileSize),
-            'y': (positionInWorld.top / tileSize)
-          },
-        }
-      });
+      if (positionInWorld != null)
+        SocketManager().send('message', {
+          'action': 'MOVE',
+          'time': DateTime.now().toIso8601String(),
+          'data': {
+            'player_id': id,
+            'direction': diretionalEVent,
+            'position': {
+              'x': (positionInWorld.left / tileSize),
+              'y': (positionInWorld.top / tileSize)
+            },
+          }
+        });
     }
 
     super.joystickChangeDirectional(event);
@@ -154,7 +155,7 @@ class GamePlayer extends SimplePlayer {
   }
 
   void _execAttack() {
-    if (stamina < 25) {
+    if (stamina < 25 || isDead) {
       return;
     }
     decrementStamina(25);
@@ -201,5 +202,23 @@ class GamePlayer extends SimplePlayer {
       }
     });
     super.receiveDamage(damage);
+  }
+
+  @override
+  void die() {
+    life = 0;
+    gameRef.add(
+      AnimatedObjectOnce(
+        animation: FlameAnimation.Animation.sequenced(
+          "smoke_explosin.png",
+          6,
+          textureWidth: 16,
+          textureHeight: 16,
+        ),
+        position: positionInWorld,
+      ),
+    );
+    remove();
+    super.die();
   }
 }

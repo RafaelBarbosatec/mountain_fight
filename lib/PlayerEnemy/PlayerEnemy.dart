@@ -50,12 +50,19 @@ class PlayerEnemy extends SimpleEnemy {
       fontSize: height / 3.5,
     );
     SocketManager().listen('message', (data) {
-      _buffer.add(
-        data,
-        DateTime.parse(
-          data['time'].toString(),
-        ),
-      );
+      if (data['time'] != null) {
+        _buffer.add(
+          data,
+          DateTime.parse(
+            data['time'].toString(),
+          ),
+        );
+      }
+      if (data['action'] == 'PLAYER_LEAVED' && data['data']['id'] == id) {
+        if (!isDead) {
+          die();
+        }
+      }
     });
   }
 
@@ -185,19 +192,12 @@ class PlayerEnemy extends SimpleEnemy {
         _execAttack();
       }
       if (action == 'RECEIVED_DAMAGE') {
-        receiveDamage(double.parse(data['data']['damage'].toString()));
-      }
-
-      if (action == 'PLAYER_LEAVED') {
-        if (!isDead) {
-          die();
+        if (life > 0) {
+          life -= double.parse(data['data']['damage'].toString());
+          if (life <= 0) {
+            die();
+          }
         }
-      }
-    }
-
-    if (action == 'PLAYER_LEAVED' && data['data']['id'] == id) {
-      if (!isDead) {
-        die();
       }
     }
   }
@@ -254,4 +254,7 @@ class PlayerEnemy extends SimpleEnemy {
       damage: 30,
     );
   }
+
+  @override
+  void receiveDamage(double damage) {}
 }
