@@ -5,6 +5,7 @@ import 'package:flame/animation.dart' as FlameAnimation;
 import 'package:flutter/material.dart';
 import 'package:mountain_fight/main.dart';
 import 'package:mountain_fight/socket/SocketManager.dart';
+import 'package:mountain_fight/util/extensions.dart';
 
 class GamePlayer extends SimplePlayer {
   final Position initPosition;
@@ -75,6 +76,7 @@ class GamePlayer extends SimplePlayer {
       }
       SocketManager().send('message', {
         'action': 'MOVE',
+        'time': DateTime.now().toIso8601String(),
         'data': {
           'player_id': id,
           'direction': diretionalEVent,
@@ -82,7 +84,6 @@ class GamePlayer extends SimplePlayer {
             'x': (positionInWorld.left / tileSize),
             'y': (positionInWorld.top / tileSize)
           },
-          'time': DateTime.now().toIso8601String()
         }
       });
     }
@@ -110,5 +111,59 @@ class GamePlayer extends SimplePlayer {
           Position(position.left + 2, position.top - 20),
         );
     super.render(canvas);
+  }
+
+  @override
+  void joystickAction(int action) {
+    if (action == 0) {
+      _execAttack();
+    }
+    super.joystickAction(action);
+  }
+
+  void _execAttack() {
+    SocketManager().send('message', {
+      'action': 'ATTACK',
+      'time': DateTime.now().toIso8601String(),
+      'data': {
+        'player_id': id,
+        'direction': this.lastDirection.getName(),
+        'position': {
+          'x': (positionInWorld.left / tileSize),
+          'y': (positionInWorld.top / tileSize)
+        },
+      }
+    });
+    var anim = FlameAnimation.Animation.sequenced('axe_spin_atack.png', 8,
+        textureWidth: 148, textureHeight: 148, stepTime: 0.05);
+    this.simpleAttackRange(
+      animationRight: anim,
+      animationLeft: anim,
+      animationTop: anim,
+      animationBottom: anim,
+      animationDestroy: FlameAnimation.Animation.sequenced(
+        "smoke_explosin.png",
+        6,
+        textureWidth: 16,
+        textureHeight: 16,
+      ),
+      width: width / 1.5,
+      height: width / 1.5,
+      speed: speed * 1.5,
+      damage: 30,
+    );
+  }
+
+  @override
+  void receiveDamage(double damage) {
+    SocketManager().send('message', {
+      'action': 'RECEIVED_DAMAGE',
+      'time': DateTime.now().toIso8601String(),
+      'data': {
+        'player_id': id,
+        'damage': damage,
+      }
+    });
+    super.receiveDamage(damage);
   }
 }

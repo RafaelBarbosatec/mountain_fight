@@ -2,10 +2,12 @@ import 'dart:ui';
 
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
+import 'package:mountain_fight/PlayerEnemy/PlayerEnemy.dart';
 import 'package:mountain_fight/player/game_player.dart';
 
 class PlayerInterface extends GameInterface {
   OverlayEntry _overlayEntryEmotes;
+  int countEnemy = 0;
   static int countEmotes = 10;
   SpriteSheet spriteSheetEmotes = SpriteSheet(
     imageName: 'emotes/emotes1.png',
@@ -26,7 +28,29 @@ class PlayerInterface extends GameInterface {
         onTapComponent: () {
           _showDialog();
         }));
+    addNicks(size);
     super.resize(size);
+  }
+
+  void addNicks(Size size) {
+    add(TextInterfaceComponent(
+        text: _getEnemiesName(),
+        width: 32,
+        height: 32,
+        id: 2,
+        textPosition: Position(size.width - 60, 50),
+        textConfig: TextConfig(color: Colors.white, fontSize: 13),
+        onTapComponent: () {
+          _showDialog();
+        }));
+  }
+
+  @override
+  void update(double t) {
+    if (gameRef.enemies.length != countEnemy && gameRef.size != null) {
+      addNicks(gameRef.size);
+    }
+    super.update(t);
   }
 
   void _showDialog() {
@@ -73,5 +97,14 @@ class PlayerInterface extends GameInterface {
               ));
     }
     Overlay.of(gameRef.context).insert(_overlayEntryEmotes);
+  }
+
+  String _getEnemiesName() {
+    countEnemy = gameRef.enemies.length;
+    String names = '';
+    gameRef.enemies.forEach((enemy) {
+      names += '${(enemy as PlayerEnemy).nick}\n';
+    });
+    return names;
   }
 }

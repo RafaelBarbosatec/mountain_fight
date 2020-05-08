@@ -50,22 +50,12 @@ class PlayerEnemy extends SimpleEnemy {
       fontSize: height / 3.5,
     );
     SocketManager().listen('message', (data) {
-      String action = data['action'];
-      if (data['data']['player_id'] == id) {
-        if (action == 'MOVE') {
-          _buffer.add(
-            data['data'],
-            DateTime.parse(
-              data['data']['time'].toString(),
-            ),
-          );
-        }
-      }
-      if (action == 'PLAYER_LEAVED' && data['data']['id'] == id) {
-        if (!isDead) {
-          die();
-        }
-      }
+      _buffer.add(
+        data,
+        DateTime.parse(
+          data['time'].toString(),
+        ),
+      );
     });
   }
 
@@ -186,6 +176,33 @@ class PlayerEnemy extends SimpleEnemy {
   }
 
   void _listenBuffer(data) {
+    String action = data['action'];
+    if (data['data']['player_id'] == id) {
+      if (action == 'MOVE') {
+        _execMovimentation(data['data']);
+      }
+      if (action == 'ATTACK') {
+        _execAttack();
+      }
+      if (action == 'RECEIVED_DAMAGE') {
+        receiveDamage(double.parse(data['data']['damage'].toString()));
+      }
+
+      if (action == 'PLAYER_LEAVED') {
+        if (!isDead) {
+          die();
+        }
+      }
+    }
+
+    if (action == 'PLAYER_LEAVED' && data['data']['id'] == id) {
+      if (!isDead) {
+        die();
+      }
+    }
+  }
+
+  void _execMovimentation(data) {
     _correctPosition(data);
     currentMove = data['direction'];
   }
@@ -210,5 +227,31 @@ class PlayerEnemy extends SimpleEnemy {
     if (dist > (speed * 0.4)) {
       positionInWorld = newP;
     }
+  }
+
+  void _execAttack() {
+    var anim = FlameAnimation.Animation.sequenced(
+      'axe_spin_atack.png',
+      8,
+      textureWidth: 148,
+      textureHeight: 148,
+      stepTime: 0.05,
+    );
+    this.simpleAttackRange(
+      animationRight: anim,
+      animationLeft: anim,
+      animationTop: anim,
+      animationBottom: anim,
+      animationDestroy: FlameAnimation.Animation.sequenced(
+        "smoke_explosin.png",
+        6,
+        textureWidth: 16,
+        textureHeight: 16,
+      ),
+      width: width / 1.5,
+      height: width / 1.5,
+      speed: speed * 1.5,
+      damage: 30,
+    );
   }
 }
