@@ -241,6 +241,7 @@ class PlayerEnemy extends SimpleEnemy {
       stepTime: 0.05,
     );
     this.simpleAttackRange(
+      id: id,
       animationRight: anim,
       animationLeft: anim,
       animationTop: anim,
@@ -259,5 +260,5 @@ class PlayerEnemy extends SimpleEnemy {
   }
 
   @override
-  void receiveDamage(double damage) {}
+  void receiveDamage(double damage, int from) {}
 }

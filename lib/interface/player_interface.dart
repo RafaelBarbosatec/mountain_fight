@@ -41,7 +41,7 @@ class PlayerInterface extends GameInterface {
         width: 32,
         height: 32,
         id: 2,
-        textPosition: Position(size.width - 60, 50),
+        position: Position(size.width - 60, 50),
         textConfig: TextConfig(color: Colors.white, fontSize: 13),
         onTapComponent: () {
           _showDialog();

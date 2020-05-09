@@ -174,6 +174,7 @@ class GamePlayer extends SimplePlayer {
     var anim = FlameAnimation.Animation.sequenced('axe_spin_atack.png', 8,
         textureWidth: 148, textureHeight: 148, stepTime: 0.05);
     this.simpleAttackRange(
+      id: id,
       animationRight: anim,
       animationLeft: anim,
       animationTop: anim,
@@ -192,16 +193,17 @@ class GamePlayer extends SimplePlayer {
   }
 
   @override
-  void receiveDamage(double damage) {
+  void receiveDamage(double damage, int from) {
     SocketManager().send('message', {
       'action': 'RECEIVED_DAMAGE',
       'time': DateTime.now().toIso8601String(),
       'data': {
         'player_id': id,
         'damage': damage,
+        'from': from,
       }
     });
-    super.receiveDamage(damage);
+    super.receiveDamage(damage, from);
   }
 
   @override
