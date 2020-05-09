@@ -105,7 +105,7 @@ class PlayerInterface extends GameInterface {
   String _getEnemiesName() {
     countEnemy = gameRef.enemies.length;
     String names = '';
-    gameRef.enemies.forEach((enemy) {
+    gameRef.enemies.where((e) => !e.isDead).forEach((enemy) {
       names += '${(enemy as PlayerEnemy).nick}\n';
     });
     return names;
