@@ -6,16 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:mountain_fight/main.dart';
 import 'package:mountain_fight/socket/SocketManager.dart';
 import 'package:mountain_fight/util/buffer_delay.dart';
+import 'package:mountain_fight/util/extensions.dart';
 
 class PlayerEnemy extends SimpleEnemy {
   static const REDUCTION_SPEED_DIAGONAL = 0.7;
   final int id;
   final String nick;
-
-  double conpensasionX = 0;
-  double speedConpensasionX = 0;
-  double conpensasionY = 0;
-  double speedConpensasionY = 0;
 
   String currentMove = 'IDLE';
 
@@ -197,15 +193,15 @@ class PlayerEnemy extends SimpleEnemy {
     String action = data['action'];
     if (data['data']['player_id'] == id) {
       if (action == 'MOVE') {
-        _execMovimentation(data['data']);
+        _exeMovement(data['data']);
       }
       if (action == 'ATTACK') {
-        _execAttack();
+        _execAttack(data['data']['direction']);
       }
     }
   }
 
-  void _execMovimentation(data) {
+  void _exeMovement(data) {
     _correctPosition(data);
     currentMove = data['direction'];
   }
@@ -232,7 +228,7 @@ class PlayerEnemy extends SimpleEnemy {
     }
   }
 
-  void _execAttack() {
+  void _execAttack(String direction) {
     var anim = FlameAnimation.Animation.sequenced(
       'axe_spin_atack.png',
       8,
@@ -246,6 +242,7 @@ class PlayerEnemy extends SimpleEnemy {
       animationLeft: anim,
       animationTop: anim,
       animationBottom: anim,
+      direction: direction.getDirectionEnum(),
       animationDestroy: FlameAnimation.Animation.sequenced(
         "smoke_explosin.png",
         6,
