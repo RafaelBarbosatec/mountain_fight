@@ -40,7 +40,7 @@ class PlayerEnemy extends SimpleEnemy {
             width: (tileSize * 0.6),
           ),
         ) {
-    _buffer = BufferDelay(250);
+    _buffer = BufferDelay(150);
     _buffer.listen(_listenBuffer);
     _textConfig = TextConfig(
       fontSize: height / 3.5,
@@ -57,10 +57,14 @@ class PlayerEnemy extends SimpleEnemy {
       }
 
       if (action == 'RECEIVED_DAMAGE') {
-        if (life > 0) {
-          life -= double.parse(data['data']['damage'].toString());
-          if (life <= 0) {
-            die();
+        if (!isDead) {
+          double damage = double.parse(data['data']['damage'].toString());
+          this.showDamage(damage);
+          if (life > 0) {
+            life -= damage;
+            if (life <= 0) {
+              die();
+            }
           }
         }
       }
@@ -185,11 +189,23 @@ class PlayerEnemy extends SimpleEnemy {
         position: positionInWorld,
       ),
     );
+    gameRef.addDecoration(
+      GameDecoration.sprite(
+        Sprite('crypt.png'),
+        initPosition: Position(
+          positionInWorld.left,
+          positionInWorld.top,
+        ),
+        height: 30,
+        width: 30,
+      ),
+    );
     remove();
     super.die();
   }
 
   void _listenBuffer(data) {
+    print(data);
     String action = data['action'];
     if (data['data']['player_id'] == id) {
       if (action == 'MOVE') {
@@ -242,6 +258,7 @@ class PlayerEnemy extends SimpleEnemy {
       animationLeft: anim,
       animationTop: anim,
       animationBottom: anim,
+      interval: 0,
       direction: direction.getDirectionEnum(),
       animationDestroy: FlameAnimation.Animation.sequenced(
         "smoke_explosin.png",

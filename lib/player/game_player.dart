@@ -203,6 +203,7 @@ class GamePlayer extends SimplePlayer {
         'from': from,
       }
     });
+    this.showDamage(damage);
     super.receiveDamage(damage, from);
   }
 
@@ -218,6 +219,17 @@ class GamePlayer extends SimplePlayer {
           textureHeight: 16,
         ),
         position: positionInWorld,
+      ),
+    );
+    gameRef.addDecoration(
+      GameDecoration.sprite(
+        Sprite('crypt.png'),
+        initPosition: Position(
+          positionInWorld.left,
+          positionInWorld.top,
+        ),
+        height: 30,
+        width: 30,
       ),
     );
     remove();
