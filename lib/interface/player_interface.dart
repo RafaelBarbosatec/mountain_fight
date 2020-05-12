@@ -2,9 +2,9 @@ import 'dart:ui';
 
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
-import 'package:mountain_fight/PlayerEnemy/PlayerEnemy.dart';
 import 'package:mountain_fight/interface/bar_life_component.dart';
 import 'package:mountain_fight/player/game_player.dart';
+import 'package:mountain_fight/remote_player/remote_player.dart';
 
 class PlayerInterface extends GameInterface {
   OverlayEntry _overlayEntryEmotes;
@@ -106,7 +106,7 @@ class PlayerInterface extends GameInterface {
     countEnemy = gameRef.enemies.length;
     String names = '';
     gameRef.enemies.where((e) => !e.isDead).forEach((enemy) {
-      names += '${(enemy as PlayerEnemy).nick}\n';
+      names += '${(enemy as RemotePlayer).nick}\n';
     });
     return names;
   }

@@ -1,12 +1,12 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flame/animation.dart' as FlameAnimation;
 import 'package:flutter/material.dart';
-import 'package:mountain_fight/PlayerEnemy/PlayerEnemy.dart';
 import 'package:mountain_fight/interface/player_interface.dart';
 import 'package:mountain_fight/main.dart';
 import 'package:mountain_fight/map/mountain_map.dart';
 import 'package:mountain_fight/player/game_player.dart';
 import 'package:mountain_fight/player/sprite_sheet_hero.dart';
+import 'package:mountain_fight/remote_player/remote_player.dart';
 import 'package:mountain_fight/socket/SocketManager.dart';
 
 class Game extends StatefulWidget {
@@ -41,7 +41,7 @@ class _GameState extends State<Game> implements GameListener {
           double.parse(data['data']['position']['x'].toString()) * tileSize,
           double.parse(data['data']['position']['y'].toString()) * tileSize,
         );
-        _controller.addEnemy(PlayerEnemy(
+        _controller.addEnemy(RemotePlayer(
           data['data']['id'],
           data['data']['nick'],
           personPosition,
@@ -77,7 +77,7 @@ class _GameState extends State<Game> implements GameListener {
 //                ? constraints.maxHeight
 //                : constraints.maxWidth) /
 //            12;
-        tileSize = 35;
+        tileSize = 38;
 
         return BonfireWidget(
           joystick: Joystick(
@@ -136,9 +136,7 @@ class _GameState extends State<Game> implements GameListener {
   }
 
   @override
-  void changeCountLiveEnemies(int count) {
-    // TODO: implement changeCountLiveEnemies
-  }
+  void changeCountLiveEnemies(int count) {}
 
   @override
   void updateGame() {
@@ -151,7 +149,7 @@ class _GameState extends State<Game> implements GameListener {
   void _addPlayersOn() {
     widget.playersOn.forEach((player) {
       if (player != null && player['id'] != widget.playerId) {
-        _controller.addEnemy(PlayerEnemy(
+        _controller.addEnemy(RemotePlayer(
           player['id'],
           player['nick'],
           Position(

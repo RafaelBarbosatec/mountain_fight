@@ -8,7 +8,7 @@ import 'package:mountain_fight/socket/SocketManager.dart';
 import 'package:mountain_fight/util/buffer_delay.dart';
 import 'package:mountain_fight/util/extensions.dart';
 
-class PlayerEnemy extends SimpleEnemy {
+class RemotePlayer extends SimpleEnemy {
   static const REDUCTION_SPEED_DIAGONAL = 0.7;
   final int id;
   final String nick;
@@ -19,7 +19,7 @@ class PlayerEnemy extends SimpleEnemy {
 
   BufferDelay _buffer;
 
-  PlayerEnemy(
+  RemotePlayer(
       this.id, this.nick, Position initPosition, SpriteSheet spriteSheet)
       : super(
           initPosition: initPosition,
