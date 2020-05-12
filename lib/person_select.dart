@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:mountain_fight/game.dart';
 import 'package:mountain_fight/player/sprite_sheet_hero.dart';
 import 'package:mountain_fight/socket/SocketManager.dart';
-import 'package:mountain_fight/widgets/button_small.dart';
 
 class PersonSelect extends StatefulWidget {
   @override
@@ -17,7 +16,7 @@ class _PersonSelectState extends State<PersonSelect> {
   List<SpriteSheet> sprites = List();
   bool loading = false;
   String nick;
-  String statusServer = "conecting";
+  String statusServer = "CONNECTING";
 
   @override
   void initState() {
@@ -75,6 +74,9 @@ class _PersonSelectState extends State<PersonSelect> {
           children: <Widget>[
             Column(
               children: <Widget>[
+                SizedBox(
+                  height: 10,
+                ),
                 Text(
                   "Select your character",
                   style: TextStyle(color: Colors.white, fontSize: 30),
@@ -88,12 +90,19 @@ class _PersonSelectState extends State<PersonSelect> {
                     children: <Widget>[
                       SizedBox(
                         height: 50,
-                        child: ButtonSmall(
-                          size: 200,
-                          pathSelected: 'assets/images/bottom_large_green2.png',
-                          pathUnSelected:
-                              'assets/images/bottom_large_green1.png',
-                          onPress: _goGame,
+                        width: 150,
+                        child: RaisedButton(
+                          color: Colors.orange,
+                          child: Text(
+                            'ENTRAR',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          onPressed: _goGame,
                         ),
                       ),
                     ],
@@ -143,13 +152,21 @@ class _PersonSelectState extends State<PersonSelect> {
           child: count == 0
               ? SizedBox.shrink()
               : Center(
-                  child: ButtonSmall(
-                    size: 50,
-                    pathSelected: 'assets/images/bottom_small_blue2.png',
-                    pathUnSelected: 'assets/images/bottom_small_blue1.png',
-                    onPress: () {
-                      _previous();
-                    },
+                  child: SizedBox(
+                    width: 50,
+                    height: 50,
+                    child: RaisedButton(
+                      color: Colors.blue,
+                      padding: EdgeInsets.all(0),
+                      child: Center(
+                          child: Icon(
+                        Icons.chevron_left,
+                        color: Colors.white,
+                      )),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25)),
+                      onPressed: _previous,
+                    ),
                   ),
                 ),
         ),
@@ -163,13 +180,21 @@ class _PersonSelectState extends State<PersonSelect> {
           child: count == sprites.length - 1
               ? SizedBox.shrink()
               : Center(
-                  child: ButtonSmall(
-                    size: 50,
-                    pathSelected: 'assets/images/bottom_small_blue2.png',
-                    pathUnSelected: 'assets/images/bottom_small_blue1.png',
-                    onPress: () {
-                      _next();
-                    },
+                  child: SizedBox(
+                    width: 50,
+                    height: 50,
+                    child: RaisedButton(
+                      color: Colors.blue,
+                      padding: EdgeInsets.all(0),
+                      child: Center(
+                          child: Icon(
+                        Icons.chevron_right,
+                        color: Colors.white,
+                      )),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25)),
+                      onPressed: _next,
+                    ),
                   ),
                 ),
         ),
