@@ -203,7 +203,8 @@ class GamePlayer extends SimplePlayer {
         'from': from,
       }
     });
-    this.showDamage(damage);
+    this.showDamage(damage,
+        config: TextConfig(color: Colors.red, fontSize: 14));
     super.receiveDamage(damage, from);
   }
 

@@ -59,7 +59,8 @@ class RemotePlayer extends SimpleEnemy {
       if (action == 'RECEIVED_DAMAGE') {
         if (!isDead) {
           double damage = double.parse(data['data']['damage'].toString());
-          this.showDamage(damage, config: TextConfig(color: Colors.red));
+          this.showDamage(damage,
+              config: TextConfig(color: Colors.red, fontSize: 14));
           if (life > 0) {
             life -= damage;
             if (life <= 0) {
