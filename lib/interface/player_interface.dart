@@ -50,7 +50,7 @@ class PlayerInterface extends GameInterface {
 
   @override
   void update(double t) {
-    if (gameRef.enemies.length != countEnemy && gameRef.size != null) {
+    if (gameRef.livingEnemies().length != countEnemy && gameRef.size != null) {
       addNicks(gameRef.size);
     }
     super.update(t);
@@ -103,7 +103,7 @@ class PlayerInterface extends GameInterface {
   }
 
   String _getEnemiesName() {
-    countEnemy = gameRef.enemies.length;
+    countEnemy = gameRef.livingEnemies().length;
     String names = '';
     gameRef.enemies.where((e) => !e.isDead).forEach((enemy) {
       names += '${(enemy as RemotePlayer).nick}\n';
