@@ -47,7 +47,7 @@ class RemotePlayer extends SimpleEnemy {
     );
     SocketManager().listen('message', (data) {
       String action = data['action'];
-      if (action != 'PLAYER_LEAVED' && data['time'].toString().isNotEmpty) {
+      if (action != 'PLAYER_LEAVED' && data['time'] != null) {
         _buffer.add(
           data,
           DateTime.parse(
@@ -240,7 +240,7 @@ class RemotePlayer extends SimpleEnemy {
       positionInWorld.center.dy,
     ));
 
-    if (dist > (speed * 0.4)) {
+    if (dist > (tileSize * 0.5)) {
       positionInWorld = newP;
     }
   }

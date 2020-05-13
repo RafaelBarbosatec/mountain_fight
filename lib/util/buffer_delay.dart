@@ -44,9 +44,6 @@ class BufferDelay {
 
         if (delay > 0) {
           _timeLine.add(Delay(delay));
-        } else {
-          int lastDelay = this.delay - delay;
-          _timeLine.add(Delay(lastDelay > 0 ? lastDelay : this.delay));
         }
         _timeLine.add(Frame(value, time));
         verifyNext();
@@ -59,7 +56,7 @@ class BufferDelay {
   }
 
   void run() async {
-    if (_currentIndex <= _timeLine.length - 1) {
+    if (_currentIndex < _timeLine.length) {
       var value = _timeLine[_currentIndex];
       if (value is Delay) {
         await Future.delayed(Duration(milliseconds: value.time));
@@ -73,7 +70,7 @@ class BufferDelay {
   }
 
   void verifyNext() {
-    if ((_currentIndex + 1) <= _timeLine.length - 1) {
+    if ((_currentIndex + 1) < _timeLine.length) {
       _currentIndex++;
       run();
     }
