@@ -40,14 +40,14 @@ class RemotePlayer extends SimpleEnemy {
             width: (tileSize * 0.6),
           ),
         ) {
-    _buffer = BufferDelay(150);
+    _buffer = BufferDelay(100);
     _buffer.listen(_listenBuffer);
     _textConfig = TextConfig(
       fontSize: height / 3.5,
     );
     SocketManager().listen('message', (data) {
       String action = data['action'];
-      if (data['time'].toString().isNotEmpty) {
+      if (action != 'PLAYER_LEAVED' && data['time'].toString().isNotEmpty) {
         _buffer.add(
           data,
           DateTime.parse(
