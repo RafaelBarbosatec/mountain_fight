@@ -102,7 +102,8 @@ class _PersonSelectState extends State<PersonSelect> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          onPressed: _goGame,
+                          onPressed:
+                              statusServer == 'CONNECTED' ? _goGame : null,
                         ),
                       ),
                     ],
