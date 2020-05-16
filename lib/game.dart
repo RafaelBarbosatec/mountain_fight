@@ -69,48 +69,43 @@ class _GameState extends State<Game> implements GameListener {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 800,
-      height: 800,
-      child: LayoutBuilder(builder: (context, constraints) {
+    return LayoutBuilder(builder: (context, constraints) {
 //        tileSize = ((constraints.maxHeight < constraints.maxWidth)
 //                ? constraints.maxHeight
 //                : constraints.maxWidth) /
 //            12;
-        tileSize = 38;
+      tileSize = 40;
 
-        return BonfireWidget(
-          joystick: Joystick(
-            pathSpriteBackgroundDirectional: 'joystick_background.png',
-            pathSpriteKnobDirectional: 'joystick_knob.png',
-            sizeDirectional: 100,
-            actions: [
-              JoystickAction(
-                actionId: 0,
-                pathSprite: 'joystick_atack.png',
-                pathSpritePressed: 'joystick_atack_selected.png',
-                size: 80,
-                margin: EdgeInsets.only(bottom: 50, right: 50),
-              ),
-            ],
-          ),
-          player: GamePlayer(
-            widget.playerId,
-            widget.nick,
-            Position(
-                widget.position.x * tileSize, widget.position.y * tileSize),
-            _getSprite(widget.idCharacter),
-          ),
-          interface: PlayerInterface(),
-          map: MountainMap.map(),
-          decorations: MountainMap.decorations(),
-          constructionModeColor: Colors.black,
-          collisionAreaColor: Colors.purple.withOpacity(0.4),
-          gameController: _controller,
+      return BonfireWidget(
+        joystick: Joystick(
+          pathSpriteBackgroundDirectional: 'joystick_background.png',
+          pathSpriteKnobDirectional: 'joystick_knob.png',
+          sizeDirectional: 100,
+          actions: [
+            JoystickAction(
+              actionId: 0,
+              pathSprite: 'joystick_atack.png',
+              pathSpritePressed: 'joystick_atack_selected.png',
+              size: 80,
+              margin: EdgeInsets.only(bottom: 50, right: 50),
+            ),
+          ],
+        ),
+        player: GamePlayer(
+          widget.playerId,
+          widget.nick,
+          Position(widget.position.x * tileSize, widget.position.y * tileSize),
+          _getSprite(widget.idCharacter),
+        ),
+        interface: PlayerInterface(),
+        map: MountainMap.map(),
+        decorations: MountainMap.decorations(),
+        constructionModeColor: Colors.black,
+        collisionAreaColor: Colors.purple.withOpacity(0.4),
+        gameController: _controller,
 //      showCollisionArea: true,
-        );
-      }),
-    );
+      );
+    });
   }
 
   SpriteSheet _getSprite(int index) {

@@ -34,7 +34,7 @@ class RemotePlayer extends SimpleEnemy {
           animationRunLeft: spriteSheet.createAnimation(6, stepTime: 0.1),
           animationRunRight: spriteSheet.createAnimation(7, stepTime: 0.1),
           life: 200,
-          speed: tileSize / 0.22,
+          speed: tileSize * 3,
           collision: Collision(
             height: (tileSize * 0.5),
             width: (tileSize * 0.6),

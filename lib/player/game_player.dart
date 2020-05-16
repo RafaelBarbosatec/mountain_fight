@@ -31,7 +31,7 @@ class GamePlayer extends SimplePlayer {
           height: tileSize * 1.5,
           initPosition: initPosition,
           life: 200,
-          speed: tileSize / 0.22,
+          speed: tileSize * 3,
           collision: Collision(
             height: (tileSize * 0.5),
             width: (tileSize * 0.6),
