@@ -41,7 +41,11 @@ class BufferDelay {
         int delayDone =
             DateTime.now().difference(lastFrame.timeRun).inMilliseconds;
         int delay = delayFrame - delayDone;
-        _timeLine.add(Delay(delay > 0 ? delay : this.delay));
+        if (delay > 0) {
+          _timeLine.add(Delay(delay));
+        } else if (delay < this.delay * -1) {
+          _timeLine.add(Delay(this.delay));
+        }
         _timeLine.add(Frame(value, time));
       }
       verifyNext();

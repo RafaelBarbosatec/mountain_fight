@@ -40,7 +40,7 @@ class RemotePlayer extends SimpleEnemy {
             width: (tileSize * 0.6),
           ),
         ) {
-    _buffer = BufferDelay(100);
+    _buffer = BufferDelay(150);
     _buffer.listen(_listenBuffer);
     _textConfig = TextConfig(
       fontSize: height / 3.5,
@@ -206,7 +206,6 @@ class RemotePlayer extends SimpleEnemy {
   }
 
   void _listenBuffer(data) {
-    print(data);
     String action = data['action'];
     if (data['data']['player_id'] == id) {
       if (action == 'MOVE') {
