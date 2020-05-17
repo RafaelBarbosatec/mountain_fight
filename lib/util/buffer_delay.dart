@@ -43,8 +43,6 @@ class BufferDelay {
         int delay = delayFrame - delayDone;
         if (delay > 0) {
           _timeLine.add(Delay(delay));
-        } else if (delay < this.delay * -1) {
-          _timeLine.add(Delay(this.delay));
         }
         _timeLine.add(Frame(value, time));
       }
