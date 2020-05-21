@@ -45,8 +45,8 @@ class BufferDelay {
           _timeLine.add(Delay(delay));
         }
         _timeLine.add(Frame(value, time));
+        verifyNext();
       }
-      verifyNext();
     }
   }
 
@@ -59,12 +59,11 @@ class BufferDelay {
       var value = _timeLine[_currentIndex];
       if (value is Delay) {
         await Future.delayed(Duration(milliseconds: value.time));
-        verifyNext();
       } else if (value is Frame) {
         value.timeRun = DateTime.now();
         if (_listen != null) _listen(value.value);
-        verifyNext();
       }
+      verifyNext();
     }
   }
 
