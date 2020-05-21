@@ -50,6 +50,14 @@ class BufferDelay {
     }
   }
 
+  void reset() {
+    Frame f = _timeLine.where((element) => element is Frame).last;
+    if (f.timeRun != null) {
+      _timeLine.clear();
+      _currentIndex = 0;
+    }
+  }
+
   void listen(ValueChanged<dynamic> listen) {
     _listen = listen;
   }
@@ -59,11 +67,12 @@ class BufferDelay {
       var value = _timeLine[_currentIndex];
       if (value is Delay) {
         await Future.delayed(Duration(milliseconds: value.time));
+        verifyNext();
       } else if (value is Frame) {
         value.timeRun = DateTime.now();
         if (_listen != null) _listen(value.value);
+        verifyNext();
       }
-      verifyNext();
     }
   }
 
