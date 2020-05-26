@@ -41,12 +41,13 @@ class _GameState extends State<Game> implements GameListener {
           double.parse(data['data']['position']['x'].toString()) * tileSize,
           double.parse(data['data']['position']['y'].toString()) * tileSize,
         );
-        _controller.addEnemy(RemotePlayer(
+        var enemy = RemotePlayer(
           data['data']['id'],
           data['data']['nick'],
           personPosition,
           _getSprite(data['data']['skin'] ?? 0),
-        ));
+        );
+        _controller.addEnemy(enemy);
         _controller.addComponent(AnimatedObjectOnce(
           animation: FlameAnimation.Animation.sequenced(
             "smoke_explosin.png",
@@ -145,7 +146,7 @@ class _GameState extends State<Game> implements GameListener {
   void _addPlayersOn() {
     widget.playersOn.forEach((player) {
       if (player != null && player['id'] != widget.playerId) {
-        _controller.addEnemy(RemotePlayer(
+        var enemy = RemotePlayer(
           player['id'],
           player['nick'],
           Position(
@@ -153,7 +154,9 @@ class _GameState extends State<Game> implements GameListener {
             double.parse(player['position']['y'].toString()) * tileSize,
           ),
           _getSprite(player['skin'] ?? 0),
-        ));
+        );
+        enemy.life = player['life'];
+        _controller.addEnemy(enemy);
       }
     });
   }
