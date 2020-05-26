@@ -106,6 +106,7 @@ class _GameState extends State<Game> implements GameListener {
         collisionAreaColor: Colors.purple.withOpacity(0.4),
         gameController: _controller,
 //        showCollisionArea: true,
+//        constructionMode: true,
       );
     });
   }
@@ -155,7 +156,7 @@ class _GameState extends State<Game> implements GameListener {
           ),
           _getSprite(player['skin'] ?? 0),
         );
-        enemy.life = player['life'];
+        enemy.life = double.parse(player['life'].toString());
         _controller.addEnemy(enemy);
       }
     });
