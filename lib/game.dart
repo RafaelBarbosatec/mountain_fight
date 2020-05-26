@@ -78,14 +78,15 @@ class _GameState extends State<Game> implements GameListener {
 
       return BonfireWidget(
         joystick: Joystick(
-          pathSpriteBackgroundDirectional: 'joystick_background.png',
-          pathSpriteKnobDirectional: 'joystick_knob.png',
-          sizeDirectional: 100,
+          directional: JoystickDirectional(
+              spriteKnobDirectional: Sprite('joystick_knob.png'),
+              spriteBackgroundDirectional: Sprite('joystick_background.png'),
+              size: 100),
           actions: [
             JoystickAction(
               actionId: 0,
-              pathSprite: 'joystick_atack.png',
-              pathSpritePressed: 'joystick_atack_selected.png',
+              sprite: Sprite('joystick_atack.png'),
+              spritePressed: Sprite('joystick_atack_selected.png'),
               size: 80,
               margin: EdgeInsets.only(bottom: 50, right: 50),
             ),
@@ -103,7 +104,7 @@ class _GameState extends State<Game> implements GameListener {
         constructionModeColor: Colors.black,
         collisionAreaColor: Colors.purple.withOpacity(0.4),
         gameController: _controller,
-//      showCollisionArea: true,
+//        showCollisionArea: true,
       );
     });
   }

@@ -147,8 +147,8 @@ class GamePlayer extends SimplePlayer {
   }
 
   @override
-  void joystickAction(int action) {
-    if (action == 0) {
+  void joystickAction(JoystickActionEvent action) {
+    if (action.id == 0 && action.event == ActionEvent.DOWN) {
       _execAttack();
     }
     super.joystickAction(action);
@@ -189,6 +189,10 @@ class GamePlayer extends SimplePlayer {
       height: tileSize,
       speed: speed * 1.5,
       damage: 30,
+      collision: Collision(
+        width: tileSize,
+        height: tileSize,
+      ),
     );
   }
 
@@ -200,7 +204,7 @@ class GamePlayer extends SimplePlayer {
       'data': {
         'player_id': id,
         'damage': damage,
-        'from': from,
+        'player_id_attack': from,
       }
     });
     this.showDamage(damage,
