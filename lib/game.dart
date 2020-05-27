@@ -80,9 +80,10 @@ class _GameState extends State<Game> implements GameListener {
       return BonfireWidget(
         joystick: Joystick(
           directional: JoystickDirectional(
-              spriteKnobDirectional: Sprite('joystick_knob.png'),
-              spriteBackgroundDirectional: Sprite('joystick_background.png'),
-              size: 100),
+            spriteKnobDirectional: Sprite('joystick_knob.png'),
+            spriteBackgroundDirectional: Sprite('joystick_background.png'),
+            size: 100,
+          ),
           actions: [
             JoystickAction(
               actionId: 0,
