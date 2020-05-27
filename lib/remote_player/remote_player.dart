@@ -269,8 +269,8 @@ class RemotePlayer extends SimpleEnemy {
         textureWidth: 16,
         textureHeight: 16,
       ),
-      width: tileSize,
-      height: tileSize,
+      width: tileSize * 0.9,
+      height: tileSize * 0.9,
       speed: speed * 1.5,
       damage: 15,
       collision: Collision(
