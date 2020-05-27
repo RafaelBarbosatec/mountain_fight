@@ -36,7 +36,7 @@ class GamePlayer extends SimplePlayer {
             height: (tileSize * 0.5),
             width: (tileSize * 0.6),
           ),
-          sizeCentralMovementWindow: Size(tileSize * 2, tileSize * 2),
+          sizeCentralMovementWindow: Size(tileSize * 3, tileSize * 3),
         ) {
     _textConfig = TextConfig(
       fontSize: height / 3.5,
@@ -185,13 +185,13 @@ class GamePlayer extends SimplePlayer {
         textureWidth: 16,
         textureHeight: 16,
       ),
-      width: tileSize,
-      height: tileSize,
+      width: tileSize * 0.9,
+      height: tileSize * 0.9,
       speed: speed * 1.5,
       damage: 30,
       collision: Collision(
-        width: tileSize,
-        height: tileSize,
+        width: tileSize * 0.9,
+        height: tileSize * 0.9,
       ),
     );
   }
