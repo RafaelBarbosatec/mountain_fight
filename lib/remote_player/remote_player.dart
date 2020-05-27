@@ -212,6 +212,7 @@ class RemotePlayer extends SimpleEnemy {
         _exeMovement(data['data']);
       }
       if (action == 'ATTACK') {
+        _buffer.reset();
         _execAttack(data['data']['direction']);
       }
     }
