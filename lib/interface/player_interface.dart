@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:bonfire/bonfire.dart';
+import 'package:bonfire/util/game_interface/game_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:mountain_fight/interface/bar_life_component.dart';
 import 'package:mountain_fight/player/game_player.dart';

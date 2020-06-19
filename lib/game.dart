@@ -3,7 +3,6 @@ import 'package:flame/animation.dart' as FlameAnimation;
 import 'package:flutter/material.dart';
 import 'package:mountain_fight/interface/player_interface.dart';
 import 'package:mountain_fight/main.dart';
-import 'package:mountain_fight/map/mountain_map.dart';
 import 'package:mountain_fight/player/game_player.dart';
 import 'package:mountain_fight/player/sprite_sheet_hero.dart';
 import 'package:mountain_fight/remote_player/remote_player.dart';
@@ -47,8 +46,8 @@ class _GameState extends State<Game> implements GameListener {
           personPosition,
           _getSprite(data['data']['skin'] ?? 0),
         );
-        _controller.addEnemy(enemy);
-        _controller.addComponent(AnimatedObjectOnce(
+        _controller.addGameComponent(enemy);
+        _controller.addGameComponent(AnimatedObjectOnce(
           animation: FlameAnimation.Animation.sequenced(
             "smoke_explosin.png",
             6,
@@ -77,7 +76,7 @@ class _GameState extends State<Game> implements GameListener {
 //            12;
       tileSize = 40;
 
-      return BonfireWidget(
+      return BonfireTiledWidget(
         joystick: Joystick(
           directional: JoystickDirectional(
             spriteKnobDirectional: Sprite('joystick_knob.png'),
@@ -101,8 +100,9 @@ class _GameState extends State<Game> implements GameListener {
           _getSprite(widget.idCharacter),
         ),
         interface: PlayerInterface(),
-        map: MountainMap.map(),
-        decorations: MountainMap.decorations(),
+//        map: MountainMap.map(),
+//        decorations: MountainMap.decorations(),
+        tiledMap: TiledWorldMap('tile/map.json', forceTileSize: tileSize),
         constructionModeColor: Colors.black,
         collisionAreaColor: Colors.purple.withOpacity(0.4),
         gameController: _controller,
@@ -158,7 +158,7 @@ class _GameState extends State<Game> implements GameListener {
           _getSprite(player['skin'] ?? 0),
         );
         enemy.life = double.parse(player['life'].toString());
-        _controller.addEnemy(enemy);
+        _controller.addGameComponent(enemy);
       }
     });
   }

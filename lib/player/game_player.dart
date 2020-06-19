@@ -106,7 +106,7 @@ class GamePlayer extends SimplePlayer {
           diretionalEVent = 'IDLE';
           break;
       }
-      if (positionInWorld != null)
+      if (position != null)
         SocketManager().send('message', {
           'action': 'MOVE',
           'time': DateTime.now().toIso8601String(),
@@ -114,8 +114,8 @@ class GamePlayer extends SimplePlayer {
             'player_id': id,
             'direction': diretionalEVent,
             'position': {
-              'x': (positionInWorld.left / tileSize),
-              'y': (positionInWorld.top / tileSize)
+              'x': (position.left / tileSize),
+              'y': (position.top / tileSize)
             },
           }
         });
@@ -166,8 +166,8 @@ class GamePlayer extends SimplePlayer {
         'player_id': id,
         'direction': this.lastDirection.getName(),
         'position': {
-          'x': (positionInWorld.left / tileSize),
-          'y': (positionInWorld.top / tileSize)
+          'x': (position.left / tileSize),
+          'y': (position.top / tileSize)
         },
       }
     });
@@ -223,15 +223,15 @@ class GamePlayer extends SimplePlayer {
           textureWidth: 16,
           textureHeight: 16,
         ),
-        position: positionInWorld,
+        position: position,
       ),
     );
-    gameRef.addDecoration(
+    gameRef.addGameComponent(
       GameDecoration.sprite(
         Sprite('crypt.png'),
         initPosition: Position(
-          positionInWorld.left,
-          positionInWorld.top,
+          position.left,
+          position.top,
         ),
         height: 30,
         width: 30,

@@ -87,73 +87,67 @@ class RemotePlayer extends SimpleEnemy {
   void _move(move, double dtUpdate) {
     switch (move) {
       case 'LEFT':
-        if (positionInWorld.left > 0) {
+        if (position.left > 0) {
           this.customMoveLeft(speed * dtUpdate);
         }
         break;
       case 'RIGHT':
-        if (positionInWorld.right <
-            gameRef.gameCamera.maxLeft + gameRef.size.width) {
+        if (position.right < gameRef.gameCamera.maxLeft + gameRef.size.width) {
           this.customMoveRight(speed * dtUpdate);
         }
         break;
       case 'UP_RIGHT':
         double speedDiagonal = (speed * REDUCTION_SPEED_DIAGONAL) * dtUpdate;
-        if (positionInWorld.right <
-            gameRef.gameCamera.maxLeft + gameRef.size.width) {
+        if (position.right < gameRef.gameCamera.maxLeft + gameRef.size.width) {
           customMoveRight(
             speedDiagonal,
           );
         }
-        if (positionInWorld.top > 0) {
+        if (position.top > 0) {
           customMoveTop(speedDiagonal, addAnimation: false);
         }
         break;
       case 'DOWN_RIGHT':
         double speedDiagonal = (speed * REDUCTION_SPEED_DIAGONAL) * dtUpdate;
-        if (positionInWorld.right <
-            gameRef.gameCamera.maxLeft + gameRef.size.width) {
+        if (position.right < gameRef.gameCamera.maxLeft + gameRef.size.width) {
           customMoveRight(
             speedDiagonal,
           );
         }
-        if (positionInWorld.bottom <
-            gameRef.gameCamera.maxTop + gameRef.size.width) {
+        if (position.bottom < gameRef.gameCamera.maxTop + gameRef.size.width) {
           customMoveBottom(speedDiagonal, addAnimation: false);
         }
 
         break;
       case 'DOWN_LEFT':
         double speedDiagonal = (speed * REDUCTION_SPEED_DIAGONAL) * dtUpdate;
-        if (positionInWorld.left > 0) {
+        if (position.left > 0) {
           customMoveLeft(
             speedDiagonal,
           );
         }
-        if (positionInWorld.bottom <
-            gameRef.gameCamera.maxTop + gameRef.size.width) {
+        if (position.bottom < gameRef.gameCamera.maxTop + gameRef.size.width) {
           customMoveBottom(speedDiagonal, addAnimation: false);
         }
         break;
       case 'UP_LEFT':
         double speedDiagonal = (speed * REDUCTION_SPEED_DIAGONAL) * dtUpdate;
-        if (positionInWorld.left > 0) {
+        if (position.left > 0) {
           customMoveLeft(
             speedDiagonal,
           );
         }
-        if (positionInWorld.top > 0) {
+        if (position.top > 0) {
           customMoveTop(speedDiagonal, addAnimation: false);
         }
         break;
       case 'UP':
-        if (positionInWorld.top > 0) {
+        if (position.top > 0) {
           this.customMoveTop(speed * dtUpdate);
         }
         break;
       case 'DOWN':
-        if (positionInWorld.bottom <
-            gameRef.gameCamera.maxTop + gameRef.size.width) {
+        if (position.bottom < gameRef.gameCamera.maxTop + gameRef.size.width) {
           this.customMoveBottom(speed * dtUpdate);
         }
         break;
@@ -165,7 +159,7 @@ class RemotePlayer extends SimpleEnemy {
 
   @override
   void render(Canvas canvas) {
-    if (this.isVisibleInMap()) {
+    if (this.isVisibleInCamera()) {
       _textConfig.withColor(Colors.white).render(
             canvas,
             nick,
@@ -187,15 +181,15 @@ class RemotePlayer extends SimpleEnemy {
           textureWidth: 16,
           textureHeight: 16,
         ),
-        position: positionInWorld,
+        position: position,
       ),
     );
-    gameRef.addDecoration(
+    gameRef.addGameComponent(
       GameDecoration.sprite(
         Sprite('crypt.png'),
         initPosition: Position(
-          positionInWorld.left,
-          positionInWorld.top,
+          position.left,
+          position.top,
         ),
         height: 30,
         width: 30,
@@ -233,17 +227,17 @@ class RemotePlayer extends SimpleEnemy {
     Rect newP = Rect.fromLTWH(
       positionX,
       positionY,
-      positionInWorld.width,
-      positionInWorld.height,
+      position.width,
+      position.height,
     );
     Point p = Point(newP.center.dx, newP.center.dy);
     double dist = p.distanceTo(Point(
-      positionInWorld.center.dx,
-      positionInWorld.center.dy,
+      position.center.dx,
+      position.center.dy,
     ));
 
     if (dist > (tileSize * 0.5)) {
-      positionInWorld = newP;
+      position = newP;
     }
   }
 
