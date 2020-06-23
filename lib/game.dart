@@ -100,14 +100,10 @@ class _GameState extends State<Game> implements GameListener {
           _getSprite(widget.idCharacter),
         ),
         interface: PlayerInterface(),
-//        map: MountainMap.map(),
-//        decorations: MountainMap.decorations(),
         tiledMap: TiledWorldMap('tile/map.json', forceTileSize: tileSize),
         constructionModeColor: Colors.black,
         collisionAreaColor: Colors.purple.withOpacity(0.4),
         gameController: _controller,
-//        showCollisionArea: true,
-//        constructionMode: true,
       );
     });
   }
