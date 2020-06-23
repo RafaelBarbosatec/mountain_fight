@@ -33,9 +33,10 @@ class GamePlayer extends SimplePlayer {
           life: 100,
           speed: tileSize * 3,
           collision: Collision(
-              height: (tileSize * 0.5),
-              width: (tileSize * 0.6),
-              align: Offset((tileSize * 0.9) / 2, tileSize)),
+            height: (tileSize * 0.5),
+            width: (tileSize * 0.6),
+            align: Offset((tileSize * 0.9) / 2, tileSize),
+          ),
         ) {
     _textConfig = TextConfig(
       fontSize: height / 3.5,

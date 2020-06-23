@@ -38,6 +38,7 @@ class RemotePlayer extends SimpleEnemy {
           collision: Collision(
             height: (tileSize * 0.5),
             width: (tileSize * 0.6),
+            align: Offset((tileSize * 0.9) / 2, tileSize),
           ),
         ) {
     _buffer = BufferDelay(50);
@@ -271,6 +272,7 @@ class RemotePlayer extends SimpleEnemy {
         width: tileSize * 0.9,
         height: tileSize * 0.9,
       ),
+      collisionOnlyVisibleObjects: false,
     );
   }
 
