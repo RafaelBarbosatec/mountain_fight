@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bonfire/bonfire.dart';
 import 'package:flame/animation.dart' as FlameAnimation;
 import 'package:flutter/material.dart';
@@ -70,11 +72,7 @@ class _GameState extends State<Game> implements GameListener {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
-//        tileSize = ((constraints.maxHeight < constraints.maxWidth)
-//                ? constraints.maxHeight
-//                : constraints.maxWidth) /
-//            12;
-      tileSize = 40;
+      tileSize = min(constraints.maxHeight, constraints.maxWidth) / 9;
 
       return BonfireTiledWidget(
         joystick: Joystick(
