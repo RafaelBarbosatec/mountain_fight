@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:bonfire/bonfire.dart';
 import 'package:flame/animation.dart' as FlameAnimation;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mountain_fight/main.dart';
 import 'package:mountain_fight/socket/SocketManager.dart';
 import 'package:mountain_fight/util/extensions.dart';
@@ -148,6 +149,10 @@ class GamePlayer extends SimplePlayer {
 
   @override
   void joystickAction(JoystickActionEvent action) {
+    if (gameRef.joystickController.keyboardEnable &&
+        action.id == LogicalKeyboardKey.space.keyId) {
+      _execAttack();
+    }
     if (action.id == 0 && action.event == ActionEvent.DOWN) {
       _execAttack();
     }

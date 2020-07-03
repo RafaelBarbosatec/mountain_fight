@@ -22,7 +22,8 @@ class PlayerInterface extends GameInterface {
 
   @override
   void resize(Size size) {
-    add(InterfaceComponent(
+    add(
+      InterfaceComponent(
         sprite: Sprite('emote.png'),
         width: 32,
         height: 32,
@@ -30,7 +31,9 @@ class PlayerInterface extends GameInterface {
         position: Position(size.width - 42, 10),
         onTapComponent: () {
           _showDialog();
-        }));
+        },
+      ),
+    );
     addNicks(size);
     add(BarLifeComponent());
     super.resize(size);
