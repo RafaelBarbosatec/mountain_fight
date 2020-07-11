@@ -99,7 +99,7 @@ class _GameState extends State<Game> implements GameListener {
           _getSprite(widget.idCharacter),
         ),
         interface: PlayerInterface(),
-        tiledMap: TiledWorldMap('tile/map.json', forceTileSize: tileSize),
+        map: TiledWorldMap('tile/map.json', forceTileSize: tileSize),
         constructionModeColor: Colors.black,
         collisionAreaColor: Colors.purple.withOpacity(0.4),
         gameController: _controller,
