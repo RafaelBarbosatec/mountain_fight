@@ -49,7 +49,7 @@ packages:
       name: bonfire
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.17"
+    version: "0.6.18"
   boolean_selector:
     dependency: transitive
     description:
@@ -358,7 +358,7 @@ packages:
       name: socket_io_client
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.9.10"
+    version: "0.9.11"
   socket_io_common:
     dependency: transitive
     description:
@@ -456,7 +456,7 @@ packages:
       name: tiledjsonreader
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.5"
+    version: "0.0.7"
   typed_data:
     dependency: transitive
     description:

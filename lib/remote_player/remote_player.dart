@@ -41,12 +41,13 @@ class RemotePlayer extends SimpleEnemy {
             align: Offset((tileSize * 0.9) / 2, tileSize),
           ),
         ) {
-    _buffer = BufferDelay(50);
+    _buffer = BufferDelay(100);
     _buffer.listen(_listenBuffer);
     _textConfig = TextConfig(
       fontSize: height / 3.5,
     );
     SocketManager().listen('message', (data) {
+      print('REMOTE listem(message) - $data');
       String action = data['action'];
       if (action != 'PLAYER_LEAVED' && data['time'] != null) {
         _buffer.add(

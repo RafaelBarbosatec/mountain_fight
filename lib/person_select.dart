@@ -38,29 +38,7 @@ class _PersonSelectState extends State<PersonSelect> {
       });
     });
 
-    SocketManager().listen('message', (data) {
-      if (data is Map && data['action'] == 'PLAYER_JOIN') {
-        setState(() {
-          loading = false;
-        });
-        if (data['data']['nick'] == nick) {
-          SocketManager().cleanListeners();
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) => Game(
-                    playersOn: data['data']['playersON'],
-                    nick: nick,
-                    playerId: data['data']['id'],
-                    idCharacter: count,
-                    position: Position(
-                      double.parse(data['data']['position']['x'].toString()),
-                      double.parse(data['data']['position']['y'].toString()),
-                    ))),
-          );
-        }
-      }
-    });
+    SocketManager().listen('message', _listen);
 
     super.initState();
   }
@@ -235,5 +213,29 @@ class _PersonSelectState extends State<PersonSelect> {
       'action': 'CREATE',
       'data': {'nick': nick, 'skin': count}
     });
+  }
+
+  void _listen(data) {
+    if (data is Map && data['action'] == 'PLAYER_JOIN') {
+      setState(() {
+        loading = false;
+      });
+      if (data['data']['nick'] == nick) {
+        SocketManager().cleanListeners();
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => Game(
+                  playersOn: data['data']['playersON'],
+                  nick: nick,
+                  playerId: data['data']['id'],
+                  idCharacter: count,
+                  position: Position(
+                    double.parse(data['data']['position']['x'].toString()),
+                    double.parse(data['data']['position']['y'].toString()),
+                  ))),
+        );
+      }
+    }
   }
 }

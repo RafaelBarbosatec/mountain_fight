@@ -51,10 +51,11 @@ class SocketManager {
   }
 
   void listen(String event, ValueChanged<dynamic> handler) {
-    socket.on(event, (value) {
-      print('$LOG listen($event) - $value');
-      handler(value);
-    });
+    socket.on(event, handler);
+  }
+
+  void removeListen(String event, ValueChanged<dynamic> handler) {
+    socket.off(event, handler);
   }
 
   void send(String event, Map data) {
