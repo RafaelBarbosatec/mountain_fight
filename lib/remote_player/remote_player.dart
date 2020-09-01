@@ -94,13 +94,13 @@ class RemotePlayer extends SimpleEnemy {
         }
         break;
       case 'RIGHT':
-        if (position.right < gameRef.gameCamera.maxLeft + gameRef.size.width) {
+        if (position.right < gameRef.size.width) {
           this.customMoveRight(speed * dtUpdate);
         }
         break;
       case 'UP_RIGHT':
         double speedDiagonal = (speed * REDUCTION_SPEED_DIAGONAL) * dtUpdate;
-        if (position.right < gameRef.gameCamera.maxLeft + gameRef.size.width) {
+        if (position.right < gameRef.size.width) {
           customMoveRight(
             speedDiagonal,
           );
@@ -111,12 +111,12 @@ class RemotePlayer extends SimpleEnemy {
         break;
       case 'DOWN_RIGHT':
         double speedDiagonal = (speed * REDUCTION_SPEED_DIAGONAL) * dtUpdate;
-        if (position.right < gameRef.gameCamera.maxLeft + gameRef.size.width) {
+        if (position.right < gameRef.size.width) {
           customMoveRight(
             speedDiagonal,
           );
         }
-        if (position.bottom < gameRef.gameCamera.maxTop + gameRef.size.width) {
+        if (position.bottom < gameRef.size.width) {
           customMoveBottom(speedDiagonal, addAnimation: false);
         }
 
@@ -128,7 +128,7 @@ class RemotePlayer extends SimpleEnemy {
             speedDiagonal,
           );
         }
-        if (position.bottom < gameRef.gameCamera.maxTop + gameRef.size.width) {
+        if (position.bottom < gameRef.size.width) {
           customMoveBottom(speedDiagonal, addAnimation: false);
         }
         break;
@@ -149,7 +149,7 @@ class RemotePlayer extends SimpleEnemy {
         }
         break;
       case 'DOWN':
-        if (position.bottom < gameRef.gameCamera.maxTop + gameRef.size.width) {
+        if (position.bottom < gameRef.size.width) {
           this.customMoveBottom(speed * dtUpdate);
         }
         break;

@@ -104,6 +104,7 @@ class _GameState extends State<Game> implements GameListener {
         constructionModeColor: Colors.black,
         collisionAreaColor: Colors.purple.withOpacity(0.4),
         gameController: _controller,
+        cameraMoveOnlyMapArea: true,
       );
     });
   }
