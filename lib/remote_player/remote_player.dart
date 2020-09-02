@@ -41,7 +41,7 @@ class RemotePlayer extends SimpleEnemy {
             align: Offset((tileSize * 0.9) / 2, tileSize),
           ),
         ) {
-    _buffer = BufferDelay(100);
+    _buffer = BufferDelay(200);
     _buffer.listen(_listenBuffer);
     _textConfig = TextConfig(
       fontSize: height / 3.5,

@@ -42,7 +42,9 @@ class BufferDelay {
             DateTime.now().difference(lastFrame.timeRun).inMilliseconds;
         int delay = delayFrame - delayDone;
         if (delay > 0) {
-          print(delay);
+          if (delay > this.delay) {
+            delay = this.delay;
+          }
           _timeLine.add(Delay(delay));
         }
         _timeLine.add(Frame(value, time));
