@@ -47,7 +47,7 @@ class RemotePlayer extends SimpleEnemy {
       fontSize: height / 3.5,
     );
     SocketManager().listen('message', (data) {
-      print('REMOTE listem(message) - $data');
+//      print('REMOTE listem(message) - $data');
       String action = data['action'];
       if (action != 'PLAYER_LEAVED' && data['time'] != null) {
         _buffer.add(
@@ -89,69 +89,45 @@ class RemotePlayer extends SimpleEnemy {
   void _move(move, double dtUpdate) {
     switch (move) {
       case 'LEFT':
-        if (position.left > 0) {
-          this.customMoveLeft(speed * dtUpdate);
-        }
+        this.customMoveLeft(speed * dtUpdate);
         break;
       case 'RIGHT':
-        if (position.right < gameRef.size.width) {
-          this.customMoveRight(speed * dtUpdate);
-        }
+        this.customMoveRight(speed * dtUpdate);
         break;
       case 'UP_RIGHT':
         double speedDiagonal = (speed * REDUCTION_SPEED_DIAGONAL) * dtUpdate;
-        if (position.right < gameRef.size.width) {
-          customMoveRight(
-            speedDiagonal,
-          );
-        }
-        if (position.top > 0) {
-          customMoveTop(speedDiagonal, addAnimation: false);
-        }
+        customMoveRight(
+          speedDiagonal,
+        );
+        customMoveTop(speedDiagonal, addAnimation: false);
         break;
       case 'DOWN_RIGHT':
         double speedDiagonal = (speed * REDUCTION_SPEED_DIAGONAL) * dtUpdate;
-        if (position.right < gameRef.size.width) {
-          customMoveRight(
-            speedDiagonal,
-          );
-        }
-        if (position.bottom < gameRef.size.width) {
-          customMoveBottom(speedDiagonal, addAnimation: false);
-        }
+        customMoveRight(
+          speedDiagonal,
+        );
+        customMoveBottom(speedDiagonal, addAnimation: false);
 
         break;
       case 'DOWN_LEFT':
         double speedDiagonal = (speed * REDUCTION_SPEED_DIAGONAL) * dtUpdate;
-        if (position.left > 0) {
-          customMoveLeft(
-            speedDiagonal,
-          );
-        }
-        if (position.bottom < gameRef.size.width) {
-          customMoveBottom(speedDiagonal, addAnimation: false);
-        }
+        customMoveLeft(
+          speedDiagonal,
+        );
+        customMoveBottom(speedDiagonal, addAnimation: false);
         break;
       case 'UP_LEFT':
         double speedDiagonal = (speed * REDUCTION_SPEED_DIAGONAL) * dtUpdate;
-        if (position.left > 0) {
-          customMoveLeft(
-            speedDiagonal,
-          );
-        }
-        if (position.top > 0) {
-          customMoveTop(speedDiagonal, addAnimation: false);
-        }
+        customMoveLeft(
+          speedDiagonal,
+        );
+        customMoveTop(speedDiagonal, addAnimation: false);
         break;
       case 'UP':
-        if (position.top > 0) {
-          this.customMoveTop(speed * dtUpdate);
-        }
+        this.customMoveTop(speed * dtUpdate);
         break;
       case 'DOWN':
-        if (position.bottom < gameRef.size.width) {
-          this.customMoveBottom(speed * dtUpdate);
-        }
+        this.customMoveBottom(speed * dtUpdate);
         break;
       case 'IDLE':
         this.idle();
@@ -216,9 +192,6 @@ class RemotePlayer extends SimpleEnemy {
   void _exeMovement(data) {
     _correctPosition(data);
     currentMove = data['direction'];
-    if (currentMove == 'IDLE') {
-      _buffer.reset();
-    }
   }
 
   void _correctPosition(data) {
