@@ -72,7 +72,7 @@ class _GameState extends State<Game> implements GameListener {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
-      tileSize = max(constraints.maxHeight, constraints.maxWidth) / 25;
+      tileSize = max(constraints.maxHeight, constraints.maxWidth) / 30;
 
       return BonfireTiledWidget(
         joystick: Joystick(

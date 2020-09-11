@@ -44,10 +44,9 @@ class RemotePlayer extends SimpleEnemy {
     _buffer = BufferDelay(200);
     _buffer.listen(_listenBuffer);
     _textConfig = TextConfig(
-      fontSize: height / 3.5,
+      fontSize: tileSize / 4,
     );
     SocketManager().listen('message', (data) {
-//      print('REMOTE listem(message) - $data');
       String action = data['action'];
       if (action != 'PLAYER_LEAVED' && data['time'] != null) {
         _buffer.add(
@@ -141,7 +140,9 @@ class RemotePlayer extends SimpleEnemy {
       _textConfig.withColor(Colors.white).render(
             canvas,
             nick,
-            Position(position.left + 2, position.top - 20),
+            Position(
+                position.left + ((width - (nick.length * (width / 13))) / 2),
+                position.top - 20),
           );
       this.drawDefaultLifeBar(canvas, strokeWidth: 4, padding: 0);
     }

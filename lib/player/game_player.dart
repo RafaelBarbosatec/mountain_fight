@@ -40,7 +40,7 @@ class GamePlayer extends SimplePlayer {
           ),
         ) {
     _textConfig = TextConfig(
-      fontSize: height / 3.5,
+      fontSize: tileSize / 4,
     );
   }
 
@@ -142,7 +142,8 @@ class GamePlayer extends SimplePlayer {
     _textConfig.withColor(Colors.white).render(
           canvas,
           nick,
-          Position(position.left + 2, position.top - 20),
+          Position(position.left + ((width - (nick.length * (width / 13))) / 2),
+              position.top - (tileSize / 3)),
         );
     super.render(canvas);
   }
