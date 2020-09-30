@@ -22,17 +22,19 @@ class RemotePlayer extends SimpleEnemy {
   RemotePlayer(
       this.id, this.nick, Position initPosition, SpriteSheet spriteSheet)
       : super(
+          animation: SimpleDirectionAnimation(
+            idleTop: spriteSheet.createAnimation(0, stepTime: 0.1),
+            idleBottom: spriteSheet.createAnimation(1, stepTime: 0.1),
+            idleLeft: spriteSheet.createAnimation(2, stepTime: 0.1),
+            idleRight: spriteSheet.createAnimation(3, stepTime: 0.1),
+            runTop: spriteSheet.createAnimation(4, stepTime: 0.1),
+            runBottom: spriteSheet.createAnimation(5, stepTime: 0.1),
+            runLeft: spriteSheet.createAnimation(6, stepTime: 0.1),
+            runRight: spriteSheet.createAnimation(7, stepTime: 0.1),
+          ),
           initPosition: initPosition,
           width: tileSize * 1.5,
           height: tileSize * 1.5,
-          animIdleTop: spriteSheet.createAnimation(0, stepTime: 0.1),
-          animIdleBottom: spriteSheet.createAnimation(1, stepTime: 0.1),
-          animIdleLeft: spriteSheet.createAnimation(2, stepTime: 0.1),
-          animIdleRight: spriteSheet.createAnimation(3, stepTime: 0.1),
-          animRunTop: spriteSheet.createAnimation(4, stepTime: 0.1),
-          animRunBottom: spriteSheet.createAnimation(5, stepTime: 0.1),
-          animRunLeft: spriteSheet.createAnimation(6, stepTime: 0.1),
-          animRunRight: spriteSheet.createAnimation(7, stepTime: 0.1),
           life: 100,
           speed: tileSize * 3,
           collision: Collision(
@@ -252,5 +254,5 @@ class RemotePlayer extends SimpleEnemy {
   }
 
   @override
-  void receiveDamage(double damage, int from) {}
+  void receiveDamage(double damage, dynamic from) {}
 }

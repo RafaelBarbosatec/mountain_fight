@@ -20,14 +20,16 @@ class GamePlayer extends SimplePlayer {
 
   GamePlayer(this.id, this.nick, this.initPosition, SpriteSheet spriteSheet)
       : super(
-          animIdleTop: spriteSheet.createAnimation(0, stepTime: 0.1),
-          animIdleBottom: spriteSheet.createAnimation(1, stepTime: 0.1),
-          animIdleLeft: spriteSheet.createAnimation(2, stepTime: 0.1),
-          animIdleRight: spriteSheet.createAnimation(3, stepTime: 0.1),
-          animRunTop: spriteSheet.createAnimation(4, stepTime: 0.1),
-          animRunBottom: spriteSheet.createAnimation(5, stepTime: 0.1),
-          animRunLeft: spriteSheet.createAnimation(6, stepTime: 0.1),
-          animRunRight: spriteSheet.createAnimation(7, stepTime: 0.1),
+          animation: SimpleDirectionAnimation(
+            idleTop: spriteSheet.createAnimation(0, stepTime: 0.1),
+            idleBottom: spriteSheet.createAnimation(1, stepTime: 0.1),
+            idleLeft: spriteSheet.createAnimation(2, stepTime: 0.1),
+            idleRight: spriteSheet.createAnimation(3, stepTime: 0.1),
+            runTop: spriteSheet.createAnimation(4, stepTime: 0.1),
+            runBottom: spriteSheet.createAnimation(5, stepTime: 0.1),
+            runLeft: spriteSheet.createAnimation(6, stepTime: 0.1),
+            runRight: spriteSheet.createAnimation(7, stepTime: 0.1),
+          ),
           width: tileSize * 1.5,
           height: tileSize * 1.5,
           initPosition: initPosition,
@@ -130,9 +132,12 @@ class GamePlayer extends SimplePlayer {
       AnimatedFollowerObject(
         animation: emoteAnimation,
         target: this,
-        width: position.width / 2,
-        height: position.width / 2,
-        positionFromTarget: Position(25, -10),
+        positionFromTarget: Rect.fromLTWH(
+          25,
+          -10,
+          position.width / 2,
+          position.width / 2,
+        ),
       ),
     );
   }
@@ -203,7 +208,7 @@ class GamePlayer extends SimplePlayer {
   }
 
   @override
-  void receiveDamage(double damage, int from) {
+  void receiveDamage(double damage, dynamic from) {
     SocketManager().send('message', {
       'action': 'RECEIVED_DAMAGE',
       'time': DateTime.now().toIso8601String(),
@@ -213,8 +218,13 @@ class GamePlayer extends SimplePlayer {
         'player_id_attack': from,
       }
     });
-    this.showDamage(damage,
-        config: TextConfig(color: Colors.red, fontSize: 14));
+    this.showDamage(
+      damage,
+      config: TextConfig(
+        color: Colors.red,
+        fontSize: 14,
+      ),
+    );
     super.receiveDamage(damage, from);
   }
 
