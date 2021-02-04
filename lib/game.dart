@@ -1,7 +1,6 @@
-import 'dart:math';
-
 import 'package:bonfire/bonfire.dart';
 import 'package:flame/animation.dart' as FlameAnimation;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mountain_fight/interface/player_interface.dart';
 import 'package:mountain_fight/main.dart';
@@ -17,14 +16,7 @@ class Game extends StatefulWidget {
   final Position position;
   final List<dynamic> playersOn;
 
-  const Game(
-      {Key key,
-      this.idCharacter,
-      this.position,
-      this.playerId,
-      this.nick,
-      this.playersOn})
-      : super(key: key);
+  const Game({Key key, this.idCharacter, this.position, this.playerId, this.nick, this.playersOn}) : super(key: key);
   @override
   _GameState createState() => _GameState();
 }
@@ -36,8 +28,7 @@ class _GameState extends State<Game> implements GameListener {
   void initState() {
     _controller.setListener(this);
     SocketManager().listen('message', (data) {
-      if (data['action'] == 'PLAYER_JOIN' &&
-          data['data']['id'] != widget.playerId) {
+      if (data['action'] == 'PLAYER_JOIN' && data['data']['id'] != widget.playerId) {
         Position personPosition = Position(
           double.parse(data['data']['position']['x'].toString()) * tileSize,
           double.parse(data['data']['position']['y'].toString()) * tileSize,
@@ -71,42 +62,44 @@ class _GameState extends State<Game> implements GameListener {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      tileSize = max(constraints.maxHeight, constraints.maxWidth) / 30;
-
-      return BonfireTiledWidget(
-        joystick: Joystick(
-          keyboardEnable: true,
-          directional: JoystickDirectional(
-            spriteKnobDirectional: Sprite('joystick_knob.png'),
-            spriteBackgroundDirectional: Sprite('joystick_background.png'),
-            size: 100,
-          ),
-          actions: [
-            JoystickAction(
-              actionId: 0,
-              sprite: Sprite('joystick_atack.png'),
-              spritePressed: Sprite('joystick_atack_selected.png'),
-              size: 80,
-              margin: EdgeInsets.only(bottom: 50, right: 50),
+    return Center(
+      child: Container(
+        constraints: kIsWeb ? BoxConstraints(maxWidth: 800, maxHeight: 800) : null,
+        child: SizedBox(
+          child: BonfireTiledWidget(
+            joystick: Joystick(
+              keyboardEnable: true,
+              directional: JoystickDirectional(
+                spriteKnobDirectional: Sprite('joystick_knob.png'),
+                spriteBackgroundDirectional: Sprite('joystick_background.png'),
+                size: 100,
+              ),
+              actions: [
+                JoystickAction(
+                  actionId: 0,
+                  sprite: Sprite('joystick_atack.png'),
+                  spritePressed: Sprite('joystick_atack_selected.png'),
+                  size: 80,
+                  margin: EdgeInsets.only(bottom: 50, right: 50),
+                ),
+              ],
             ),
-          ],
+            player: GamePlayer(
+              widget.playerId,
+              widget.nick,
+              Position(widget.position.x * tileSize, widget.position.y * tileSize),
+              _getSprite(widget.idCharacter),
+            ),
+            interface: PlayerInterface(),
+            map: TiledWorldMap('tile/map.json', forceTileSize: Size(tileSize, tileSize)),
+            constructionModeColor: Colors.black,
+            collisionAreaColor: Colors.purple.withOpacity(0.4),
+            gameController: _controller,
+            cameraMoveOnlyMapArea: true,
+          ),
         ),
-        player: GamePlayer(
-          widget.playerId,
-          widget.nick,
-          Position(widget.position.x * tileSize, widget.position.y * tileSize),
-          _getSprite(widget.idCharacter),
-        ),
-        interface: PlayerInterface(),
-        map: TiledWorldMap('tile/map.json',
-            forceTileSize: Size(tileSize, tileSize)),
-        constructionModeColor: Colors.black,
-        collisionAreaColor: Colors.purple.withOpacity(0.4),
-        gameController: _controller,
-        cameraMoveOnlyMapArea: true,
-      );
-    });
+      ),
+    );
   }
 
   SpriteSheet _getSprite(int index) {
