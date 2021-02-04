@@ -4,7 +4,7 @@ import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:mountain_fight/interface/bar_life_component.dart';
 import 'package:mountain_fight/player/game_player.dart';
-import 'package:mountain_fight/remote_player/remote_player.dart';
+import 'package:mountain_fight/player/remote_player.dart';
 
 class PlayerInterface extends GameInterface {
   OverlayEntry _overlayEntryEmotes;
@@ -79,8 +79,7 @@ class PlayerInterface extends GameInterface {
                           onTap: () {
                             _overlayEntryEmotes.remove();
                             if (gameRef.player != null) {
-                              (gameRef.player as GamePlayer)
-                                  .showEmote(spriteSheetEmotes.createAnimation(
+                              (gameRef.player as GamePlayer).showEmote(spriteSheetEmotes.createAnimation(
                                 index,
                                 stepTime: 0.1,
                               ));
@@ -91,9 +90,7 @@ class PlayerInterface extends GameInterface {
                             height: 32,
                             margin: EdgeInsets.only(left: 20),
                             child: Flame.util.animationAsWidget(
-                                Position(32, 32),
-                                spriteSheetEmotes.createAnimation(index,
-                                    stepTime: 0.1)),
+                                Position(32, 32), spriteSheetEmotes.createAnimation(index, stepTime: 0.1)),
                           ),
                         );
                       }),

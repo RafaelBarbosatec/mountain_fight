@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:mountain_fight/interface/player_interface.dart';
 import 'package:mountain_fight/main.dart';
 import 'package:mountain_fight/player/game_player.dart';
+import 'package:mountain_fight/player/remote_player.dart';
 import 'package:mountain_fight/player/sprite_sheet_hero.dart';
-import 'package:mountain_fight/remote_player/remote_player.dart';
 import 'package:mountain_fight/socket/SocketManager.dart';
 
 class Game extends StatefulWidget {
@@ -38,17 +38,20 @@ class _GameState extends State<Game> implements GameListener {
           data['data']['nick'],
           personPosition,
           _getSprite(data['data']['skin'] ?? 0),
+          SocketManager(),
         );
         _controller.addGameComponent(enemy);
-        _controller.addGameComponent(AnimatedObjectOnce(
-          animation: FlameAnimation.Animation.sequenced(
-            "smoke_explosin.png",
-            6,
-            textureWidth: 16,
-            textureHeight: 16,
+        _controller.addGameComponent(
+          AnimatedObjectOnce(
+            animation: FlameAnimation.Animation.sequenced(
+              "smoke_explosin.png",
+              6,
+              textureWidth: 16,
+              textureHeight: 16,
+            ),
+            position: Rect.fromLTRB(personPosition.x, personPosition.y, 32, 32),
           ),
-          position: Rect.fromLTRB(personPosition.x, personPosition.y, 32, 32),
-        ));
+        );
       }
     });
     super.initState();
@@ -129,13 +132,12 @@ class _GameState extends State<Game> implements GameListener {
 
   @override
   void updateGame() {
-    if (!firstUpdate) {
-      firstUpdate = true;
-      _addPlayersOn();
-    }
+    _addPlayersOn();
   }
 
   void _addPlayersOn() {
+    if (firstUpdate) return;
+    firstUpdate = true;
     widget.playersOn.forEach((player) {
       if (player != null && player['id'] != widget.playerId) {
         var enemy = RemotePlayer(
@@ -146,6 +148,7 @@ class _GameState extends State<Game> implements GameListener {
             double.parse(player['position']['y'].toString()) * tileSize,
           ),
           _getSprite(player['skin'] ?? 0),
+          SocketManager(),
         );
         enemy.life = double.parse(player['life'].toString());
         _controller.addGameComponent(enemy);

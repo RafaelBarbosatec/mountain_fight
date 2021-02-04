@@ -14,9 +14,10 @@ class GamePlayer extends SimplePlayer {
   final int id;
   final String nick;
   double stamina = 100;
-  JoystickMoveDirectional atualDiretional;
+  JoystickMoveDirectional currentDirection;
   TextConfig _textConfig;
   Timer _timerStamina;
+  String directionEvent = 'IDLE';
 
   GamePlayer(this.id, this.nick, this.initPosition, SpriteSheet spriteSheet)
       : super(
@@ -41,7 +42,6 @@ class GamePlayer extends SimplePlayer {
             align: Offset((tileSize * 0.9) / 2, tileSize),
           ),
         ) {
-    collisionWithPlayer = true;
     _textConfig = TextConfig(
       fontSize: tileSize / 4,
     );
@@ -78,48 +78,49 @@ class GamePlayer extends SimplePlayer {
 
   @override
   void joystickChangeDirectional(JoystickDirectionalEvent event) {
-    if (event.directional != atualDiretional) {
-      atualDiretional = event.directional;
-      String diretionalEVent = '';
-      switch (atualDiretional) {
+    if (event.directional != currentDirection && position != null) {
+      currentDirection = event.directional;
+      switch (currentDirection) {
         case JoystickMoveDirectional.MOVE_UP:
-          diretionalEVent = 'UP';
+          directionEvent = 'UP';
           break;
         case JoystickMoveDirectional.MOVE_UP_LEFT:
-          diretionalEVent = 'UP_LEFT';
+          directionEvent = 'UP_LEFT';
           break;
         case JoystickMoveDirectional.MOVE_UP_RIGHT:
-          diretionalEVent = 'UP_RIGHT';
+          directionEvent = 'UP_RIGHT';
           break;
         case JoystickMoveDirectional.MOVE_RIGHT:
-          diretionalEVent = 'RIGHT';
+          directionEvent = 'RIGHT';
           break;
         case JoystickMoveDirectional.MOVE_DOWN:
-          diretionalEVent = 'DOWN';
+          directionEvent = 'DOWN';
           break;
         case JoystickMoveDirectional.MOVE_DOWN_RIGHT:
-          diretionalEVent = 'DOWN_RIGHT';
+          directionEvent = 'DOWN_RIGHT';
           break;
         case JoystickMoveDirectional.MOVE_DOWN_LEFT:
-          diretionalEVent = 'DOWN_LEFT';
+          directionEvent = 'DOWN_LEFT';
           break;
         case JoystickMoveDirectional.MOVE_LEFT:
-          diretionalEVent = 'LEFT';
+          directionEvent = 'LEFT';
           break;
         case JoystickMoveDirectional.IDLE:
-          diretionalEVent = 'IDLE';
+          directionEvent = 'IDLE';
           break;
       }
-      if (position != null)
-        SocketManager().send('message', {
+      SocketManager().send(
+        'message',
+        {
           'action': 'MOVE',
           'time': DateTime.now().toIso8601String(),
           'data': {
             'player_id': id,
-            'direction': diretionalEVent,
+            'direction': directionEvent,
             'position': {'x': (position.left / tileSize), 'y': (position.top / tileSize)},
           }
-        });
+        },
+      );
     }
 
     super.joystickChangeDirectional(event);

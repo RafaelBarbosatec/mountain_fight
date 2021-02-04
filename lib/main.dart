@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mountain_fight/person_select.dart';
 import 'package:mountain_fight/socket/SocketManager.dart';
 
-const double tileSize = 32;
+const double tileSize = 35;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 

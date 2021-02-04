@@ -4,23 +4,18 @@ import 'package:bonfire/bonfire.dart';
 import 'package:flame/animation.dart' as FlameAnimation;
 import 'package:flutter/material.dart';
 import 'package:mountain_fight/main.dart';
+import 'package:mountain_fight/player/server_player_control.dart';
 import 'package:mountain_fight/socket/SocketManager.dart';
-import 'package:mountain_fight/util/buffer_delay.dart';
 import 'package:mountain_fight/util/extensions.dart';
 
-class RemotePlayer extends SimpleEnemy {
+class RemotePlayer extends SimpleEnemy with ServerPlayerControl {
   static const REDUCTION_SPEED_DIAGONAL = 0.7;
   final int id;
   final String nick;
-
   String currentMove = 'IDLE';
-
   TextConfig _textConfig;
 
-  BufferDelay _buffer;
-
-  RemotePlayer(
-      this.id, this.nick, Position initPosition, SpriteSheet spriteSheet)
+  RemotePlayer(this.id, this.nick, Position initPosition, SpriteSheet spriteSheet, SocketManager socketManager)
       : super(
           animation: SimpleDirectionAnimation(
             idleTop: spriteSheet.createAnimation(0, stepTime: 0.1),
@@ -43,42 +38,10 @@ class RemotePlayer extends SimpleEnemy {
             align: Offset((tileSize * 0.9) / 2, tileSize),
           ),
         ) {
-    _buffer = BufferDelay(200);
-    _buffer.listen(_listenBuffer);
     _textConfig = TextConfig(
       fontSize: tileSize / 4,
     );
-    SocketManager().listen('message', (data) {
-      String action = data['action'];
-      if (action != 'PLAYER_LEAVED' && data['time'] != null) {
-        _buffer.add(
-          data,
-          DateTime.parse(
-            data['time'].toString(),
-          ),
-        );
-      }
-
-      if (action == 'RECEIVED_DAMAGE') {
-        if (!isDead) {
-          double damage = double.parse(data['data']['damage'].toString());
-          this.showDamage(damage,
-              config: TextConfig(color: Colors.red, fontSize: 14));
-          if (life > 0) {
-            life -= damage;
-            if (life <= 0) {
-              die();
-            }
-          }
-        }
-      }
-
-      if (action == 'PLAYER_LEAVED' && data['data']['id'] == id) {
-        if (!isDead) {
-          die();
-        }
-      }
-    });
+    setupServerPlayerControl(socketManager, id);
   }
 
   @override
@@ -139,13 +102,7 @@ class RemotePlayer extends SimpleEnemy {
   @override
   void render(Canvas canvas) {
     if (this.isVisibleInCamera()) {
-      _textConfig.withColor(Colors.white).render(
-            canvas,
-            nick,
-            Position(
-                position.left + ((width - (nick.length * (width / 13))) / 2),
-                position.top - 20),
-          );
+      _renderNickName(canvas);
       this.drawDefaultLifeBar(canvas, strokeWidth: 4, padding: 0);
     }
 
@@ -178,45 +135,6 @@ class RemotePlayer extends SimpleEnemy {
     );
     remove();
     super.die();
-  }
-
-  void _listenBuffer(data) {
-    String action = data['action'];
-    if (data['data']['player_id'] == id) {
-      if (action == 'MOVE') {
-        _exeMovement(data['data']);
-      }
-      if (action == 'ATTACK') {
-        _execAttack(data['data']['direction']);
-      }
-    }
-  }
-
-  void _exeMovement(data) {
-    _correctPosition(data);
-    currentMove = data['direction'];
-  }
-
-  void _correctPosition(data) {
-    double positionX =
-        double.parse(data['position']['x'].toString()) * tileSize;
-    double positionY =
-        double.parse(data['position']['y'].toString()) * tileSize;
-    Rect newP = Rect.fromLTWH(
-      positionX,
-      positionY,
-      position.width,
-      position.height,
-    );
-    Point p = Point(newP.center.dx, newP.center.dy);
-    double dist = p.distanceTo(Point(
-      position.center.dx,
-      position.center.dy,
-    ));
-
-    if (dist > (tileSize * 0.5)) {
-      position = newP;
-    }
   }
 
   void _execAttack(String direction) {
@@ -255,4 +173,59 @@ class RemotePlayer extends SimpleEnemy {
 
   @override
   void receiveDamage(double damage, dynamic from) {}
+
+  @override
+  void serverAttack(String direction) {
+    _execAttack(direction);
+  }
+
+  @override
+  void serverMove(String direction, Rect serverPosition) {
+    currentMove = direction;
+
+    /// Corrige posição se ele estiver muito diferente da do server
+    Point p = Point(serverPosition.center.dx, serverPosition.center.dy);
+    double dist = p.distanceTo(Point(
+      position.center.dx,
+      position.center.dy,
+    ));
+
+    if (dist > (tileSize * 0.5)) {
+      position = serverPosition;
+    }
+  }
+
+  @override
+  void serverPlayerLeave() {
+    if (!isDead) {
+      die();
+    }
+  }
+
+  @override
+  void serverReceiveDamage(double damage) {
+    if (!isDead) {
+      this.showDamage(
+        damage,
+        config: TextConfig(color: Colors.red, fontSize: 14),
+      );
+      if (life > 0) {
+        life -= damage;
+        if (life <= 0) {
+          die();
+        }
+      }
+    }
+  }
+
+  void _renderNickName(Canvas canvas) {
+    _textConfig.withColor(Colors.white).render(
+          canvas,
+          nick,
+          Position(
+            position.left + ((width - (nick.length * (width / 13))) / 2),
+            position.top - 20,
+          ),
+        );
+  }
 }

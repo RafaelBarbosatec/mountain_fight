@@ -73,15 +73,12 @@ class _PersonSelectState extends State<PersonSelect> {
                           color: Colors.orange,
                           child: Text(
                             'ENTRAR',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                           ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          onPressed:
-                              statusServer == 'CONNECTED' ? _goGame : null,
+                          onPressed: statusServer == 'CONNECTED' ? _goGame : null,
                         ),
                       ),
                     ],
@@ -142,8 +139,7 @@ class _PersonSelectState extends State<PersonSelect> {
                         Icons.chevron_left,
                         color: Colors.white,
                       )),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25)),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
                       onPressed: _previous,
                     ),
                   ),
@@ -151,8 +147,7 @@ class _PersonSelectState extends State<PersonSelect> {
         ),
         Expanded(
           child: Center(
-            child: Flame.util.animationAsWidget(Position(100, 100),
-                sprites[count].createAnimation(5, stepTime: 0.1)),
+            child: Flame.util.animationAsWidget(Position(100, 100), sprites[count].createAnimation(5, stepTime: 0.1)),
           ),
         ),
         Expanded(
@@ -170,8 +165,7 @@ class _PersonSelectState extends State<PersonSelect> {
                         Icons.chevron_right,
                         color: Colors.white,
                       )),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25)),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
                       onPressed: _next,
                     ),
                   ),
@@ -216,6 +210,7 @@ class _PersonSelectState extends State<PersonSelect> {
   }
 
   void _listen(data) {
+    print(data);
     if (data is Map && data['action'] == 'PLAYER_JOIN') {
       setState(() {
         loading = false;
@@ -225,15 +220,17 @@ class _PersonSelectState extends State<PersonSelect> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (context) => Game(
-                  playersOn: data['data']['playersON'],
-                  nick: nick,
-                  playerId: data['data']['id'],
-                  idCharacter: count,
-                  position: Position(
-                    double.parse(data['data']['position']['x'].toString()),
-                    double.parse(data['data']['position']['y'].toString()),
-                  ))),
+            builder: (context) => Game(
+              playersOn: data['data']['playersON'],
+              nick: nick,
+              playerId: data['data']['id'],
+              idCharacter: count,
+              position: Position(
+                double.parse(data['data']['position']['x'].toString()),
+                double.parse(data['data']['position']['y'].toString()),
+              ),
+            ),
+          ),
         );
       }
     }
