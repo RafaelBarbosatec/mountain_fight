@@ -210,7 +210,6 @@ class _PersonSelectState extends State<PersonSelect> {
   }
 
   void _listen(data) {
-    print(data);
     if (data is Map && data['action'] == 'PLAYER_JOIN') {
       setState(() {
         loading = false;
