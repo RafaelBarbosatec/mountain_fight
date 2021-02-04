@@ -41,6 +41,7 @@ class GamePlayer extends SimplePlayer {
             align: Offset((tileSize * 0.9) / 2, tileSize),
           ),
         ) {
+    collisionWithPlayer = true;
     _textConfig = TextConfig(
       fontSize: tileSize / 4,
     );
@@ -116,10 +117,7 @@ class GamePlayer extends SimplePlayer {
           'data': {
             'player_id': id,
             'direction': diretionalEVent,
-            'position': {
-              'x': (position.left / tileSize),
-              'y': (position.top / tileSize)
-            },
+            'position': {'x': (position.left / tileSize), 'y': (position.top / tileSize)},
           }
         });
     }
@@ -147,16 +145,14 @@ class GamePlayer extends SimplePlayer {
     _textConfig.withColor(Colors.white).render(
           canvas,
           nick,
-          Position(position.left + ((width - (nick.length * (width / 13))) / 2),
-              position.top - (tileSize / 3)),
+          Position(position.left + ((width - (nick.length * (width / 13))) / 2), position.top - (tileSize / 3)),
         );
     super.render(canvas);
   }
 
   @override
   void joystickAction(JoystickActionEvent action) {
-    if (gameRef.joystickController.keyboardEnable &&
-        action.id == LogicalKeyboardKey.space.keyId) {
+    if (gameRef.joystickController.keyboardEnable && action.id == LogicalKeyboardKey.space.keyId) {
       _execAttack();
     }
     if (action.id == 0 && action.event == ActionEvent.DOWN) {
@@ -176,10 +172,7 @@ class GamePlayer extends SimplePlayer {
       'data': {
         'player_id': id,
         'direction': this.lastDirection.getName(),
-        'position': {
-          'x': (position.left / tileSize),
-          'y': (position.top / tileSize)
-        },
+        'position': {'x': (position.left / tileSize), 'y': (position.top / tileSize)},
       }
     });
     var anim = FlameAnimation.Animation.sequenced('axe_spin_atack.png', 8,
