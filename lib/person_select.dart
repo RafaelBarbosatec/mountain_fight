@@ -20,7 +20,7 @@ class _PersonSelectState extends State<PersonSelect> {
 
   @override
   void initState() {
-    nick = 'Nick${Random().nextInt(100)}';
+    nick = 'Nick${Random().nextInt(1000)}';
     sprites.add(SpriteSheetHero.hero1);
     sprites.add(SpriteSheetHero.hero2);
     sprites.add(SpriteSheetHero.hero3);
