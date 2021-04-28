@@ -1,5 +1,4 @@
 import 'package:bonfire/bonfire.dart';
-import 'package:flame/animation.dart' as FlameAnimation;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mountain_fight/interface/player_interface.dart';
@@ -13,10 +12,17 @@ class Game extends StatefulWidget {
   final int idCharacter;
   final int playerId;
   final String nick;
-  final Position position;
+  final Vector2 position;
   final List<dynamic> playersOn;
 
-  const Game({Key key, this.idCharacter, this.position, this.playerId, this.nick, this.playersOn}) : super(key: key);
+  const Game(
+      {Key key,
+      this.idCharacter,
+      this.position,
+      this.playerId,
+      this.nick,
+      this.playersOn})
+      : super(key: key);
   @override
   _GameState createState() => _GameState();
 }
@@ -28,11 +34,13 @@ class _GameState extends State<Game> implements GameListener {
   void initState() {
     _controller.setListener(this);
     SocketManager().listen('message', (data) {
-      if (data['action'] == 'PLAYER_JOIN' && data['data']['id'] != widget.playerId) {
-        Position personPosition = Position(
+      if (data['action'] == 'PLAYER_JOIN' &&
+          data['data']['id'] != widget.playerId) {
+        Vector2 personPosition = Vector2(
           double.parse(data['data']['position']['x'].toString()) * tileSize,
           double.parse(data['data']['position']['y'].toString()) * tileSize,
         );
+
         var enemy = RemotePlayer(
           data['data']['id'],
           data['data']['nick'],
@@ -43,13 +51,13 @@ class _GameState extends State<Game> implements GameListener {
         _controller.addGameComponent(enemy);
         _controller.addGameComponent(
           AnimatedObjectOnce(
-            animation: FlameAnimation.Animation.sequenced(
-              "smoke_explosin.png",
-              6,
-              textureWidth: 16,
-              textureHeight: 16,
-            ),
-            position: Rect.fromLTRB(personPosition.x, personPosition.y, 32, 32),
+            animation: SpriteSheetHero.smokeExplosion,
+            position: Rect.fromLTRB(
+              personPosition.x,
+              personPosition.y,
+              32,
+              32,
+            ).toVector2Rect(),
           ),
         );
       }
@@ -67,38 +75,41 @@ class _GameState extends State<Game> implements GameListener {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        constraints: kIsWeb ? BoxConstraints(maxWidth: 800, maxHeight: 800) : null,
-        child: SizedBox(
-          child: BonfireTiledWidget(
-            joystick: Joystick(
-              keyboardEnable: true,
-              directional: JoystickDirectional(
-                spriteKnobDirectional: Sprite('joystick_knob.png'),
-                spriteBackgroundDirectional: Sprite('joystick_background.png'),
-                size: 100,
+        constraints:
+            kIsWeb ? BoxConstraints(maxWidth: 800, maxHeight: 800) : null,
+        child: BonfireTiledWidget(
+          joystick: Joystick(
+            keyboardEnable: true,
+            directional: JoystickDirectional(
+              spriteKnobDirectional: Sprite.load('joystick_knob.png'),
+              spriteBackgroundDirectional:
+                  Sprite.load('joystick_background.png'),
+              size: 100,
+            ),
+            actions: [
+              JoystickAction(
+                actionId: 0,
+                sprite: Sprite.load('joystick_atack.png'),
+                spritePressed: Sprite.load('joystick_atack_selected.png'),
+                size: 80,
+                margin: EdgeInsets.only(bottom: 50, right: 50),
               ),
-              actions: [
-                JoystickAction(
-                  actionId: 0,
-                  sprite: Sprite('joystick_atack.png'),
-                  spritePressed: Sprite('joystick_atack_selected.png'),
-                  size: 80,
-                  margin: EdgeInsets.only(bottom: 50, right: 50),
-                ),
-              ],
-            ),
-            player: GamePlayer(
-              widget.playerId,
-              widget.nick,
-              Position(widget.position.x * tileSize, widget.position.y * tileSize),
-              _getSprite(widget.idCharacter),
-            ),
-            interface: PlayerInterface(),
-            map: TiledWorldMap('tile/map.json', forceTileSize: Size(tileSize, tileSize)),
-            constructionModeColor: Colors.black,
-            collisionAreaColor: Colors.purple.withOpacity(0.4),
-            gameController: _controller,
-            cameraMoveOnlyMapArea: true,
+            ],
+          ),
+          player: GamePlayer(
+            widget.playerId,
+            widget.nick,
+            Vector2(widget.position.x * tileSize, widget.position.y * tileSize),
+            _getSprite(widget.idCharacter),
+          ),
+          interface: PlayerInterface(),
+          map: TiledWorldMap('tile/map.json',
+              forceTileSize: Size(tileSize, tileSize)),
+          constructionModeColor: Colors.black,
+          collisionAreaColor: Colors.purple.withOpacity(0.4),
+          gameController: _controller,
+          cameraConfig: CameraConfig(
+            moveOnlyMapArea: true,
           ),
         ),
       ),
@@ -143,7 +154,7 @@ class _GameState extends State<Game> implements GameListener {
         var enemy = RemotePlayer(
           player['id'],
           player['nick'],
-          Position(
+          Vector2(
             double.parse(player['position']['x'].toString()) * tileSize,
             double.parse(player['position']['y'].toString()) * tileSize,
           ),

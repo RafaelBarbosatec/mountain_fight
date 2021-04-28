@@ -10,7 +10,7 @@ import 'package:mountain_fight/socket/SocketManager.dart';
 import 'package:mountain_fight/util/extensions.dart';
 
 class GamePlayer extends SimplePlayer {
-  final Position initPosition;
+  final Vector2 initPosition;
   final int id;
   final String nick;
   double stamina = 100;
@@ -33,14 +33,14 @@ class GamePlayer extends SimplePlayer {
           ),
           width: tileSize * 1.5,
           height: tileSize * 1.5,
-          initPosition: initPosition,
+          position: initPosition,
           life: 100,
           speed: tileSize * 3,
-          collision: Collision(
-            height: (tileSize * 0.5),
-            width: (tileSize * 0.6),
-            align: Offset((tileSize * 0.9) / 2, tileSize),
-          ),
+          // collision: Collision(
+          //   height: (tileSize * 0.5),
+          //   width: (tileSize * 0.6),
+          //   align: Offset((tileSize * 0.9) / 2, tileSize),
+          // ),
         ) {
     _textConfig = TextConfig(
       fontSize: tileSize / 4,
@@ -117,7 +117,10 @@ class GamePlayer extends SimplePlayer {
           'data': {
             'player_id': id,
             'direction': directionEvent,
-            'position': {'x': (position.left / tileSize), 'y': (position.top / tileSize)},
+            'position': {
+              'x': (position.left / tileSize),
+              'y': (position.top / tileSize)
+            },
           }
         },
       );
@@ -146,14 +149,16 @@ class GamePlayer extends SimplePlayer {
     _textConfig.withColor(Colors.white).render(
           canvas,
           nick,
-          Position(position.left + ((width - (nick.length * (width / 13))) / 2), position.top - (tileSize / 3)),
+          Position(position.left + ((width - (nick.length * (width / 13))) / 2),
+              position.top - (tileSize / 3)),
         );
     super.render(canvas);
   }
 
   @override
   void joystickAction(JoystickActionEvent action) {
-    if (gameRef.joystickController.keyboardEnable && action.id == LogicalKeyboardKey.space.keyId) {
+    if (gameRef.joystickController.keyboardEnable &&
+        action.id == LogicalKeyboardKey.space.keyId) {
       _execAttack();
     }
     if (action.id == 0 && action.event == ActionEvent.DOWN) {
@@ -173,7 +178,10 @@ class GamePlayer extends SimplePlayer {
       'data': {
         'player_id': id,
         'direction': this.lastDirection.getName(),
-        'position': {'x': (position.left / tileSize), 'y': (position.top / tileSize)},
+        'position': {
+          'x': (position.left / tileSize),
+          'y': (position.top / tileSize)
+        },
       }
     });
     var anim = FlameAnimation.Animation.sequenced('axe_spin_atack.png', 8,
