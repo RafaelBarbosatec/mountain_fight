@@ -20,8 +20,8 @@ dependencies:
   flutter:
     sdk: flutter
 
-  bonfire: ^1.0.0-rc6
-  socket_io_client: ^0.9.12
+  bonfire: ^1.0.0-rc7
+  socket_io_client: ^1.0.0
 
 dev_dependencies:
   test: any
