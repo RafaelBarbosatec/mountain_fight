@@ -7,7 +7,7 @@ import 'package:mountain_fight/socket/SocketManager.dart';
 import 'package:mountain_fight/util/extensions.dart';
 
 class RemotePlayer extends SimpleEnemy
-    with ServerPlayerControl, ObjectCollision {
+    with ServerRemotePlayerControl, ObjectCollision {
   final int id;
   final String nick;
   TextConfig _textConfig;
@@ -122,4 +122,7 @@ class RemotePlayer extends SimpleEnemy
       ),
     );
   }
+
+  @override
+  void receiveDamage(double damage, from) {}
 }

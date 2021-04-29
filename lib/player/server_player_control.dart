@@ -7,7 +7,7 @@ import 'package:mountain_fight/main.dart';
 import 'package:mountain_fight/socket/SocketManager.dart';
 import 'package:mountain_fight/util/buffer_delay.dart';
 
-mixin ServerPlayerControl on SimpleEnemy {
+mixin ServerRemotePlayerControl on SimpleEnemy {
   static const EVENT_SOCKET_NAME = 'message';
   static const ACTION_MOVE = 'MOVE';
   static const ACTION_ATTACK = 'ATTACK';

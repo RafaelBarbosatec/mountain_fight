@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -33,35 +35,7 @@ class _GameState extends State<Game> implements GameListener {
   @override
   void initState() {
     _controller.setListener(this);
-    SocketManager().listen('message', (data) {
-      if (data['action'] == 'PLAYER_JOIN' &&
-          data['data']['id'] != widget.playerId) {
-        Vector2 personPosition = Vector2(
-          double.parse(data['data']['position']['x'].toString()) * tileSize,
-          double.parse(data['data']['position']['y'].toString()) * tileSize,
-        );
-
-        var enemy = RemotePlayer(
-          data['data']['id'],
-          data['data']['nick'],
-          personPosition,
-          _getSprite(data['data']['skin'] ?? 0),
-          SocketManager(),
-        );
-        _controller.addGameComponent(enemy);
-        _controller.addGameComponent(
-          AnimatedObjectOnce(
-            animation: SpriteSheetHero.smokeExplosion,
-            position: Rect.fromLTRB(
-              personPosition.x,
-              personPosition.y,
-              32,
-              32,
-            ).toVector2Rect(),
-          ),
-        );
-      }
-    });
+    _setupSocketControl();
     super.initState();
   }
 
@@ -73,47 +47,43 @@ class _GameState extends State<Game> implements GameListener {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        constraints:
-            kIsWeb ? BoxConstraints(maxWidth: 800, maxHeight: 800) : null,
-        child: BonfireTiledWidget(
-          joystick: Joystick(
-            keyboardEnable: true,
-            directional: JoystickDirectional(
-              spriteKnobDirectional: Sprite.load('joystick_knob.png'),
-              spriteBackgroundDirectional:
-                  Sprite.load('joystick_background.png'),
-              size: 100,
+    return LayoutBuilder(builder: (context, constraints) {
+      tileSize = max(constraints.maxHeight, constraints.maxWidth) / 30;
+      return BonfireTiledWidget(
+        joystick: Joystick(
+          keyboardEnable: true,
+          directional: JoystickDirectional(
+            spriteKnobDirectional: Sprite.load('joystick_knob.png'),
+            spriteBackgroundDirectional: Sprite.load('joystick_background.png'),
+            size: 100,
+          ),
+          actions: [
+            JoystickAction(
+              actionId: 0,
+              sprite: Sprite.load('joystick_atack.png'),
+              spritePressed: Sprite.load('joystick_atack_selected.png'),
+              size: 80,
+              margin: EdgeInsets.only(bottom: 50, right: 50),
             ),
-            actions: [
-              JoystickAction(
-                actionId: 0,
-                sprite: Sprite.load('joystick_atack.png'),
-                spritePressed: Sprite.load('joystick_atack_selected.png'),
-                size: 80,
-                margin: EdgeInsets.only(bottom: 50, right: 50),
-              ),
-            ],
-          ),
-          player: GamePlayer(
-            widget.playerId,
-            widget.nick,
-            Vector2(widget.position.x * tileSize, widget.position.y * tileSize),
-            _getSprite(widget.idCharacter),
-          ),
-          interface: PlayerInterface(),
-          map: TiledWorldMap('tile/map.json',
-              forceTileSize: Size(tileSize, tileSize)),
-          constructionModeColor: Colors.black,
-          collisionAreaColor: Colors.purple.withOpacity(0.4),
-          gameController: _controller,
-          cameraConfig: CameraConfig(
-            moveOnlyMapArea: true,
-          ),
+          ],
         ),
-      ),
-    );
+        player: GamePlayer(
+          widget.playerId,
+          widget.nick,
+          Vector2(widget.position.x * tileSize, widget.position.y * tileSize),
+          _getSprite(widget.idCharacter),
+        ),
+        interface: PlayerInterface(),
+        map: TiledWorldMap('tile/map.json',
+            forceTileSize: Size(tileSize, tileSize)),
+        constructionModeColor: Colors.black,
+        collisionAreaColor: Colors.purple.withOpacity(0.4),
+        gameController: _controller,
+        cameraConfig: CameraConfig(
+          moveOnlyMapArea: true,
+        ),
+      );
+    });
   }
 
   SpriteSheet _getSprite(int index) {
@@ -151,19 +121,47 @@ class _GameState extends State<Game> implements GameListener {
     firstUpdate = true;
     widget.playersOn.forEach((player) {
       if (player != null && player['id'] != widget.playerId) {
-        var enemy = RemotePlayer(
-          player['id'],
-          player['nick'],
-          Vector2(
-            double.parse(player['position']['x'].toString()) * tileSize,
-            double.parse(player['position']['y'].toString()) * tileSize,
-          ),
-          _getSprite(player['skin'] ?? 0),
-          SocketManager(),
-        );
-        enemy.life = double.parse(player['life'].toString());
-        _controller.addGameComponent(enemy);
+        _addRemotePlayer(player);
       }
     });
+  }
+
+  void _setupSocketControl() {
+    SocketManager().listen('message', (data) {
+      if (data['action'] == 'PLAYER_JOIN' &&
+          data['data']['id'] != widget.playerId) {
+        _addRemotePlayer(data['data']);
+      }
+    });
+  }
+
+  void _addRemotePlayer(Map data) {
+    Vector2 personPosition = Vector2(
+      double.parse(data['position']['x'].toString()) * tileSize,
+      double.parse(data['position']['y'].toString()) * tileSize,
+    );
+
+    var enemy = RemotePlayer(
+      data['id'],
+      data['nick'],
+      personPosition,
+      _getSprite(data['skin'] ?? 0),
+      SocketManager(),
+    );
+    if (data['life'] != null) {
+      enemy.life = double.parse(data['life'].toString()) ?? 0.0;
+    }
+    _controller.addGameComponent(enemy);
+    _controller.addGameComponent(
+      AnimatedObjectOnce(
+        animation: SpriteSheetHero.smokeExplosion,
+        position: Rect.fromLTRB(
+          personPosition.x,
+          personPosition.y,
+          32,
+          32,
+        ).toVector2Rect(),
+      ),
+    );
   }
 }
