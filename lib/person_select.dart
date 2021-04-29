@@ -73,12 +73,15 @@ class _PersonSelectState extends State<PersonSelect> {
                           color: Colors.orange,
                           child: Text(
                             'ENTRAR',
-                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
                           ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          onPressed: statusServer == 'CONNECTED' ? _goGame : null,
+                          onPressed:
+                              statusServer == 'CONNECTED' ? _goGame : null,
                         ),
                       ),
                     ],
@@ -139,7 +142,9 @@ class _PersonSelectState extends State<PersonSelect> {
                         Icons.chevron_left,
                         color: Colors.white,
                       )),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25),
+                      ),
                       onPressed: _previous,
                     ),
                   ),
@@ -147,7 +152,14 @@ class _PersonSelectState extends State<PersonSelect> {
         ),
         Expanded(
           child: Center(
-            child: Flame.util.animationAsWidget(Position(100, 100), sprites[count].createAnimation(5, stepTime: 0.1)),
+            child: SizedBox(
+              width: 100,
+              height: 100,
+              child: SpriteAnimationWidget(
+                animation:
+                    sprites[count].createAnimation(row: 5, stepTime: 0.1),
+              ),
+            ),
           ),
         ),
         Expanded(
@@ -165,7 +177,8 @@ class _PersonSelectState extends State<PersonSelect> {
                         Icons.chevron_right,
                         color: Colors.white,
                       )),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25)),
                       onPressed: _next,
                     ),
                   ),
@@ -224,7 +237,7 @@ class _PersonSelectState extends State<PersonSelect> {
               nick: nick,
               playerId: data['data']['id'],
               idCharacter: count,
-              position: Position(
+              position: Vector2(
                 double.parse(data['data']['position']['x'].toString()),
                 double.parse(data['data']['position']['y'].toString()),
               ),

@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 
 class Delay {
   final int time;
@@ -17,7 +17,7 @@ class Frame {
 class BufferDelay {
   final int delay;
 
-  List<dynamic> _timeLine = List();
+  List<dynamic> _timeLine = [];
 
   ValueChanged<dynamic> _listen;
 
@@ -38,7 +38,8 @@ class BufferDelay {
         _timeLine.add(Frame(value, time));
       } else {
         int delayFrame = time.difference(lastFrame.time).inMilliseconds;
-        int delayDone = DateTime.now().difference(lastFrame.timeRun).inMilliseconds;
+        int delayDone =
+            DateTime.now().difference(lastFrame.timeRun).inMilliseconds;
         int delay = delayFrame - delayDone;
         if (delay > 0) {
           if (delay > this.delay) {

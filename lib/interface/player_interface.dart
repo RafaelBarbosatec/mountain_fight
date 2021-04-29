@@ -1,52 +1,43 @@
-import 'dart:ui';
-
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:mountain_fight/interface/bar_life_component.dart';
 import 'package:mountain_fight/player/game_player.dart';
 import 'package:mountain_fight/player/remote_player.dart';
+import 'package:mountain_fight/player/sprite_sheet_hero.dart';
 
 class PlayerInterface extends GameInterface {
   OverlayEntry _overlayEntryEmotes;
   int countEnemy = 0;
   static int countEmotes = 10;
 
-  SpriteSheet spriteSheetEmotes = SpriteSheet(
-    imageName: 'emotes/emotes1.png',
-    textureWidth: 32,
-    textureHeight: 32,
-    columns: 8,
-    rows: countEmotes,
-  );
-
   @override
-  void resize(Size size) {
+  void onGameResize(Vector2 size) {
     add(
       InterfaceComponent(
-        sprite: Sprite('emote.png'),
+        sprite: Sprite.load('emote.png'),
         width: 32,
         height: 32,
         id: 1,
-        position: Position(size.width - 42, 10),
-        onTapComponent: () {
+        position: Vector2(size.x - 42, 10),
+        onTapComponent: (selected) {
           _showDialog();
         },
       ),
     );
     addNicks(size);
     add(BarLifeComponent());
-    super.resize(size);
+    super.onGameResize(size);
   }
 
-  void addNicks(Size size) {
+  void addNicks(Vector2 size) {
     add(TextInterfaceComponent(
         text: _getEnemiesName(),
         width: 32,
         height: 32,
         id: 2,
-        position: Position(size.width - 60, 50),
+        position: Vector2(size.x - 60, 50),
         textConfig: TextConfig(color: Colors.white, fontSize: 13),
-        onTapComponent: () {
+        onTapComponent: (selected) {
           _showDialog();
         }));
   }
@@ -79,8 +70,10 @@ class PlayerInterface extends GameInterface {
                           onTap: () {
                             _overlayEntryEmotes.remove();
                             if (gameRef.player != null) {
-                              (gameRef.player as GamePlayer).showEmote(spriteSheetEmotes.createAnimation(
-                                index,
+                              (gameRef.player as GamePlayer).showEmote(
+                                  SpriteSheetHero.spriteSheetEmotes
+                                      .createAnimation(
+                                row: index,
                                 stepTime: 0.1,
                               ));
                             }
@@ -89,8 +82,13 @@ class PlayerInterface extends GameInterface {
                             width: 32,
                             height: 32,
                             margin: EdgeInsets.only(left: 20),
-                            child: Flame.util.animationAsWidget(
-                                Position(32, 32), spriteSheetEmotes.createAnimation(index, stepTime: 0.1)),
+                            child: SpriteAnimationWidget(
+                              animation: SpriteSheetHero.spriteSheetEmotes
+                                  .createAnimation(
+                                row: index,
+                                stepTime: 0.1,
+                              ),
+                            ),
                           ),
                         );
                       }),
