@@ -143,7 +143,8 @@ class _PersonSelectState extends State<PersonSelect> {
                         color: Colors.white,
                       )),
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25)),
+                        borderRadius: BorderRadius.circular(25),
+                      ),
                       onPressed: _previous,
                     ),
                   ),
@@ -151,8 +152,13 @@ class _PersonSelectState extends State<PersonSelect> {
         ),
         Expanded(
           child: Center(
-            child: SpriteAnimationWidget(
-              animation: sprites[count].createAnimation(row: 5, stepTime: 0.1),
+            child: SizedBox(
+              width: 100,
+              height: 100,
+              child: SpriteAnimationWidget(
+                animation:
+                    sprites[count].createAnimation(row: 5, stepTime: 0.1),
+              ),
             ),
           ),
         ),

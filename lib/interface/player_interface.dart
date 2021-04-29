@@ -3,19 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:mountain_fight/interface/bar_life_component.dart';
 import 'package:mountain_fight/player/game_player.dart';
 import 'package:mountain_fight/player/remote_player.dart';
+import 'package:mountain_fight/player/sprite_sheet_hero.dart';
 
 class PlayerInterface extends GameInterface {
   OverlayEntry _overlayEntryEmotes;
   int countEnemy = 0;
   static int countEmotes = 10;
-
-  SpriteSheet spriteSheetEmotes = SpriteSheet(
-    imageName: 'emotes/emotes1.png',
-    textureWidth: 32,
-    textureHeight: 32,
-    columns: 8,
-    rows: countEmotes,
-  );
 
   @override
   void onGameResize(Vector2 size) {
@@ -77,9 +70,10 @@ class PlayerInterface extends GameInterface {
                           onTap: () {
                             _overlayEntryEmotes.remove();
                             if (gameRef.player != null) {
-                              (gameRef.player as GamePlayer)
-                                  .showEmote(spriteSheetEmotes.createAnimation(
-                                index,
+                              (gameRef.player as GamePlayer).showEmote(
+                                  SpriteSheetHero.spriteSheetEmotes
+                                      .createAnimation(
+                                row: index,
                                 stepTime: 0.1,
                               ));
                             }
@@ -88,10 +82,13 @@ class PlayerInterface extends GameInterface {
                             width: 32,
                             height: 32,
                             margin: EdgeInsets.only(left: 20),
-                            child: Flame.util.animationAsWidget(
-                                Position(32, 32),
-                                spriteSheetEmotes.createAnimation(index,
-                                    stepTime: 0.1)),
+                            child: SpriteAnimationWidget(
+                              animation: SpriteSheetHero.spriteSheetEmotes
+                                  .createAnimation(
+                                row: index,
+                                stepTime: 0.1,
+                              ),
+                            ),
                           ),
                         );
                       }),

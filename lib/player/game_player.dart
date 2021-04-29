@@ -1,47 +1,56 @@
-import 'dart:async';
+import 'dart:async' as async;
 import 'dart:ui';
 
 import 'package:bonfire/bonfire.dart';
-import 'package:flame/animation.dart' as FlameAnimation;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mountain_fight/main.dart';
+import 'package:mountain_fight/player/sprite_sheet_hero.dart';
 import 'package:mountain_fight/socket/SocketManager.dart';
 import 'package:mountain_fight/util/extensions.dart';
 
-class GamePlayer extends SimplePlayer {
+class GamePlayer extends SimplePlayer with ObjectCollision {
   final Vector2 initPosition;
   final int id;
   final String nick;
   double stamina = 100;
   JoystickMoveDirectional currentDirection;
   TextConfig _textConfig;
-  Timer _timerStamina;
+  async.Timer _timerStamina;
   String directionEvent = 'IDLE';
 
   GamePlayer(this.id, this.nick, this.initPosition, SpriteSheet spriteSheet)
       : super(
           animation: SimpleDirectionAnimation(
-            idleTop: spriteSheet.createAnimation(0, stepTime: 0.1),
-            idleBottom: spriteSheet.createAnimation(1, stepTime: 0.1),
-            idleLeft: spriteSheet.createAnimation(2, stepTime: 0.1),
-            idleRight: spriteSheet.createAnimation(3, stepTime: 0.1),
-            runTop: spriteSheet.createAnimation(4, stepTime: 0.1),
-            runBottom: spriteSheet.createAnimation(5, stepTime: 0.1),
-            runLeft: spriteSheet.createAnimation(6, stepTime: 0.1),
-            runRight: spriteSheet.createAnimation(7, stepTime: 0.1),
+            idleUp: Future.value(
+                spriteSheet.createAnimation(row: 0, stepTime: 0.1)),
+            idleDown: Future.value(
+                spriteSheet.createAnimation(row: 1, stepTime: 0.1)),
+            idleLeft: Future.value(
+                spriteSheet.createAnimation(row: 2, stepTime: 0.1)),
+            idleRight: Future.value(
+                spriteSheet.createAnimation(row: 3, stepTime: 0.1)),
+            runUp: Future.value(
+                spriteSheet.createAnimation(row: 4, stepTime: 0.1)),
+            runDown: Future.value(
+                spriteSheet.createAnimation(row: 5, stepTime: 0.1)),
+            runLeft: Future.value(
+                spriteSheet.createAnimation(row: 6, stepTime: 0.1)),
+            runRight: Future.value(
+                spriteSheet.createAnimation(row: 7, stepTime: 0.1)),
           ),
           width: tileSize * 1.5,
           height: tileSize * 1.5,
           position: initPosition,
           life: 100,
           speed: tileSize * 3,
-          // collision: Collision(
-          //   height: (tileSize * 0.5),
-          //   width: (tileSize * 0.6),
-          //   align: Offset((tileSize * 0.9) / 2, tileSize),
-          // ),
         ) {
+    setupCollision(CollisionConfig(collisions: [
+      CollisionArea.rectangle(
+        size: Size((tileSize * 0.5), (tileSize * 0.5)),
+        align: Vector2((tileSize * 0.9) / 2, tileSize),
+      ),
+    ]));
     _textConfig = TextConfig(
       fontSize: tileSize / 4,
     );
@@ -49,7 +58,7 @@ class GamePlayer extends SimplePlayer {
 
   void _verifyStamina() {
     if (_timerStamina == null) {
-      _timerStamina = Timer(Duration(milliseconds: 150), () {
+      _timerStamina = async.Timer(Duration(milliseconds: 150), () {
         _timerStamina = null;
       });
     } else {
@@ -129,17 +138,17 @@ class GamePlayer extends SimplePlayer {
     super.joystickChangeDirectional(event);
   }
 
-  void showEmote(FlameAnimation.Animation emoteAnimation) {
+  void showEmote(SpriteAnimation emoteAnimation) {
     gameRef.add(
       AnimatedFollowerObject(
-        animation: emoteAnimation,
+        animation: Future.value(emoteAnimation),
         target: this,
         positionFromTarget: Rect.fromLTWH(
           25,
           -10,
           position.width / 2,
           position.width / 2,
-        ),
+        ).toVector2Rect(),
       ),
     );
   }
@@ -149,8 +158,10 @@ class GamePlayer extends SimplePlayer {
     _textConfig.withColor(Colors.white).render(
           canvas,
           nick,
-          Position(position.left + ((width - (nick.length * (width / 13))) / 2),
-              position.top - (tileSize / 3)),
+          Vector2(
+            position.left + ((width - (nick.length * (width / 13))) / 2),
+            position.top - (tileSize / 3),
+          ),
         );
     super.render(canvas);
   }
@@ -184,27 +195,23 @@ class GamePlayer extends SimplePlayer {
         },
       }
     });
-    var anim = FlameAnimation.Animation.sequenced('axe_spin_atack.png', 8,
-        textureWidth: 148, textureHeight: 148, stepTime: 0.05);
+    var anim = SpriteSheetHero.attackAxe;
     this.simpleAttackRange(
       id: id,
       animationRight: anim,
       animationLeft: anim,
       animationTop: anim,
       animationBottom: anim,
-      animationDestroy: FlameAnimation.Animation.sequenced(
-        "smoke_explosin.png",
-        6,
-        textureWidth: 16,
-        textureHeight: 16,
-      ),
+      animationDestroy: SpriteSheetHero.smokeExplosion,
       width: tileSize * 0.9,
       height: tileSize * 0.9,
       speed: speed * 1.5,
       damage: 15,
-      collision: Collision(
-        width: tileSize * 0.9,
-        height: tileSize * 0.9,
+      collision: CollisionConfig(
+        collisions: [
+          CollisionArea.rectangle(size: Size(tileSize * 0.9, tileSize * 0.9))
+        ],
+        collisionOnlyVisibleScreen: false,
       ),
     );
   }
@@ -235,19 +242,14 @@ class GamePlayer extends SimplePlayer {
     life = 0;
     gameRef.add(
       AnimatedObjectOnce(
-        animation: FlameAnimation.Animation.sequenced(
-          "smoke_explosin.png",
-          6,
-          textureWidth: 16,
-          textureHeight: 16,
-        ),
+        animation: SpriteSheetHero.smokeExplosion,
         position: position,
       ),
     );
     gameRef.addGameComponent(
-      GameDecoration.sprite(
-        Sprite('crypt.png'),
-        initPosition: Position(
+      GameDecoration.withSprite(
+        Sprite.load('crypt.png'),
+        position: Vector2(
           position.left,
           position.top,
         ),
