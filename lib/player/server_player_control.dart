@@ -62,8 +62,8 @@ mixin ServerRemotePlayerControl on SimpleEnemy {
       Rect serverPosition = Rect.fromLTWH(
         x,
         y,
-        position.width,
-        position.height,
+        width,
+        height,
       );
       serverMove(direction, serverPosition);
     }
