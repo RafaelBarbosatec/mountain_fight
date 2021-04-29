@@ -10,6 +10,8 @@ import 'package:mountain_fight/player/remote_player.dart';
 import 'package:mountain_fight/player/sprite_sheet_hero.dart';
 import 'package:mountain_fight/socket/SocketManager.dart';
 
+import 'decoration/tree.dart';
+
 class Game extends StatefulWidget {
   final int idCharacter;
   final int playerId;
@@ -74,8 +76,12 @@ class _GameState extends State<Game> implements GameListener {
           _getSprite(widget.idCharacter),
         ),
         interface: PlayerInterface(),
-        map: TiledWorldMap('tile/map.json',
-            forceTileSize: Size(tileSize, tileSize)),
+        map: TiledWorldMap(
+          'tile/map.json',
+          forceTileSize: Size(tileSize, tileSize),
+        )..registerObject('tree', (x, y, width, height) {
+            return Tree(Vector2(x, y));
+          }),
         constructionModeColor: Colors.black,
         collisionAreaColor: Colors.purple.withOpacity(0.4),
         gameController: _controller,
