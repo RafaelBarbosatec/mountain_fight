@@ -8,6 +8,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.0.0"
+  a_star_algorithm:
+    dependency: transitive
+    description:
+      name: a_star_algorithm
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.4"
   analyzer:
     dependency: transitive
     description:
@@ -35,7 +42,7 @@ packages:
       name: bonfire
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0-rc8"
+    version: "1.0.2"
   boolean_selector:
     dependency: transitive
     description:
@@ -124,7 +131,7 @@ packages:
       name: http
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.2"
+    version: "0.13.3"
   http_multi_server:
     dependency: transitive
     description:
