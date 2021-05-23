@@ -168,8 +168,8 @@ class GamePlayer extends SimplePlayer with ObjectCollision {
 
   @override
   void joystickAction(JoystickActionEvent action) {
-    if (gameRef.joystickController.keyboardEnable &&
-        action.id == LogicalKeyboardKey.space.keyId) {
+    if (action.id == LogicalKeyboardKey.space.keyId &&
+        action.event == ActionEvent.DOWN) {
       _execAttack();
     }
     if (action.id == 0 && action.event == ActionEvent.DOWN) {
