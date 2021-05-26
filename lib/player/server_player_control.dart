@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'dart:ui';
 
 import 'package:bonfire/bonfire.dart';
@@ -74,27 +73,27 @@ mixin ServerRemotePlayerControl on SimpleEnemy {
 
   @override
   void update(double dt) {
-    _move(currentMove, dt);
+    _move(currentMove);
     super.update(dt);
   }
 
-  void _move(move, double dtUpdate) {
+  void _move(move) {
     switch (move) {
       case 'LEFT':
-        this.moveLeft(speed * dtUpdate);
+        this.moveLeft(speed);
         break;
       case 'RIGHT':
-        this.moveRight(speed * dtUpdate);
+        this.moveRight(speed);
         break;
       case 'UP_RIGHT':
-        double speedDiagonal = (speed * REDUCTION_SPEED_DIAGONAL) * dtUpdate;
+        double speedDiagonal = (speed * REDUCTION_SPEED_DIAGONAL);
         moveUpRight(
           speedDiagonal,
           speedDiagonal,
         );
         break;
       case 'DOWN_RIGHT':
-        double speedDiagonal = (speed * REDUCTION_SPEED_DIAGONAL) * dtUpdate;
+        double speedDiagonal = (speed * REDUCTION_SPEED_DIAGONAL);
         moveDownRight(
           speedDiagonal,
           speedDiagonal,
@@ -102,24 +101,24 @@ mixin ServerRemotePlayerControl on SimpleEnemy {
 
         break;
       case 'DOWN_LEFT':
-        double speedDiagonal = (speed * REDUCTION_SPEED_DIAGONAL) * dtUpdate;
+        double speedDiagonal = (speed * REDUCTION_SPEED_DIAGONAL);
         moveDownLeft(
           speedDiagonal,
           speedDiagonal,
         );
         break;
       case 'UP_LEFT':
-        double speedDiagonal = (speed * REDUCTION_SPEED_DIAGONAL) * dtUpdate;
+        double speedDiagonal = (speed * REDUCTION_SPEED_DIAGONAL);
         moveUpLeft(
           speedDiagonal,
           speedDiagonal,
         );
         break;
       case 'UP':
-        this.moveUp(speed * dtUpdate);
+        this.moveUp(speed);
         break;
       case 'DOWN':
-        this.moveDown(speed * dtUpdate);
+        this.moveDown(speed);
         break;
       case 'IDLE':
         this.idle();
@@ -131,8 +130,8 @@ mixin ServerRemotePlayerControl on SimpleEnemy {
     currentMove = direction;
 
     /// Corrige posição se ele estiver muito diferente da do server
-    Point p = Point(serverPosition.center.dx, serverPosition.center.dy);
-    double dist = p.distanceTo(Point(
+    Vector2 p = Vector2(serverPosition.center.dx, serverPosition.center.dy);
+    double dist = p.distanceTo(Vector2(
       position.center.dx,
       position.center.dy,
     ));
