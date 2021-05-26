@@ -211,7 +211,6 @@ class GamePlayer extends SimplePlayer with ObjectCollision {
         collisions: [
           CollisionArea.rectangle(size: Size(tileSize * 0.9, tileSize * 0.9))
         ],
-        collisionOnlyVisibleScreen: false,
       ),
     );
   }

@@ -79,9 +79,10 @@ class _GameState extends State<Game> implements GameListener {
         map: TiledWorldMap(
           'tile/map.json',
           forceTileSize: Size(tileSize, tileSize),
-        )..registerObject('tree', (x, y, width, height) {
-            return Tree(Vector2(x, y));
-          }),
+          objectsBuilder: {
+            'tree':(x, y, width, height) =>Tree(Vector2(x, y)),
+          },
+        ),
         constructionModeColor: Colors.black,
         collisionAreaColor: Colors.purple.withOpacity(0.4),
         gameController: _controller,
