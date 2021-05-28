@@ -145,7 +145,7 @@ mixin ServerRemotePlayerControl on SimpleEnemy {
     if (!isDead) {
       this.showDamage(
         damage,
-        config: TextConfig(color: Colors.red, fontSize: 14),
+        config: TextPaintConfig(color: Colors.red, fontSize: 14),
       );
       if (life > 0) {
         life -= damage;

@@ -15,7 +15,7 @@ class GamePlayer extends SimplePlayer with ObjectCollision {
   final String nick;
   double stamina = 100;
   JoystickMoveDirectional currentDirection;
-  TextConfig _textConfig;
+  TextPaint _textConfig;
   async.Timer _timerStamina;
   String directionEvent = 'IDLE';
 
@@ -51,8 +51,11 @@ class GamePlayer extends SimplePlayer with ObjectCollision {
         align: Vector2((tileSize * 0.9) / 2, tileSize),
       ),
     ]));
-    _textConfig = TextConfig(
-      fontSize: tileSize / 4,
+    _textConfig = TextPaint(
+      config: TextPaintConfig(
+        fontSize: tileSize / 4,
+        color: Colors.white,
+      ),
     );
   }
 
@@ -155,14 +158,14 @@ class GamePlayer extends SimplePlayer with ObjectCollision {
 
   @override
   void render(Canvas canvas) {
-    _textConfig.withColor(Colors.white).render(
-          canvas,
-          nick,
-          Vector2(
-            position.left + ((width - (nick.length * (width / 13))) / 2),
-            position.top - (tileSize / 3),
-          ),
-        );
+    _textConfig.render(
+      canvas,
+      nick,
+      Vector2(
+        position.left + ((width - (nick.length * (width / 13))) / 2),
+        position.top - (tileSize / 3),
+      ),
+    );
     super.render(canvas);
   }
 
@@ -228,7 +231,7 @@ class GamePlayer extends SimplePlayer with ObjectCollision {
     });
     this.showDamage(
       damage,
-      config: TextConfig(
+      config: TextPaintConfig(
         color: Colors.red,
         fontSize: 14,
       ),

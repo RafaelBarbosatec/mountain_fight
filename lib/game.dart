@@ -80,7 +80,7 @@ class _GameState extends State<Game> implements GameListener {
           'tile/map.json',
           forceTileSize: Size(tileSize, tileSize),
           objectsBuilder: {
-            'tree': (x, y, width, height) => Tree(Vector2(x, y)),
+            'tree': (p) => Tree(p.position),
           },
         ),
         constructionModeColor: Colors.black,

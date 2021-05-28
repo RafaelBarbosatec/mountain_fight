@@ -30,16 +30,19 @@ class PlayerInterface extends GameInterface {
   }
 
   void addNicks(Vector2 size) {
-    add(TextInterfaceComponent(
+    add(
+      TextInterfaceComponent(
         text: _getEnemiesName(),
         width: 32,
         height: 32,
         id: 2,
         position: Vector2(size.x - 60, 50),
-        textConfig: TextConfig(color: Colors.white, fontSize: 13),
+        textConfig: TextPaintConfig(color: Colors.white, fontSize: 13),
         onTapComponent: (selected) {
           _showDialog();
-        }));
+        },
+      ),
+    );
   }
 
   @override

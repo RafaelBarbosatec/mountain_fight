@@ -10,7 +10,7 @@ class RemotePlayer extends SimpleEnemy
     with ServerRemotePlayerControl, ObjectCollision {
   final int id;
   final String nick;
-  TextConfig _textConfig;
+  TextPaint _textConfig;
 
   RemotePlayer(this.id, this.nick, Vector2 initPosition,
       SpriteSheet spriteSheet, SocketManager socketManager)
@@ -49,8 +49,11 @@ class RemotePlayer extends SimpleEnemy
         ],
       ),
     );
-    _textConfig = TextConfig(
-      fontSize: tileSize / 4,
+    _textConfig = TextPaint(
+      config: TextPaintConfig(
+        fontSize: tileSize / 4,
+        color: Colors.white,
+      ),
     );
     setupServerPlayerControl(socketManager, id);
   }
@@ -88,14 +91,14 @@ class RemotePlayer extends SimpleEnemy
   }
 
   void _renderNickName(Canvas canvas) {
-    _textConfig.withColor(Colors.white).render(
-          canvas,
-          nick,
-          Vector2(
-            position.left + ((width - (nick.length * (width / 13))) / 2),
-            position.top - 20,
-          ),
-        );
+    _textConfig.render(
+      canvas,
+      nick,
+      Vector2(
+        position.left + ((width - (nick.length * (width / 13))) / 2),
+        position.top - 20,
+      ),
+    );
   }
 
   @override
