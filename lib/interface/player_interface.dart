@@ -33,8 +33,6 @@ class PlayerInterface extends GameInterface {
     add(
       TextInterfaceComponent(
         text: _getEnemiesName(),
-        width: 32,
-        height: 32,
         id: 2,
         position: Vector2(size.x - 60, 50),
         textConfig: TextPaintConfig(color: Colors.white, fontSize: 13),

@@ -15,10 +15,10 @@ extension StringExtensions on String {
       case 'right':
         return Direction.right;
         break;
-      case 'top':
+      case 'up':
         return Direction.up;
         break;
-      case 'bottom':
+      case 'down':
         return Direction.down;
         break;
       default:
