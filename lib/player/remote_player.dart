@@ -62,7 +62,12 @@ class RemotePlayer extends SimpleEnemy
   void render(Canvas canvas) {
     if (this.isVisibleInCamera()) {
       _renderNickName(canvas);
-      this.drawDefaultLifeBar(canvas, strokeWidth: 4, padding: 0);
+      this.drawDefaultLifeBar(
+        canvas,
+        height: 4,
+        borderWidth: 2,
+        borderRadius: BorderRadius.circular(2),
+      );
     }
     super.render(canvas);
   }
