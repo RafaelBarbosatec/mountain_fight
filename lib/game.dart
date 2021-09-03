@@ -89,6 +89,7 @@ class _GameState extends State<Game> implements GameListener {
         cameraConfig: CameraConfig(
           moveOnlyMapArea: true,
           smoothCameraEnable: true,
+          smoothCameraSpeed: 2.0,
         ),
       );
     });

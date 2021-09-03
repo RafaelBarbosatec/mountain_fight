@@ -60,15 +60,13 @@ class RemotePlayer extends SimpleEnemy
 
   @override
   void render(Canvas canvas) {
-    if (this.isVisibleInCamera()) {
-      _renderNickName(canvas);
-      this.drawDefaultLifeBar(
-        canvas,
-        height: 4,
-        borderWidth: 2,
-        borderRadius: BorderRadius.circular(2),
-      );
-    }
+    _renderNickName(canvas);
+    this.drawDefaultLifeBar(
+      canvas,
+      height: 4,
+      borderWidth: 2,
+      borderRadius: BorderRadius.circular(2),
+    );
     super.render(canvas);
   }
 
