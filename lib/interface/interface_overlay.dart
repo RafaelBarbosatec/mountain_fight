@@ -202,6 +202,7 @@ class _InterfaceOverlayState extends State<InterfaceOverlay>
 
   @override
   void updateGame() {
+    if (!mounted) return;
     _player = widget.gameController.player as GamePlayer;
     if (life != _player.life) {
       setState(() {
