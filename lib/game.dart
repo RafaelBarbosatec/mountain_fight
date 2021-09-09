@@ -43,7 +43,7 @@ class _GameState extends State<Game> implements GameListener {
 
   @override
   void dispose() {
-    SocketManager().close();
+    SocketManager().disconnect();
     super.dispose();
   }
 

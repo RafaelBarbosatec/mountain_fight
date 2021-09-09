@@ -32,7 +32,7 @@ mixin ServerRemotePlayerControl on SimpleEnemy {
   void _setupSocket(SocketManager s) {
     s.listen(EVENT_SOCKET_NAME, (data) {
       SocketMessage msg = SocketMessage.fromJson(data);
-      bool isMine = msg.data.playerId == _playerId;
+      bool isMine = msg.data?.playerId == _playerId;
       if (!isMine) return;
 
       if (msg.action == GameActionEnum.RECEIVED_DAMAGE) {

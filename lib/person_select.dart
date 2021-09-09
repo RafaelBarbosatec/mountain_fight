@@ -4,6 +4,8 @@ import 'package:mountain_fight/game.dart';
 import 'package:mountain_fight/player/sprite_sheet_hero.dart';
 import 'package:mountain_fight/socket/SocketManager.dart';
 
+String _lastNick = '';
+
 class PersonSelect extends StatefulWidget {
   @override
   _PersonSelectState createState() => _PersonSelectState();
@@ -20,6 +22,7 @@ class _PersonSelectState extends State<PersonSelect> {
 
   @override
   void initState() {
+    _textEditingController.text = _lastNick;
     sprites.add(SpriteSheetHero.hero1);
     sprites.add(SpriteSheetHero.hero2);
     sprites.add(SpriteSheetHero.hero3);
@@ -38,8 +41,6 @@ class _PersonSelectState extends State<PersonSelect> {
     });
 
     SocketManager().listen('message', _listen);
-
-    SocketManager().connect();
 
     super.initState();
   }
@@ -275,9 +276,10 @@ class _PersonSelectState extends State<PersonSelect> {
   }
 
   void _joinGame() {
+    _lastNick = _textEditingController.text;
     SocketManager().send('message', {
       'action': 'CREATE',
-      'data': {'nick': _textEditingController.text, 'skin': count}
+      'data': {'nick': _lastNick, 'skin': count}
     });
   }
 

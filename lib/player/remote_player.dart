@@ -109,7 +109,7 @@ class RemotePlayer extends SimpleEnemy
       nick,
       Vector2(
         position.left + ((width - sizeTextNick.x) / 2),
-        position.top - sizeTextNick.y - 14,
+        position.top - sizeTextNick.y - 12,
       ),
     );
   }

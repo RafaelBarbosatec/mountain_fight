@@ -5,6 +5,7 @@ import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mountain_fight/main.dart';
+import 'package:mountain_fight/person_select.dart';
 import 'package:mountain_fight/player/sprite_sheet_hero.dart';
 import 'package:mountain_fight/socket/SocketManager.dart';
 import 'package:mountain_fight/socket/socket_message.dart';
@@ -249,6 +250,44 @@ class GamePlayer extends SimplePlayer with ObjectCollision {
       ),
     );
     remove();
+    async.Future.delayed(Duration(seconds: 1), _showDialogTryAgain);
     super.die();
+  }
+
+  async.FutureOr _showDialogTryAgain() {
+    showDialog(
+      context: gameRef.context,
+      builder: (context) {
+        return Center(
+          child: Card(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Game Over',
+                  style: Theme.of(gameRef.context).textTheme.headline6,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(gameRef.context);
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PersonSelect(),
+                      ),
+                      (route) => false,
+                    );
+                  },
+                  child: Text('Try again'),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }

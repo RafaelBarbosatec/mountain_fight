@@ -76,8 +76,13 @@ class SocketManager {
     socket.clearListeners();
   }
 
-  void close() {
-    socket.disconnect();
+  void disconnect() {
+    socket.clearListeners();
+    socket.emit('disconnect');
+  }
+
+  void dispose() {
+    socket.dispose();
   }
 
   bool get connected => socket.connected;
