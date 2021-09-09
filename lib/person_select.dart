@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:mountain_fight/game.dart';
@@ -13,14 +11,15 @@ class PersonSelect extends StatefulWidget {
 
 class _PersonSelectState extends State<PersonSelect> {
   int count = 0;
-  List<SpriteSheet> sprites = List();
+  List<SpriteSheet> sprites = [];
   bool loading = false;
-  String nick;
   String statusServer = "CONNECTING";
+  PageController _pageController = PageController();
+  TextEditingController _textEditingController = TextEditingController();
+  GlobalKey<FormState> _form = GlobalKey();
 
   @override
   void initState() {
-    nick = 'Nick${Random().nextInt(1000)}';
     sprites.add(SpriteSheetHero.hero1);
     sprites.add(SpriteSheetHero.hero2);
     sprites.add(SpriteSheetHero.hero3);
@@ -39,6 +38,8 @@ class _PersonSelectState extends State<PersonSelect> {
     });
 
     SocketManager().listen('message', _listen);
+
+    SocketManager().connect();
 
     super.initState();
   }
@@ -60,33 +61,69 @@ class _PersonSelectState extends State<PersonSelect> {
                   style: TextStyle(color: Colors.white, fontSize: 30),
                 ),
                 Expanded(
+                  flex: 2,
                   child: _buildPersons(),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 20),
-                  child: Stack(
-                    children: <Widget>[
+                SingleChildScrollView(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Form(
+                        key: _form,
+                        child: SizedBox(
+                          width: 200,
+                          child: TextFormField(
+                            controller: _textEditingController,
+                            decoration: InputDecoration(
+                              fillColor: Colors.white,
+                              filled: true,
+                              hintText: 'What your nick?',
+                            ),
+                            validator: (text) {
+                              if (text.isEmpty) {
+                                return 'Nick required';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                      ),
                       SizedBox(
-                        height: 50,
-                        width: 150,
-                        child: RaisedButton(
-                          color: Colors.orange,
-                          child: Text(
-                            'ENTRAR',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          onPressed:
-                              statusServer == 'CONNECTED' ? _goGame : null,
+                        width: 20,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: Stack(
+                          children: <Widget>[
+                            SizedBox(
+                              height: 50,
+                              width: 150,
+                              child: RaisedButton(
+                                color: Colors.orange,
+                                child: Text(
+                                  'ENTRAR',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                onPressed: statusServer == 'CONNECTED'
+                                    ? _goGame
+                                    : null,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
-                )
+                ),
+                SizedBox(
+                  height: 20,
+                ),
               ],
             ),
             if (loading)
@@ -125,100 +162,122 @@ class _PersonSelectState extends State<PersonSelect> {
   }
 
   Widget _buildPersons() {
-    return Row(
-      children: <Widget>[
-        Expanded(
-          child: count == 0
-              ? SizedBox.shrink()
-              : Center(
-                  child: SizedBox(
-                    width: 50,
-                    height: 50,
-                    child: RaisedButton(
-                      color: Colors.blue,
-                      padding: EdgeInsets.all(0),
-                      child: Center(
-                          child: Icon(
-                        Icons.chevron_left,
-                        color: Colors.white,
-                      )),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25),
+    return Center(
+      child: SingleChildScrollView(
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: count == 0
+                  ? SizedBox.shrink()
+                  : Center(
+                      child: SizedBox(
+                        width: 50,
+                        height: 50,
+                        child: RaisedButton(
+                          color: Colors.blue,
+                          padding: EdgeInsets.all(0),
+                          child: Center(
+                              child: Icon(
+                            Icons.chevron_left,
+                            color: Colors.white,
+                          )),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          onPressed: _previous,
+                        ),
                       ),
-                      onPressed: _previous,
                     ),
-                  ),
+            ),
+            Expanded(
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height / 4,
+                child: PageView.builder(
+                  controller: _pageController,
+                  itemCount: sprites.length,
+                  onPageChanged: (index) {
+                    setState(() {
+                      count = index;
+                    });
+                  },
+                  itemBuilder: (context, index) {
+                    return SpriteAnimationWidget(
+                      animation: sprites[index].createAnimation(
+                        row: 5,
+                        stepTime: 0.1,
+                      ),
+                      anchor: Anchor.center,
+                    );
+                  },
                 ),
-        ),
-        Expanded(
-          child: Center(
-            child: SizedBox(
-              width: 100,
-              height: 100,
-              child: SpriteAnimationWidget(
-                animation:
-                    sprites[count].createAnimation(row: 5, stepTime: 0.1),
               ),
             ),
-          ),
-        ),
-        Expanded(
-          child: count == sprites.length - 1
-              ? SizedBox.shrink()
-              : Center(
-                  child: SizedBox(
-                    width: 50,
-                    height: 50,
-                    child: RaisedButton(
-                      color: Colors.blue,
-                      padding: EdgeInsets.all(0),
-                      child: Center(
-                          child: Icon(
-                        Icons.chevron_right,
-                        color: Colors.white,
-                      )),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25)),
-                      onPressed: _next,
+            Expanded(
+              child: count == sprites.length - 1
+                  ? SizedBox.shrink()
+                  : Center(
+                      child: SizedBox(
+                        width: 50,
+                        height: 50,
+                        child: RaisedButton(
+                          color: Colors.blue,
+                          padding: EdgeInsets.all(0),
+                          child: Center(
+                              child: Icon(
+                            Icons.chevron_right,
+                            color: Colors.white,
+                          )),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          onPressed: _next,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 
   void _next() {
     if (count < sprites.length - 1) {
-      setState(() {
-        count++;
-      });
+      _pageController.animateToPage(
+        count + 1,
+        duration: Duration(milliseconds: 300),
+        curve: Curves.decelerate,
+      );
     }
   }
 
   void _previous() {
     if (count > 0) {
-      setState(() {
-        count--;
-      });
+      _pageController.animateToPage(
+        count - 1,
+        duration: Duration(milliseconds: 300),
+        curve: Curves.decelerate,
+      );
     }
   }
 
   void _goGame() {
-    if (SocketManager().connected) {
-      setState(() {
-        loading = true;
-      });
-      _joinGame();
-    } else {
-      print('Server não conectado.');
+    if (_form.currentState.validate()) {
+      if (SocketManager().connected) {
+        setState(() {
+          loading = true;
+        });
+        _joinGame();
+      } else {
+        print('Server não conectado.');
+      }
     }
   }
 
   void _joinGame() {
     SocketManager().send('message', {
       'action': 'CREATE',
-      'data': {'nick': nick, 'skin': count}
+      'data': {'nick': _textEditingController.text, 'skin': count}
     });
   }
 
@@ -227,14 +286,14 @@ class _PersonSelectState extends State<PersonSelect> {
       setState(() {
         loading = false;
       });
-      if (data['data']['nick'] == nick) {
+      if (data['data']['nick'] == _textEditingController.text) {
         SocketManager().cleanListeners();
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => Game(
               playersOn: data['data']['playersON'],
-              nick: nick,
+              nick: _textEditingController.text,
               playerId: data['data']['id'],
               idCharacter: count,
               position: Vector2(

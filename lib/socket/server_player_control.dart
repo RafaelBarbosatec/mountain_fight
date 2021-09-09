@@ -4,6 +4,7 @@ import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:mountain_fight/main.dart';
 import 'package:mountain_fight/socket/SocketManager.dart';
+import 'package:mountain_fight/socket/socket_message.dart';
 import 'package:mountain_fight/util/buffer_delay.dart';
 
 mixin ServerRemotePlayerControl on SimpleEnemy {
@@ -16,7 +17,7 @@ mixin ServerRemotePlayerControl on SimpleEnemy {
   int _playerId;
   BufferDelay _bufferMoveAndAttack;
 
-  String currentMove = 'IDLE';
+  JoystickMoveDirectional currentMove = JoystickMoveDirectional.IDLE;
 
   void setupServerPlayerControl(
     SocketManager s,
@@ -30,44 +31,38 @@ mixin ServerRemotePlayerControl on SimpleEnemy {
 
   void _setupSocket(SocketManager s) {
     s.listen(EVENT_SOCKET_NAME, (data) {
-      bool isMine = data['data']['player_id'] == _playerId;
+      SocketMessage msg = SocketMessage.fromJson(data);
+      bool isMine = msg.data.playerId == _playerId;
       if (!isMine) return;
 
-      String action = data['action'];
-      String time = data['time'].toString();
-
-      if (action == ACTION_RECEIVED_DAMAGE) {
-        double damage = double.parse(data['data']['damage'].toString());
-        serverReceiveDamage(damage);
-      } else if (action == ACTION_PLAYER_LEAVED) {
+      if (msg.action == GameActionEnum.RECEIVED_DAMAGE) {
+        serverReceiveDamage(msg.data.damage);
+      } else if (msg.action == GameActionEnum.PLAYER_LEAVED) {
         serverPlayerLeave();
       } else {
         _bufferMoveAndAttack.add(
-          data,
-          DateTime.parse(time),
+          msg,
+          msg.time,
         );
       }
     });
   }
 
   void _listenBuffer(data) {
-    String action = data['action'];
-    String direction = data['data']['direction'];
-    if (action == ACTION_MOVE) {
-      double x =
-          double.parse(data['data']['position']['x'].toString()) * tileSize;
-      double y =
-          double.parse(data['data']['position']['y'].toString()) * tileSize;
+    SocketMessage event = data;
+    if (event.action == GameActionEnum.MOVE) {
+      double x = event.data.position.dx * tileSize;
+      double y = event.data.position.dy * tileSize;
       Rect serverPosition = Rect.fromLTWH(
         x,
         y,
         width,
         height,
       );
-      serverMove(direction, serverPosition);
+      serverMove(event.data.direction, serverPosition);
     }
-    if (action == ACTION_ATTACK) {
-      serverAttack(direction);
+    if (event.action == GameActionEnum.ATTACK) {
+      serverAttack(event.data.direction);
     }
   }
 
@@ -77,22 +72,22 @@ mixin ServerRemotePlayerControl on SimpleEnemy {
     super.update(dt);
   }
 
-  void _move(move) {
-    switch (move) {
-      case 'LEFT':
+  void _move(JoystickMoveDirectional direction) {
+    switch (direction) {
+      case JoystickMoveDirectional.MOVE_LEFT:
         this.moveLeft(speed);
         break;
-      case 'RIGHT':
+      case JoystickMoveDirectional.MOVE_RIGHT:
         this.moveRight(speed);
         break;
-      case 'UP_RIGHT':
+      case JoystickMoveDirectional.MOVE_UP_RIGHT:
         double speedDiagonal = (speed * REDUCTION_SPEED_DIAGONAL);
         moveUpRight(
           speedDiagonal,
           speedDiagonal,
         );
         break;
-      case 'DOWN_RIGHT':
+      case JoystickMoveDirectional.MOVE_DOWN_RIGHT:
         double speedDiagonal = (speed * REDUCTION_SPEED_DIAGONAL);
         moveDownRight(
           speedDiagonal,
@@ -100,33 +95,33 @@ mixin ServerRemotePlayerControl on SimpleEnemy {
         );
 
         break;
-      case 'DOWN_LEFT':
+      case JoystickMoveDirectional.MOVE_DOWN_LEFT:
         double speedDiagonal = (speed * REDUCTION_SPEED_DIAGONAL);
         moveDownLeft(
           speedDiagonal,
           speedDiagonal,
         );
         break;
-      case 'UP_LEFT':
+      case JoystickMoveDirectional.MOVE_UP_LEFT:
         double speedDiagonal = (speed * REDUCTION_SPEED_DIAGONAL);
         moveUpLeft(
           speedDiagonal,
           speedDiagonal,
         );
         break;
-      case 'UP':
+      case JoystickMoveDirectional.MOVE_UP:
         this.moveUp(speed);
         break;
-      case 'DOWN':
+      case JoystickMoveDirectional.MOVE_DOWN:
         this.moveDown(speed);
         break;
-      case 'IDLE':
+      case JoystickMoveDirectional.IDLE:
         this.idle();
         break;
     }
   }
 
-  void serverMove(String direction, Rect serverPosition) {
+  void serverMove(JoystickMoveDirectional direction, Rect serverPosition) {
     currentMove = direction;
 
     /// Corrige posição se ele estiver muito diferente da do server
@@ -156,7 +151,7 @@ mixin ServerRemotePlayerControl on SimpleEnemy {
     }
   }
 
-  void serverAttack(String direction);
+  void serverAttack(JoystickMoveDirectional direction);
 
   void serverPlayerLeave() {
     if (!isDead) {

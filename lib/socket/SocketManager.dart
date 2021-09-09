@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class SocketManager {
@@ -7,6 +8,8 @@ class SocketManager {
   static IO.Socket socket;
   static String baseUrl;
   ValueChanged<bool> connectStatus;
+
+  bool isDebug = !kReleaseMode;
 
   factory SocketManager() {
     return _singleton;
@@ -24,13 +27,13 @@ class SocketManager {
     });
   }
 
-  IO.Socket connect() {
-    return socket.connect();
-  }
+  void connect() => socket.connect();
 
   void listenConnection(ValueChanged<dynamic> handler) {
     socket.on('connect', (value) {
-      print('$LOG conneced');
+      if (isDebug) {
+        print('$LOG conneced');
+      }
       handler(value);
     });
   }
@@ -60,7 +63,9 @@ class SocketManager {
 
   void send(String event, Map data) {
     if (connected) {
-      print('$LOG send($event) - $data');
+      if (isDebug) {
+        print('$LOG send($event) - $data');
+      }
       socket.emit(event, data);
     } else {
       print('$LOG not connected');
