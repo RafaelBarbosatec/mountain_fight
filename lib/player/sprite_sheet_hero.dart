@@ -11,11 +11,11 @@ class SpriteSheetHero {
   static SpriteSheet spriteSheetEmotes;
 
   static load() async {
-    hero1 = await _create('heroes/hero1.png');
-    hero2 = await _create('heroes/hero2.png');
-    hero3 = await _create('heroes/hero3.png');
-    hero4 = await _create('heroes/hero4.png');
-    hero5 = await _create('heroes/hero5.png');
+    hero1 = await _create('heroes/hero1.png', columns: 4);
+    hero2 = await _create('heroes/hero2.png', columns: 4);
+    hero3 = await _create('heroes/hero3.png', columns: 4);
+    hero4 = await _create('heroes/hero4.png', columns: 4);
+    hero5 = await _create('heroes/hero5.png', columns: 4);
     spriteSheetEmotes =
         await _create('emotes/emotes1.png', rows: 10, columns: 8);
   }
