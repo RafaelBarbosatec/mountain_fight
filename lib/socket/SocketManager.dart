@@ -76,11 +76,6 @@ class SocketManager {
     socket.clearListeners();
   }
 
-  void disconnect() {
-    socket.clearListeners();
-    socket.emit('disconnect');
-  }
-
   void dispose() {
     socket.dispose();
   }

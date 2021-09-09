@@ -17,28 +17,8 @@ void main() async {
 
   SocketManager.configure('http://mountainfight.herokuapp.com');
 
-  runApp(MyAppGame());
-}
-
-class MyAppGame extends StatefulWidget {
-  const MyAppGame({Key key}) : super(key: key);
-
-  @override
-  _MyAppGameState createState() => _MyAppGameState();
-}
-
-class _MyAppGameState extends State<MyAppGame> {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: PersonSelect(),
-    );
-  }
-
-  @override
-  void dispose() {
-    SocketManager().dispose();
-    super.dispose();
-  }
+  runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: PersonSelect(),
+  ));
 }
