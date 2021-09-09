@@ -15,9 +15,7 @@ class GamePlayer extends SimplePlayer with ObjectCollision {
   final String nick;
   double stamina = 100;
   JoystickMoveDirectional currentDirection;
-  TextPaint _textConfig;
   async.Timer _timerStamina;
-  Vector2 sizeTextNick = Vector2.zero();
 
   GamePlayer(this.id, this.nick, this.initPosition, SpriteSheet spriteSheet)
       : super(
@@ -63,13 +61,6 @@ class GamePlayer extends SimplePlayer with ObjectCollision {
         ],
       ),
     );
-    _textConfig = TextPaint(
-      config: TextPaintConfig(
-        fontSize: tileSize / 3,
-        color: Colors.white,
-      ),
-    );
-    sizeTextNick = _textConfig.measureText(nick);
   }
 
   void _verifyStamina() {
@@ -136,19 +127,6 @@ class GamePlayer extends SimplePlayer with ObjectCollision {
         ).toVector2Rect(),
       ),
     );
-  }
-
-  @override
-  void render(Canvas canvas) {
-    _textConfig.render(
-      canvas,
-      nick,
-      Vector2(
-        position.left + ((width - sizeTextNick.x) / 2),
-        position.top - sizeTextNick.y,
-      ),
-    );
-    super.render(canvas);
   }
 
   @override

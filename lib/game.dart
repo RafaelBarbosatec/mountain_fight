@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:mountain_fight/interface/player_interface.dart';
 import 'package:mountain_fight/main.dart';
 import 'package:mountain_fight/player/game_player.dart';
 import 'package:mountain_fight/player/remote_player.dart';
@@ -11,6 +10,7 @@ import 'package:mountain_fight/player/sprite_sheet_hero.dart';
 import 'package:mountain_fight/socket/SocketManager.dart';
 
 import 'decoration/tree.dart';
+import 'interface/interface_overlay.dart';
 
 class Game extends StatefulWidget {
   final int idCharacter;
@@ -52,6 +52,7 @@ class _GameState extends State<Game> implements GameListener {
     return LayoutBuilder(builder: (context, constraints) {
       tileSize = max(constraints.maxHeight, constraints.maxWidth) / 30;
       return BonfireTiledWidget(
+        gameController: _controller,
         joystick: Joystick(
           keyboardEnable: true,
           directional: JoystickDirectional(
@@ -75,7 +76,6 @@ class _GameState extends State<Game> implements GameListener {
           Vector2(widget.position.x * tileSize, widget.position.y * tileSize),
           _getSprite(widget.idCharacter),
         ),
-        interface: PlayerInterface(),
         map: TiledWorldMap(
           'tile/map.json',
           forceTileSize: Size(tileSize, tileSize),
@@ -85,12 +85,17 @@ class _GameState extends State<Game> implements GameListener {
         ),
         constructionModeColor: Colors.black,
         collisionAreaColor: Colors.purple.withOpacity(0.4),
-        gameController: _controller,
         cameraConfig: CameraConfig(
           moveOnlyMapArea: true,
           smoothCameraEnable: true,
           smoothCameraSpeed: 2.0,
         ),
+        initialActiveOverlays: ['barLife'],
+        overlayBuilderMap: {
+          'barLife': (_, game) => InterfaceOverlay(
+                gameController: _controller,
+              ),
+        },
       );
     });
   }
