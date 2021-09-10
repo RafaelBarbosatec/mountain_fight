@@ -215,9 +215,11 @@ class _InterfaceOverlayState extends State<InterfaceOverlay>
       });
     }
     if (nickNames.length != widget.gameController.livingEnemies.length) {
-      nickNames = widget.gameController.livingEnemies.map((e) {
-        return (e as RemotePlayer).nick;
-      }).toList();
+      setState(() {
+        nickNames = widget.gameController.livingEnemies.map((e) {
+          return (e as RemotePlayer).nick;
+        }).toList();
+      });
     }
   }
 }
