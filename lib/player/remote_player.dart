@@ -99,7 +99,7 @@ class RemotePlayer extends SimpleEnemy
         width: 30,
       ),
     );
-    remove();
+    removeFromParent();
     super.die();
   }
 

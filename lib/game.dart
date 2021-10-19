@@ -54,7 +54,7 @@ class _GameState extends State<Game> implements GameListener {
       return BonfireTiledWidget(
         gameController: _controller,
         joystick: Joystick(
-          keyboardEnable: true,
+          keyboardConfig: KeyboardConfig(),
           directional: JoystickDirectional(
             spriteKnobDirectional: Sprite.load('joystick_knob.png'),
             spriteBackgroundDirectional: Sprite.load('joystick_background.png'),

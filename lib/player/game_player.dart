@@ -226,7 +226,7 @@ class GamePlayer extends SimplePlayer with ObjectCollision {
         width: 30,
       ),
     );
-    remove();
+    removeFromParent();
     super.die();
   }
 }
