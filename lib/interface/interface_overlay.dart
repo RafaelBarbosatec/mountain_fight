@@ -34,7 +34,7 @@ class _InterfaceOverlayState extends State<InterfaceOverlay>
 
   @override
   void initState() {
-    widget.gameController.setListener(this);
+    widget.gameController.addListener(this);
     super.initState();
   }
 

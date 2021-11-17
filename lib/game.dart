@@ -31,12 +31,11 @@ class Game extends StatefulWidget {
   _GameState createState() => _GameState();
 }
 
-class _GameState extends State<Game> implements GameListener {
+class _GameState extends State<Game> {
   GameController _controller = GameController();
   bool firstUpdate = false;
   @override
   void initState() {
-    _controller.setListener(this);
     _setupSocketControl();
     super.initState();
   }
@@ -96,6 +95,9 @@ class _GameState extends State<Game> implements GameListener {
                 gameController: _controller,
               ),
         },
+        onReady: (game) {
+          _addPlayersOn();
+        },
       );
     });
   }
@@ -122,17 +124,7 @@ class _GameState extends State<Game> implements GameListener {
     }
   }
 
-  @override
-  void changeCountLiveEnemies(int count) {}
-
-  @override
-  void updateGame() {
-    _addPlayersOn();
-  }
-
   void _addPlayersOn() {
-    if (firstUpdate) return;
-    firstUpdate = true;
     widget.playersOn.forEach((player) {
       if (player != null && player['id'] != widget.playerId) {
         _addRemotePlayer(player);
