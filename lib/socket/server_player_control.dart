@@ -125,14 +125,11 @@ mixin ServerRemotePlayerControl on SimpleEnemy {
     currentMove = direction;
 
     /// Corrige posição se ele estiver muito diferente da do server
-    Vector2 p = Vector2(serverPosition.center.dx, serverPosition.center.dy);
-    double dist = p.distanceTo(Vector2(
-      position.center.dx,
-      position.center.dy,
-    ));
+    Vector2 p = Vector2(serverPosition.left, serverPosition.top);
+    double dist = p.distanceTo(position);
 
     if (dist > (tileSize * 0.5)) {
-      position = serverPosition.toVector2Rect();
+      position = serverPosition.positionVector2;
     }
   }
 
@@ -140,7 +137,7 @@ mixin ServerRemotePlayerControl on SimpleEnemy {
     if (!isDead) {
       this.showDamage(
         damage,
-        config: TextPaintConfig(color: Colors.red, fontSize: 14),
+        config: TextStyle(color: Colors.red, fontSize: 14),
       );
       if (life > 0) {
         life -= damage;

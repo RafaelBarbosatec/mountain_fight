@@ -43,23 +43,12 @@ class RemotePlayer extends SimpleEnemy
             ),
           ),
           position: initPosition,
-          width: tileSize * 1.5,
-          height: tileSize * 1.5,
+          size: Vector2.all(tileSize * 1.5),
           life: 100,
           speed: tileSize * 3,
         ) {
-    // setupCollision(
-    //   CollisionConfig(
-    //     collisions: [
-    //       CollisionArea.rectangle(
-    //         size: Size((tileSize * 0.5), (tileSize * 0.5)),
-    //         align: Vector2((tileSize * 0.9) / 2, tileSize),
-    //       ),
-    //     ],
-    //   ),
-    // );
     _textConfig = TextPaint(
-      config: TextPaintConfig(
+      style: TextStyle(
         fontSize: tileSize / 3,
         color: Colors.white,
       ),
@@ -73,7 +62,7 @@ class RemotePlayer extends SimpleEnemy
     _renderNickName(canvas);
     this.drawDefaultLifeBar(
       canvas,
-      height: 4,
+      height: size.y * 0.1,
       borderWidth: 2,
       borderRadius: BorderRadius.circular(2),
     );
@@ -86,18 +75,17 @@ class RemotePlayer extends SimpleEnemy
       AnimatedObjectOnce(
         animation: SpriteSheetHero.smokeExplosion,
         position: position,
+        size: size,
       ),
     );
-    gameRef.addGameComponent(
+    gameRef.add(
       GameDecoration.withSprite(
-        Sprite.load('crypt.png'),
-        position: Vector2(
-          position.left,
-          position.top,
-        ),
-        height: 30,
-        width: 30,
-      ),
+          sprite: Sprite.load('crypt.png'),
+          position: Vector2(
+            position.x,
+            position.y,
+          ),
+          size: Vector2.all(30)),
     );
     removeFromParent();
     super.die();
@@ -108,8 +96,8 @@ class RemotePlayer extends SimpleEnemy
       canvas,
       nick,
       Vector2(
-        position.left + ((width - sizeTextNick.x) / 2),
-        position.top - sizeTextNick.y - 12,
+        position.x + ((width - sizeTextNick.x) / 2),
+        position.y - sizeTextNick.y - 12,
       ),
     );
   }
@@ -126,15 +114,14 @@ class RemotePlayer extends SimpleEnemy
       interval: 0,
       direction: direction.getDirection(),
       animationDestroy: SpriteSheetHero.smokeExplosion,
-      width: tileSize * 0.9,
-      height: tileSize * 0.9,
+      size: Vector2.all(tileSize * 0.9),
       speed: speed * 1.5,
       enableDiagonal: false,
       damage: 15,
       collision: CollisionConfig(
         collisions: [
           CollisionArea.rectangle(
-            size: Size(tileSize * 0.9, tileSize * 0.9),
+            size: Vector2(tileSize * 0.9, tileSize * 0.9),
           )
         ],
       ),

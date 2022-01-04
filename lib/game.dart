@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:bonfire/bonfire.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mountain_fight/main.dart';
 import 'package:mountain_fight/player/game_player.dart';
@@ -86,7 +85,7 @@ class _GameState extends State<Game> {
         collisionAreaColor: Colors.purple.withOpacity(0.4),
         cameraConfig: CameraConfig(
           moveOnlyMapArea: true,
-          smoothCameraEnable: true,
+          smoothCameraEnabled: true,
           smoothCameraSpeed: 2.0,
         ),
         initialActiveOverlays: ['barLife'],
@@ -161,12 +160,11 @@ class _GameState extends State<Game> {
     _controller.addGameComponent(
       AnimatedObjectOnce(
         animation: SpriteSheetHero.smokeExplosion,
-        position: Rect.fromLTRB(
+        size: Vector2.all(32),
+        position: Vector2(
           personPosition.x,
           personPosition.y,
-          32,
-          32,
-        ).toVector2Rect(),
+        ),
       ),
     );
   }

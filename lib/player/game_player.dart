@@ -45,8 +45,7 @@ class GamePlayer extends SimplePlayer with ObjectCollision {
               spriteSheet.createAnimation(row: 7, stepTime: 0.1),
             ),
           ),
-          width: tileSize * 1.5,
-          height: tileSize * 1.5,
+          size: Vector2.all(tileSize * 1.5),
           position: initPosition,
           life: 100,
           speed: tileSize * 3,
@@ -55,7 +54,7 @@ class GamePlayer extends SimplePlayer with ObjectCollision {
       CollisionConfig(
         collisions: [
           CollisionArea.rectangle(
-            size: Size((tileSize * 0.5), (tileSize * 0.5)),
+            size: Vector2((tileSize * 0.5), (tileSize * 0.5)),
             align: Vector2((tileSize * 0.9) / 2, tileSize),
           ),
         ],
@@ -103,8 +102,8 @@ class GamePlayer extends SimplePlayer with ObjectCollision {
           playerId: id,
           direction: currentDirection,
           position: Offset(
-            (position.left / tileSize),
-            (position.top / tileSize),
+            (position.x / tileSize),
+            (position.y / tileSize),
           ),
         ),
       );
@@ -119,12 +118,11 @@ class GamePlayer extends SimplePlayer with ObjectCollision {
       AnimatedFollowerObject(
         animation: Future.value(emoteAnimation),
         target: this,
-        positionFromTarget: Rect.fromLTWH(
+        size: Vector2.all(width / 2),
+        positionFromTarget: Vector2(
           25,
           -10,
-          position.width / 2,
-          position.width / 2,
-        ).toVector2Rect(),
+        ),
       ),
     );
   }
@@ -153,8 +151,8 @@ class GamePlayer extends SimplePlayer with ObjectCollision {
         playerId: id,
         direction: lastDirection.getJoystickMoveDirectional(),
         position: Offset(
-          (position.left / tileSize),
-          (position.top / tileSize),
+          (position.x / tileSize),
+          (position.y / tileSize),
         ),
       ),
     );
@@ -167,14 +165,15 @@ class GamePlayer extends SimplePlayer with ObjectCollision {
       animationUp: anim,
       animationDown: anim,
       animationDestroy: SpriteSheetHero.smokeExplosion,
-      width: tileSize * 0.9,
-      height: tileSize * 0.9,
+      size: Vector2.all(tileSize * 0.9),
       speed: speed * 1.5,
       damage: 15,
       enableDiagonal: false,
       collision: CollisionConfig(
         collisions: [
-          CollisionArea.rectangle(size: Size(tileSize * 0.9, tileSize * 0.9))
+          CollisionArea.rectangle(
+            size: Vector2(tileSize * 0.9, tileSize * 0.9),
+          )
         ],
       ),
     );
@@ -190,15 +189,15 @@ class GamePlayer extends SimplePlayer with ObjectCollision {
         playerIdAttack: from,
         damage: damage,
         position: Offset(
-          (position.left / tileSize),
-          (position.top / tileSize),
+          (position.x / tileSize),
+          (position.y / tileSize),
         ),
       ),
     );
     SocketManager().send('message', socketEvent.toJson());
     this.showDamage(
       damage,
-      config: TextPaintConfig(
+      config: TextStyle(
         color: Colors.red,
         fontSize: 14,
       ),
@@ -213,17 +212,17 @@ class GamePlayer extends SimplePlayer with ObjectCollision {
       AnimatedObjectOnce(
         animation: SpriteSheetHero.smokeExplosion,
         position: position,
+        size: size,
       ),
     );
-    gameRef.addGameComponent(
+    gameRef.add(
       GameDecoration.withSprite(
-        Sprite.load('crypt.png'),
+        sprite: Sprite.load('crypt.png'),
         position: Vector2(
-          position.left,
-          position.top,
+          position.x,
+          position.y,
         ),
-        height: 30,
-        width: 30,
+        size: Vector2.all(30),
       ),
     );
     removeFromParent();
