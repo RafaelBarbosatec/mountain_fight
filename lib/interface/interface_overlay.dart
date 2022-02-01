@@ -16,7 +16,10 @@ import 'package:mountain_fight/player/remote_player.dart';
 /// on 09/09/21
 class InterfaceOverlay extends StatefulWidget {
   final GameController gameController;
-  const InterfaceOverlay({Key key, this.gameController}) : super(key: key);
+  const InterfaceOverlay({
+    Key? key,
+    required this.gameController,
+  }) : super(key: key);
 
   @override
   _InterfaceOverlayState createState() => _InterfaceOverlayState();
@@ -24,7 +27,7 @@ class InterfaceOverlay extends StatefulWidget {
 
 class _InterfaceOverlayState extends State<InterfaceOverlay>
     implements GameListener {
-  GamePlayer _player;
+  GamePlayer? _player;
   final double _sizeBar = 100;
   final double _maxLife = 100;
   final double _maxStamina = 100;
@@ -203,22 +206,22 @@ class _InterfaceOverlayState extends State<InterfaceOverlay>
   @override
   void updateGame() {
     if (!mounted) return;
-    _player = widget.gameController.player as GamePlayer;
-    if (life != _player.life) {
-      setState(() {
-        life = _player.life;
-      });
+    _player = widget.gameController.player as GamePlayer?;
+    if (_player != null) {
+      if (life != _player!.life || stamina != _player!.stamina) {
+        setState(() {
+          life = _player!.life;
+          stamina = _player!.stamina;
+        });
+      }
     }
-    if (stamina != _player.stamina) {
+    if (nickNames.length !=
+        (widget.gameController.livingEnemies?.length ?? 0)) {
       setState(() {
-        stamina = _player.stamina;
-      });
-    }
-    if (nickNames.length != widget.gameController.livingEnemies.length) {
-      setState(() {
-        nickNames = widget.gameController.livingEnemies.map((e) {
-          return (e as RemotePlayer).nick;
-        }).toList();
+        nickNames = widget.gameController.livingEnemies?.map((e) {
+              return (e as RemotePlayer).nick;
+            }).toList() ??
+            [];
       });
     }
   }

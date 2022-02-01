@@ -3,12 +3,12 @@ import 'dart:ui';
 import 'package:bonfire/bonfire.dart';
 
 class SpriteSheetHero {
-  static SpriteSheet hero1;
-  static SpriteSheet hero2;
-  static SpriteSheet hero3;
-  static SpriteSheet hero4;
-  static SpriteSheet hero5;
-  static SpriteSheet spriteSheetEmotes;
+  static late SpriteSheet hero1;
+  static late SpriteSheet hero2;
+  static late SpriteSheet hero3;
+  static late SpriteSheet hero4;
+  static late SpriteSheet hero5;
+  static late SpriteSheet spriteSheetEmotes;
 
   static load() async {
     hero1 = await _create('heroes/hero1.png', columns: 4);

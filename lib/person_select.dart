@@ -81,7 +81,7 @@ class _PersonSelectState extends State<PersonSelect> {
                               hintText: 'What your nick?',
                             ),
                             validator: (text) {
-                              if (text.isEmpty) {
+                              if (text?.isNotEmpty != true) {
                                 return 'Nick required';
                               }
                               return null;
@@ -99,8 +99,7 @@ class _PersonSelectState extends State<PersonSelect> {
                             SizedBox(
                               height: 50,
                               width: 150,
-                              child: RaisedButton(
-                                color: Colors.orange,
+                              child: ElevatedButton(
                                 child: Text(
                                   'ENTRAR',
                                   style: TextStyle(
@@ -108,8 +107,15 @@ class _PersonSelectState extends State<PersonSelect> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
+                                style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all(
+                                    Colors.orange,
+                                  ),
+                                  shape: MaterialStateProperty.all(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
                                 ),
                                 onPressed: statusServer == 'CONNECTED'
                                     ? _goGame
@@ -174,17 +180,25 @@ class _PersonSelectState extends State<PersonSelect> {
                       child: SizedBox(
                         width: 50,
                         height: 50,
-                        child: RaisedButton(
-                          color: Colors.blue,
-                          padding: EdgeInsets.all(0),
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                              Colors.blue,
+                            ),
+                            padding: MaterialStateProperty.all(
+                              EdgeInsets.zero,
+                            ),
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                            ),
+                          ),
                           child: Center(
                               child: Icon(
                             Icons.chevron_left,
                             color: Colors.white,
                           )),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
-                          ),
                           onPressed: _previous,
                         ),
                       ),
@@ -220,16 +234,24 @@ class _PersonSelectState extends State<PersonSelect> {
                       child: SizedBox(
                         width: 50,
                         height: 50,
-                        child: RaisedButton(
-                          color: Colors.blue,
-                          padding: EdgeInsets.all(0),
+                        child: ElevatedButton(
                           child: Center(
                               child: Icon(
                             Icons.chevron_right,
                             color: Colors.white,
                           )),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                              Colors.blue,
+                            ),
+                            padding: MaterialStateProperty.all(
+                              EdgeInsets.zero,
+                            ),
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                            ),
                           ),
                           onPressed: _next,
                         ),
@@ -263,7 +285,7 @@ class _PersonSelectState extends State<PersonSelect> {
   }
 
   void _goGame() {
-    if (_form.currentState.validate()) {
+    if (_form.currentState?.validate() == true) {
       if (SocketManager().connected) {
         setState(() {
           loading = true;

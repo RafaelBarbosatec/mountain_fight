@@ -10,7 +10,7 @@ class RemotePlayer extends SimpleEnemy
     with ServerRemotePlayerControl, ObjectCollision {
   final int id;
   final String nick;
-  TextPaint _textConfig;
+  late TextPaint _textConfig;
   Vector2 sizeTextNick = Vector2.zero();
 
   RemotePlayer(this.id, this.nick, Vector2 initPosition,
@@ -115,7 +115,7 @@ class RemotePlayer extends SimpleEnemy
       direction: direction.getDirection(),
       animationDestroy: SpriteSheetHero.smokeExplosion,
       size: Vector2.all(tileSize * 0.9),
-      speed: speed * 1.5,
+      speed: speed * 3,
       enableDiagonal: false,
       damage: 15,
       collision: CollisionConfig(

@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:mountain_fight/main.dart';
@@ -14,8 +12,8 @@ mixin ServerRemotePlayerControl on SimpleEnemy {
   static const ACTION_RECEIVED_DAMAGE = 'RECEIVED_DAMAGE';
   static const ACTION_PLAYER_LEAVED = 'PLAYER_LEAVED';
   static const REDUCTION_SPEED_DIAGONAL = 0.7;
-  int _playerId;
-  BufferDelay _bufferMoveAndAttack;
+  int playerId = 0;
+  BufferDelay _bufferMoveAndAttack = BufferDelay(200);
 
   JoystickMoveDirectional currentMove = JoystickMoveDirectional.IDLE;
 
@@ -23,8 +21,7 @@ mixin ServerRemotePlayerControl on SimpleEnemy {
     SocketManager s,
     int id,
   ) {
-    _playerId = id;
-    _bufferMoveAndAttack = BufferDelay(200);
+    playerId = id;
     _bufferMoveAndAttack.listen(_listenBuffer);
     _setupSocket(s);
   }
@@ -32,7 +29,7 @@ mixin ServerRemotePlayerControl on SimpleEnemy {
   void _setupSocket(SocketManager s) {
     s.listen(EVENT_SOCKET_NAME, (data) {
       SocketMessage msg = SocketMessage.fromJson(data);
-      bool isMine = msg.data?.playerId == _playerId;
+      bool isMine = msg.data.playerId == playerId;
       if (!isMine) return;
 
       if (msg.action == GameActionEnum.RECEIVED_DAMAGE) {

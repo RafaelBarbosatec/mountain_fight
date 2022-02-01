@@ -9,7 +9,7 @@ class Delay {
 class Frame {
   final dynamic value;
   final DateTime time;
-  DateTime timeRun;
+  DateTime? timeRun;
 
   Frame(this.value, this.time);
 }
@@ -19,7 +19,7 @@ class BufferDelay {
 
   List<dynamic> _timeLine = [];
 
-  ValueChanged<dynamic> _listen;
+  ValueChanged<dynamic>? _listen;
 
   int _currentIndex = 0;
 
@@ -39,7 +39,7 @@ class BufferDelay {
       } else {
         int delayFrame = time.difference(lastFrame.time).inMilliseconds;
         int delayDone =
-            DateTime.now().difference(lastFrame.timeRun).inMilliseconds;
+            DateTime.now().difference(lastFrame.timeRun!).inMilliseconds;
         int delay = delayFrame - delayDone;
         if (delay > 0) {
           if (delay > this.delay) {
@@ -73,7 +73,7 @@ class BufferDelay {
         verifyNext();
       } else if (value is Frame) {
         value.timeRun = DateTime.now();
-        if (_listen != null) _listen(value.value);
+        _listen?.call(value.value);
         verifyNext();
       }
     }

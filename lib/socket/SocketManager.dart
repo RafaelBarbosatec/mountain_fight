@@ -1,13 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class SocketManager {
   static const LOG = 'SocketManager:';
   static final SocketManager _singleton = SocketManager._internal();
-  static IO.Socket socket;
-  static String baseUrl;
-  ValueChanged<bool> connectStatus;
+  static late IO.Socket socket;
+  static String baseUrl = '';
 
   bool isDebug = !kReleaseMode;
 

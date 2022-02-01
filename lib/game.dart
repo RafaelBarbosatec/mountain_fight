@@ -18,14 +18,14 @@ class Game extends StatefulWidget {
   final Vector2 position;
   final List<dynamic> playersOn;
 
-  const Game(
-      {Key key,
-      this.idCharacter,
-      this.position,
-      this.playerId,
-      this.nick,
-      this.playersOn})
-      : super(key: key);
+  const Game({
+    Key? key,
+    required this.idCharacter,
+    required this.position,
+    required this.playerId,
+    required this.nick,
+    required this.playersOn,
+  }) : super(key: key);
   @override
   _GameState createState() => _GameState();
 }
@@ -105,19 +105,14 @@ class _GameState extends State<Game> {
     switch (index) {
       case 0:
         return SpriteSheetHero.hero1;
-        break;
       case 1:
         return SpriteSheetHero.hero2;
-        break;
       case 2:
         return SpriteSheetHero.hero3;
-        break;
       case 3:
         return SpriteSheetHero.hero4;
-        break;
       case 4:
         return SpriteSheetHero.hero5;
-        break;
       default:
         return SpriteSheetHero.hero1;
     }
@@ -154,7 +149,7 @@ class _GameState extends State<Game> {
       SocketManager(),
     );
     if (data['life'] != null) {
-      enemy.life = double.parse(data['life'].toString()) ?? 0.0;
+      enemy.life = double.tryParse(data['life'].toString()) ?? 0.0;
     }
     _controller.addGameComponent(enemy);
     _controller.addGameComponent(

@@ -1,6 +1,3 @@
-import 'dart:async' as async;
-import 'dart:ui';
-
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,8 +11,7 @@ class GamePlayer extends SimplePlayer with ObjectCollision {
   final int id;
   final String nick;
   double stamina = 100;
-  JoystickMoveDirectional currentDirection;
-  async.Timer _timerStamina;
+  JoystickMoveDirectional? currentDirection;
 
   GamePlayer(this.id, this.nick, this.initPosition, SpriteSheet spriteSheet)
       : super(
@@ -62,18 +58,12 @@ class GamePlayer extends SimplePlayer with ObjectCollision {
     );
   }
 
-  void _verifyStamina() {
-    if (_timerStamina == null) {
-      _timerStamina = async.Timer(Duration(milliseconds: 150), () {
-        _timerStamina = null;
-      });
-    } else {
-      return;
-    }
-
-    stamina += 2;
-    if (stamina > 100) {
-      stamina = 100;
+  void _verifyStamina(double dt) {
+    if (checkInterval('STAMINA', 150, dt)) {
+      stamina += 2;
+      if (stamina > 100) {
+        stamina = 100;
+      }
     }
   }
 
@@ -87,20 +77,20 @@ class GamePlayer extends SimplePlayer with ObjectCollision {
   @override
   void update(double dt) {
     if (isDead) return;
-    _verifyStamina();
+    _verifyStamina(dt);
     super.update(dt);
   }
 
   @override
   void joystickChangeDirectional(JoystickDirectionalEvent event) {
-    if (event.directional != currentDirection && position != null) {
+    if (event.directional != currentDirection) {
       currentDirection = event.directional;
       SocketMessage socketEvent = SocketMessage(
         time: DateTime.now(),
         action: GameActionEnum.MOVE,
         data: SocketMessageData(
           playerId: id,
-          direction: currentDirection,
+          direction: currentDirection!,
           position: Offset(
             (position.x / tileSize),
             (position.y / tileSize),
@@ -166,7 +156,7 @@ class GamePlayer extends SimplePlayer with ObjectCollision {
       animationDown: anim,
       animationDestroy: SpriteSheetHero.smokeExplosion,
       size: Vector2.all(tileSize * 0.9),
-      speed: speed * 1.5,
+      speed: speed * 3,
       damage: 15,
       enableDiagonal: false,
       collision: CollisionConfig(

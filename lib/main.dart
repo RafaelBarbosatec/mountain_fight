@@ -17,8 +17,10 @@ void main() async {
 
   SocketManager.configure('http://mountainfight.herokuapp.com');
 
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: PersonSelect(),
-  ));
+  runApp(
+    MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: PersonSelect(),
+    ),
+  );
 }
