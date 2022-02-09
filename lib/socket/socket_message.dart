@@ -121,7 +121,7 @@ GameActionEnum getActionFromText(String txt) {
   return GameActionEnum.MOVE;
 }
 
-JoystickMoveDirectional getDirectionFromText(String txt) {
+JoystickMoveDirectional getDirectionFromText(String? txt) {
   switch (txt) {
     case 'LEFT':
       return JoystickMoveDirectional.MOVE_LEFT;
@@ -158,7 +158,8 @@ class SocketMessage {
 
   SocketMessage.fromJson(Map json)
       : action = getActionFromText(json['action']),
-        time = DateTime.parse(json['time']?.toString() ?? '00/00/00 00:00:00'),
+        time =
+            DateTime.tryParse(json['time']?.toString() ?? '') ?? DateTime.now(),
         data = SocketMessageData.fromJson(json['data']);
 
   Map toJson() {
@@ -192,8 +193,8 @@ class SocketMessageData {
             int.tryParse(json['player_id_attack']?.toString() ?? '') ?? 0,
         damage = double.tryParse(json['damage']?.toString() ?? '') ?? 0.0,
         position = Offset(
-          double.tryParse(json['position']['x']?.toString() ?? '') ?? 0.0,
-          double.tryParse(json['position']['y']?.toString() ?? '') ?? 0.0,
+          double.tryParse(json['position']?['x']?.toString() ?? '') ?? 0.0,
+          double.tryParse(json['position']?['y']?.toString() ?? '') ?? 0.0,
         );
 
   Map toJson() {

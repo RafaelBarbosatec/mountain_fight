@@ -55,6 +55,16 @@ class RemotePlayer extends SimpleEnemy
     );
     sizeTextNick = _textConfig.measureText(nick);
     setupServerPlayerControl(socketManager, id);
+    setupCollision(
+      CollisionConfig(
+        collisions: [
+          CollisionArea.rectangle(
+            size: Vector2((tileSize * 0.5), (tileSize * 0.5)),
+            align: Vector2((tileSize * 0.9) / 2, tileSize),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
