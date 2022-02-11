@@ -4,7 +4,6 @@ import 'package:mountain_fight/main.dart';
 import 'package:mountain_fight/player/sprite_sheet_hero.dart';
 import 'package:mountain_fight/socket/SocketManager.dart';
 import 'package:mountain_fight/socket/server_player_control.dart';
-import 'package:mountain_fight/socket/socket_message.dart';
 
 class RemotePlayer extends SimpleEnemy
     with ServerRemotePlayerControl, ObjectCollision {
@@ -90,12 +89,13 @@ class RemotePlayer extends SimpleEnemy
     );
     gameRef.add(
       GameDecoration.withSprite(
-          sprite: Sprite.load('crypt.png'),
-          position: Vector2(
-            position.x,
-            position.y,
-          ),
-          size: Vector2.all(30)),
+        sprite: Sprite.load('crypt.png'),
+        position: Vector2(
+          position.x,
+          position.y,
+        ),
+        size: size,
+      ),
     );
     removeFromParent();
     super.die();
@@ -113,7 +113,7 @@ class RemotePlayer extends SimpleEnemy
   }
 
   @override
-  void serverAttack(JoystickMoveDirectional direction) {
+  void serverAttack(Direction? direction) {
     var anim = SpriteSheetHero.attackAxe;
     this.simpleAttackRange(
       id: id,
@@ -122,7 +122,7 @@ class RemotePlayer extends SimpleEnemy
       animationUp: anim,
       animationDown: anim,
       interval: 0,
-      direction: direction.getDirection(),
+      direction: direction,
       animationDestroy: SpriteSheetHero.smokeExplosion,
       size: Vector2.all(tileSize * 0.9),
       speed: speed * 3,

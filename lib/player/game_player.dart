@@ -11,7 +11,7 @@ class GamePlayer extends SimplePlayer with ObjectCollision {
   final int id;
   final String nick;
   double stamina = 100;
-  JoystickMoveDirectional? currentDirection;
+  Direction? cDirection;
 
   GamePlayer(this.id, this.nick, this.initPosition, SpriteSheet spriteSheet)
       : super(
@@ -81,28 +81,6 @@ class GamePlayer extends SimplePlayer with ObjectCollision {
     super.update(dt);
   }
 
-  @override
-  void joystickChangeDirectional(JoystickDirectionalEvent event) {
-    if (event.directional != currentDirection) {
-      currentDirection = event.directional;
-      SocketMessage socketEvent = SocketMessage(
-        time: DateTime.now(),
-        action: GameActionEnum.MOVE,
-        data: SocketMessageData(
-          playerId: id,
-          direction: currentDirection!,
-          position: Offset(
-            (position.x / tileSize),
-            (position.y / tileSize),
-          ),
-        ),
-      );
-      SocketManager().send('message', socketEvent.toJson());
-    }
-
-    super.joystickChangeDirectional(event);
-  }
-
   void showEmote(SpriteAnimation emoteAnimation) {
     gameRef.add(
       AnimatedFollowerObject(
@@ -139,7 +117,7 @@ class GamePlayer extends SimplePlayer with ObjectCollision {
       action: GameActionEnum.ATTACK,
       data: SocketMessageData(
         playerId: id,
-        direction: lastDirection.getJoystickMoveDirectional(),
+        direction: lastDirection,
         position: Offset(
           (position.x / tileSize),
           (position.y / tileSize),
@@ -212,10 +190,46 @@ class GamePlayer extends SimplePlayer with ObjectCollision {
           position.x,
           position.y,
         ),
-        size: Vector2.all(30),
+        size: size,
       ),
     );
     removeFromParent();
     super.die();
+  }
+
+  @override
+  void onMove(double speed, Direction direction, double angle) {
+    if (speed > 0) {
+      _sendMove(direction);
+    } else {
+      _sendMove(null);
+    }
+    super.onMove(speed, direction, angle);
+  }
+
+  void _sendMove(Direction? direction) {
+    if (direction != cDirection) {
+      cDirection = direction;
+      SocketMessage socketEvent = SocketMessage(
+        time: DateTime.now(),
+        action: GameActionEnum.MOVE,
+        data: SocketMessageData(
+          playerId: id,
+          direction: cDirection,
+          position: Offset(
+            (position.x / tileSize),
+            (position.y / tileSize),
+          ),
+        ),
+      );
+      SocketManager().send('message', socketEvent.toJson());
+    }
+  }
+
+  @override
+  void idle() {
+    print('aqui');
+    _sendMove(null);
+    super.idle();
   }
 }

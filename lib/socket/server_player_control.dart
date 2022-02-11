@@ -15,7 +15,7 @@ mixin ServerRemotePlayerControl on SimpleEnemy {
   int playerId = 0;
   BufferDelay _bufferMoveAndAttack = BufferDelay(200);
 
-  JoystickMoveDirectional currentMove = JoystickMoveDirectional.IDLE;
+  Direction? currentMove;
 
   void setupServerPlayerControl(
     SocketManager s,
@@ -69,22 +69,22 @@ mixin ServerRemotePlayerControl on SimpleEnemy {
     super.update(dt);
   }
 
-  void _move(JoystickMoveDirectional direction) {
+  void _move(Direction? direction) {
     switch (direction) {
-      case JoystickMoveDirectional.MOVE_LEFT:
+      case Direction.left:
         this.moveLeft(speed);
         break;
-      case JoystickMoveDirectional.MOVE_RIGHT:
+      case Direction.right:
         this.moveRight(speed);
         break;
-      case JoystickMoveDirectional.MOVE_UP_RIGHT:
+      case Direction.upRight:
         double speedDiagonal = (speed * REDUCTION_SPEED_DIAGONAL);
         moveUpRight(
           speedDiagonal,
           speedDiagonal,
         );
         break;
-      case JoystickMoveDirectional.MOVE_DOWN_RIGHT:
+      case Direction.downRight:
         double speedDiagonal = (speed * REDUCTION_SPEED_DIAGONAL);
         moveDownRight(
           speedDiagonal,
@@ -92,33 +92,32 @@ mixin ServerRemotePlayerControl on SimpleEnemy {
         );
 
         break;
-      case JoystickMoveDirectional.MOVE_DOWN_LEFT:
+      case Direction.downLeft:
         double speedDiagonal = (speed * REDUCTION_SPEED_DIAGONAL);
         moveDownLeft(
           speedDiagonal,
           speedDiagonal,
         );
         break;
-      case JoystickMoveDirectional.MOVE_UP_LEFT:
+      case Direction.upLeft:
         double speedDiagonal = (speed * REDUCTION_SPEED_DIAGONAL);
         moveUpLeft(
           speedDiagonal,
           speedDiagonal,
         );
         break;
-      case JoystickMoveDirectional.MOVE_UP:
+      case Direction.up:
         this.moveUp(speed);
         break;
-      case JoystickMoveDirectional.MOVE_DOWN:
+      case Direction.down:
         this.moveDown(speed);
         break;
-      case JoystickMoveDirectional.IDLE:
+      default:
         this.idle();
-        break;
     }
   }
 
-  void serverMove(JoystickMoveDirectional direction, Rect serverPosition) {
+  void serverMove(Direction? direction, Rect serverPosition) {
     currentMove = direction;
 
     /// Corrige posição se ele estiver muito diferente da do server
@@ -145,7 +144,7 @@ mixin ServerRemotePlayerControl on SimpleEnemy {
     }
   }
 
-  void serverAttack(JoystickMoveDirectional direction);
+  void serverAttack(Direction? direction);
 
   void serverPlayerLeave() {
     if (!isDead) {

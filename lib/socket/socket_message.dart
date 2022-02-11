@@ -37,72 +37,24 @@ extension GameActionEnumExt on GameActionEnum {
 }
 
 extension DirectionExt on Direction {
-  JoystickMoveDirectional getJoystickMoveDirectional() {
-    switch (this) {
-      case Direction.left:
-        return JoystickMoveDirectional.MOVE_LEFT;
-      case Direction.right:
-        return JoystickMoveDirectional.MOVE_RIGHT;
-      case Direction.up:
-        return JoystickMoveDirectional.MOVE_UP;
-      case Direction.down:
-        return JoystickMoveDirectional.MOVE_DOWN;
-      case Direction.upLeft:
-        return JoystickMoveDirectional.MOVE_LEFT;
-      case Direction.upRight:
-        return JoystickMoveDirectional.MOVE_RIGHT;
-      case Direction.downLeft:
-        return JoystickMoveDirectional.MOVE_LEFT;
-      case Direction.downRight:
-        return JoystickMoveDirectional.MOVE_RIGHT;
-    }
-  }
-}
-
-extension JoystickMoveDirectionalExt on JoystickMoveDirectional {
   String toText() {
     switch (this) {
-      case JoystickMoveDirectional.MOVE_LEFT:
+      case Direction.left:
         return 'LEFT';
-      case JoystickMoveDirectional.MOVE_RIGHT:
+      case Direction.right:
         return 'RIGHT';
-      case JoystickMoveDirectional.MOVE_UP:
+      case Direction.up:
         return 'UP';
-      case JoystickMoveDirectional.MOVE_DOWN:
+      case Direction.down:
         return 'DOWN';
-      case JoystickMoveDirectional.MOVE_UP_LEFT:
+      case Direction.upLeft:
         return 'UP_LEFT';
-      case JoystickMoveDirectional.MOVE_UP_RIGHT:
+      case Direction.upRight:
         return 'UP_RIGHT';
-      case JoystickMoveDirectional.MOVE_DOWN_LEFT:
+      case Direction.downLeft:
         return 'DOWN_LEFT';
-      case JoystickMoveDirectional.MOVE_DOWN_RIGHT:
+      case Direction.downRight:
         return 'DOWN_RIGHT';
-      case JoystickMoveDirectional.IDLE:
-        return 'IDLE';
-    }
-  }
-
-  Direction getDirection() {
-    switch (this) {
-      case JoystickMoveDirectional.MOVE_UP:
-        return Direction.up;
-      case JoystickMoveDirectional.MOVE_UP_LEFT:
-        return Direction.upLeft;
-      case JoystickMoveDirectional.MOVE_UP_RIGHT:
-        return Direction.upRight;
-      case JoystickMoveDirectional.MOVE_RIGHT:
-        return Direction.right;
-      case JoystickMoveDirectional.MOVE_DOWN:
-        return Direction.down;
-      case JoystickMoveDirectional.MOVE_DOWN_RIGHT:
-        return Direction.downRight;
-      case JoystickMoveDirectional.MOVE_DOWN_LEFT:
-        return Direction.downLeft;
-      case JoystickMoveDirectional.MOVE_LEFT:
-        return Direction.left;
-      case JoystickMoveDirectional.IDLE:
-        return Direction.left;
     }
   }
 }
@@ -121,28 +73,25 @@ GameActionEnum getActionFromText(String txt) {
   return GameActionEnum.MOVE;
 }
 
-JoystickMoveDirectional getDirectionFromText(String? txt) {
+Direction? getDirectionFromText(String? txt) {
   switch (txt) {
     case 'LEFT':
-      return JoystickMoveDirectional.MOVE_LEFT;
+      return Direction.left;
     case 'RIGHT':
-      return JoystickMoveDirectional.MOVE_RIGHT;
+      return Direction.right;
     case 'UP':
-      return JoystickMoveDirectional.MOVE_UP;
+      return Direction.up;
     case 'DOWN':
-      return JoystickMoveDirectional.MOVE_DOWN;
+      return Direction.down;
     case 'UP_LEFT':
-      return JoystickMoveDirectional.MOVE_UP_LEFT;
+      return Direction.upLeft;
     case 'UP_RIGHT':
-      return JoystickMoveDirectional.MOVE_UP_RIGHT;
+      return Direction.upRight;
     case 'DOWN_LEFT':
-      return JoystickMoveDirectional.MOVE_DOWN_LEFT;
+      return Direction.downLeft;
     case 'DOWN_RIGHT':
-      return JoystickMoveDirectional.MOVE_RIGHT;
-    case 'IDLE':
-      return JoystickMoveDirectional.IDLE;
+      return Direction.downRight;
   }
-  return JoystickMoveDirectional.IDLE;
 }
 
 class SocketMessage {
@@ -172,14 +121,14 @@ class SocketMessage {
 }
 
 class SocketMessageData {
-  final JoystickMoveDirectional direction;
+  final Direction? direction;
   final int playerId;
   final int playerIdAttack;
   final Offset position;
   final double damage;
 
   SocketMessageData({
-    this.direction = JoystickMoveDirectional.IDLE,
+    this.direction,
     required this.playerId,
     this.playerIdAttack = 0,
     required this.position,
@@ -199,7 +148,7 @@ class SocketMessageData {
 
   Map toJson() {
     Map map = {};
-    map['direction'] = direction.toText();
+    map['direction'] = direction?.toText() ?? 'IDLE';
     map['player_id'] = playerId;
     map['player_id_attack'] = playerIdAttack;
     map['damage'] = damage;
