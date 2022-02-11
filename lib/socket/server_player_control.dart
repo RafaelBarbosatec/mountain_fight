@@ -11,7 +11,6 @@ mixin ServerRemotePlayerControl on SimpleEnemy {
   static const ACTION_ATTACK = 'ATTACK';
   static const ACTION_RECEIVED_DAMAGE = 'RECEIVED_DAMAGE';
   static const ACTION_PLAYER_LEAVED = 'PLAYER_LEAVED';
-  static const REDUCTION_SPEED_DIAGONAL = 0.7;
   int playerId = 0;
   BufferDelay _bufferMoveAndAttack = BufferDelay(200);
 
@@ -78,14 +77,14 @@ mixin ServerRemotePlayerControl on SimpleEnemy {
         this.moveRight(speed);
         break;
       case Direction.upRight:
-        double speedDiagonal = (speed * REDUCTION_SPEED_DIAGONAL);
+        double speedDiagonal = (speed * Movement.REDUCTION_SPEED_DIAGONAL);
         moveUpRight(
           speedDiagonal,
           speedDiagonal,
         );
         break;
       case Direction.downRight:
-        double speedDiagonal = (speed * REDUCTION_SPEED_DIAGONAL);
+        double speedDiagonal = (speed * Movement.REDUCTION_SPEED_DIAGONAL);
         moveDownRight(
           speedDiagonal,
           speedDiagonal,
@@ -93,14 +92,14 @@ mixin ServerRemotePlayerControl on SimpleEnemy {
 
         break;
       case Direction.downLeft:
-        double speedDiagonal = (speed * REDUCTION_SPEED_DIAGONAL);
+        double speedDiagonal = (speed * Movement.REDUCTION_SPEED_DIAGONAL);
         moveDownLeft(
           speedDiagonal,
           speedDiagonal,
         );
         break;
       case Direction.upLeft:
-        double speedDiagonal = (speed * REDUCTION_SPEED_DIAGONAL);
+        double speedDiagonal = (speed * Movement.REDUCTION_SPEED_DIAGONAL);
         moveUpLeft(
           speedDiagonal,
           speedDiagonal,
