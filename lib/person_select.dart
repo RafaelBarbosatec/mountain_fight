@@ -161,6 +161,16 @@ class _PersonSelectState extends State<PersonSelect> {
                   style: TextStyle(fontSize: 9, color: Colors.white),
                 ),
               ),
+            ),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Bonfire 2.2.3',
+                  style: TextStyle(fontSize: 9, color: Colors.white),
+                ),
+              ),
             )
           ],
         ),
