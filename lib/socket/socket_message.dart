@@ -91,6 +91,8 @@ Direction? getDirectionFromText(String? txt) {
       return Direction.downLeft;
     case 'DOWN_RIGHT':
       return Direction.downRight;
+    default:
+      return null;
   }
 }
 

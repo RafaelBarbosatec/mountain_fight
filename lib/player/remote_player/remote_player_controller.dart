@@ -19,22 +19,14 @@ import 'package:mountain_fight/util/buffer_delay.dart';
 /// Rafaelbarbosatec
 /// on 29/03/22
 class RemotePlayerController extends StateController<RemotePlayer> {
-  static const EVENT_SOCKET_NAME = 'message';
-  static const ACTION_MOVE = 'MOVE';
-  static const ACTION_ATTACK = 'ATTACK';
-  static const ACTION_RECEIVED_DAMAGE = 'RECEIVED_DAMAGE';
-  static const ACTION_PLAYER_LEAVED = 'PLAYER_LEAVED';
-
   final SocketManager _socketManager;
   final BufferDelay _buffer;
-  int playerId = 0;
-  Direction? currentMove;
+  Direction? _currentMove;
 
   RemotePlayerController(this._socketManager, this._buffer);
 
   @override
   void onReady(RemotePlayer component) {
-    playerId = component.id;
     _buffer.listen(_listenBuffer);
     _setupSocket();
     super.onReady(component);
@@ -42,18 +34,21 @@ class RemotePlayerController extends StateController<RemotePlayer> {
 
   @override
   void onRemove(RemotePlayer component) {
-    _socketManager.removeListen(EVENT_SOCKET_NAME, _listenMessage);
+    _socketManager.removeListen(
+      SocketManager.EVENT_SOCKET_NAME,
+      _listenMessage,
+    );
     _buffer.reset();
     super.onRemove(component);
   }
 
   void _setupSocket() {
-    _socketManager.listen(EVENT_SOCKET_NAME, _listenMessage);
+    _socketManager.listen(SocketManager.EVENT_SOCKET_NAME, _listenMessage);
   }
 
   void _listenMessage(dynamic data) {
     SocketMessage msg = SocketMessage.fromJson(data);
-    bool isMine = msg.data.playerId == playerId;
+    bool isMine = msg.data.playerId == component?.id;
     if (!isMine) return;
 
     if (msg.action == GameActionEnum.RECEIVED_DAMAGE) {
@@ -105,7 +100,7 @@ class RemotePlayerController extends StateController<RemotePlayer> {
   }
 
   void serverMove(Direction? direction, Rect serverPosition) {
-    currentMove = direction;
+    _currentMove = direction;
 
     /// Corrige posição se ele estiver muito diferente da do server
     Vector2 p = Vector2(serverPosition.left, serverPosition.top);
@@ -118,7 +113,7 @@ class RemotePlayerController extends StateController<RemotePlayer> {
 
   @override
   void update(double dt) {
-    _move(currentMove);
+    _move(_currentMove);
   }
 
   void _move(Direction? direction) {

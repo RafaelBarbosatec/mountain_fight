@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class SocketManager {
+  static const EVENT_SOCKET_NAME = 'message';
   static const LOG = 'SocketManager:';
   late IO.Socket socket;
   final String url;
