@@ -12,12 +12,13 @@ class SocketManager {
     socket = IO.io(url, <String, dynamic>{
       'transports': ['websocket'],
     });
-    socket.on('connect', (value) {
-      print('$LOG conneced - $value');
-    });
   }
 
-  void connect() => socket.connect();
+  void connect() {
+    if (!connected) {
+      socket.connect();
+    }
+  }
 
   void listenConnection(ValueChanged<dynamic> handler) {
     socket.on('connect', (value) {

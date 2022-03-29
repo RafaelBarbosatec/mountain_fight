@@ -44,12 +44,14 @@ class _PersonSelectState extends State<PersonSelect> {
 
     _socketManager.listen('message', _listen);
 
+    _socketManager.connect();
+
     super.initState();
   }
 
   @override
   void dispose() {
-    _socketManager.dispose();
+    _socketManager.removeListen('message', _listen);
     super.dispose();
   }
 

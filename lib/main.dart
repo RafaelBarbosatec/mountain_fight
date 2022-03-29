@@ -20,10 +20,11 @@ void main() async {
 
   final socketManager = SocketManager('http://mountainfight.herokuapp.com');
   BonfireInjector.instance.put((i) => socketManager);
-  BonfireInjector.instance.putFactory((i) => BufferDelay(200));
   BonfireInjector.instance.put((i) => LocalPlayerController(i.get()));
-  BonfireInjector.instance
-      .putFactory((i) => RemotePlayerController(i.get(), i.get()));
+  BonfireInjector.instance.putFactory((i) => BufferDelay(200));
+  BonfireInjector.instance.putFactory(
+    (i) => RemotePlayerController(i.get(), i.get()),
+  );
 
   runApp(
     MaterialApp(
