@@ -4,7 +4,7 @@ import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:mountain_fight/main.dart';
 import 'package:mountain_fight/player/local_player/local_player.dart';
-import 'package:mountain_fight/player/remote_player.dart';
+import 'package:mountain_fight/player/remote_player/remote_player.dart';
 import 'package:mountain_fight/player/sprite_sheet_hero.dart';
 import 'package:mountain_fight/socket/SocketManager.dart';
 

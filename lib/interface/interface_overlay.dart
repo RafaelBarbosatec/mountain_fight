@@ -2,7 +2,7 @@ import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:mountain_fight/player/local_player/local_player.dart';
 import 'package:mountain_fight/player/local_player/local_player_controller.dart';
-import 'package:mountain_fight/player/remote_player.dart';
+import 'package:mountain_fight/player/remote_player/remote_player.dart';
 
 ///
 /// Created by
