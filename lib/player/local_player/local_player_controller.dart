@@ -20,6 +20,7 @@ import 'package:mountain_fight/socket/socket_message.dart';
 /// on 29/03/22
 class LocalPlayerController extends StateController<LocalPlayer> {
   double stamina = 100;
+  double life = 100;
   Direction? cDirection;
 
   final SocketManager _socketManager;
@@ -28,6 +29,7 @@ class LocalPlayerController extends StateController<LocalPlayer> {
 
   @override
   void update(double dt) {
+    life = component?.life ?? 0;
     if (component?.isDead == false) {
       _verifyStamina(dt);
     }

@@ -163,8 +163,7 @@ class _InterfaceOverlayState extends State<InterfaceOverlay>
               alignment: Alignment.centerLeft,
               child: Container(
                 height: 10,
-                width:
-                    _sizeBar * ((controller.component?.life ?? 0) / _maxLife),
+                width: _sizeBar * (controller.life / _maxLife),
                 decoration: BoxDecoration(
                   color: Colors.green,
                   borderRadius: BorderRadius.circular(2),
