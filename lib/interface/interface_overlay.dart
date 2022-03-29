@@ -1,7 +1,8 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
-import 'package:mountain_fight/player/game_player.dart';
-import 'package:mountain_fight/player/remote_player.dart';
+import 'package:mountain_fight/player/local_player/local_player.dart';
+import 'package:mountain_fight/player/local_player/local_player_controller.dart';
+import 'package:mountain_fight/player/remote_player/remote_player.dart';
 
 ///
 /// Created by
@@ -27,13 +28,9 @@ class InterfaceOverlay extends StatefulWidget {
 
 class _InterfaceOverlayState extends State<InterfaceOverlay>
     implements GameListener {
-  GamePlayer? _player;
+  LocalPlayer? _player;
   final double _sizeBar = 100;
-  final double _maxLife = 100;
-  final double _maxStamina = 100;
   List<String> nickNames = [];
-  double life = 0;
-  double stamina = 0;
 
   @override
   void initState() {
@@ -112,92 +109,95 @@ class _InterfaceOverlayState extends State<InterfaceOverlay>
   }
 
   Widget _buildLife() {
-    return Container(
-      margin: EdgeInsets.all(10),
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: Colors.brown,
-        borderRadius: BorderRadius.circular(5),
-        border: Border.all(color: Colors.black),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            _player?.nick ?? '',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Container(
-            width: 100,
-            height: 1,
-            color: Colors.white.withOpacity(0.5),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Text(
-            'Life',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 10,
-            ),
-          ),
-          Container(
-            height: 10,
-            width: _sizeBar,
-            decoration: BoxDecoration(
-              color: Colors.black,
-              borderRadius: BorderRadius.circular(2),
-              border: Border.all(color: Colors.white),
-            ),
-            alignment: Alignment.centerLeft,
-            child: Container(
-              height: 10,
-              width: _sizeBar * (life / _maxLife),
-              decoration: BoxDecoration(
-                color: Colors.green,
-                borderRadius: BorderRadius.circular(2),
+    return StateControllerConsumer<LocalPlayerController>(
+        builder: (context, controller) {
+      return Container(
+        margin: EdgeInsets.all(10),
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: Colors.brown,
+          borderRadius: BorderRadius.circular(5),
+          border: Border.all(color: Colors.black),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              _player?.nick ?? '',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
               ),
             ),
-          ),
-          SizedBox(
-            height: 4,
-          ),
-          Text(
-            'Stamina',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 10,
+            SizedBox(
+              height: 5,
             ),
-          ),
-          Container(
-            height: 10,
-            width: _sizeBar,
-            decoration: BoxDecoration(
-              color: Colors.black,
-              borderRadius: BorderRadius.circular(2),
-              border: Border.all(color: Colors.white),
+            Container(
+              width: 100,
+              height: 1,
+              color: Colors.white.withOpacity(0.5),
             ),
-            alignment: Alignment.centerLeft,
-            child: Container(
-              height: 10,
-              width: _sizeBar * (stamina / _maxStamina),
-              decoration: BoxDecoration(
-                color: Colors.orange,
-                borderRadius: BorderRadius.circular(2),
+            SizedBox(
+              height: 5,
+            ),
+            Text(
+              'Life',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 10,
               ),
             ),
-          ),
-        ],
-      ),
-    );
+            Container(
+              height: 10,
+              width: _sizeBar,
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(2),
+                border: Border.all(color: Colors.white),
+              ),
+              alignment: Alignment.centerLeft,
+              child: Container(
+                height: 10,
+                width: _sizeBar * (controller.life / controller.maxLife),
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 4,
+            ),
+            Text(
+              'Stamina',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 10,
+              ),
+            ),
+            Container(
+              height: 10,
+              width: _sizeBar,
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(2),
+                border: Border.all(color: Colors.white),
+              ),
+              alignment: Alignment.centerLeft,
+              child: Container(
+                height: 10,
+                width: _sizeBar * (controller.stamina / controller.maxStamina),
+                decoration: BoxDecoration(
+                  color: Colors.orange,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    });
   }
 
   @override
@@ -206,15 +206,15 @@ class _InterfaceOverlayState extends State<InterfaceOverlay>
   @override
   void updateGame() {
     if (!mounted) return;
-    _player = widget.gameController.player as GamePlayer?;
-    if (_player != null) {
-      if (life != _player!.life || stamina != _player!.stamina) {
-        setState(() {
-          life = _player!.life;
-          stamina = _player!.stamina;
-        });
-      }
-    }
+    // _player = widget.gameController.player as LocalPlayer?;
+    // if (_player != null) {
+    //   if (life != _player!.life || stamina != _player!.stamina) {
+    //     setState(() {
+    //       life = _player!.life;
+    //       stamina = _player!.stamina;
+    //     });
+    //   }
+    // }
     if (nickNames.length !=
         (widget.gameController.livingEnemies?.length ?? 0)) {
       setState(() {

@@ -47,4 +47,34 @@ class SpriteSheetHero {
           stepTime: 0.05,
         ),
       );
+
+  static SimpleDirectionAnimation animationBySpriteSheet(
+      SpriteSheet spriteSheet) {
+    return SimpleDirectionAnimation(
+      idleUp: Future.value(
+        spriteSheet.createAnimation(row: 0, stepTime: 0.1),
+      ),
+      idleDown: Future.value(
+        spriteSheet.createAnimation(row: 1, stepTime: 0.1),
+      ),
+      idleLeft: Future.value(
+        spriteSheet.createAnimation(row: 2, stepTime: 0.1),
+      ),
+      idleRight: Future.value(
+        spriteSheet.createAnimation(row: 3, stepTime: 0.1),
+      ),
+      runUp: Future.value(
+        spriteSheet.createAnimation(row: 4, stepTime: 0.1),
+      ),
+      runDown: Future.value(
+        spriteSheet.createAnimation(row: 5, stepTime: 0.1),
+      ),
+      runLeft: Future.value(
+        spriteSheet.createAnimation(row: 6, stepTime: 0.1),
+      ),
+      runRight: Future.value(
+        spriteSheet.createAnimation(row: 7, stepTime: 0.1),
+      ),
+    );
+  }
 }
