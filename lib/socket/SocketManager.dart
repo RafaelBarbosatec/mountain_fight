@@ -3,20 +3,12 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class SocketManager {
   static const LOG = 'SocketManager:';
-  static final SocketManager _singleton = SocketManager._internal();
-  static late IO.Socket socket;
-  static String baseUrl = '';
+  late IO.Socket socket;
+  final String url;
 
   bool isDebug = !kReleaseMode;
 
-  factory SocketManager() {
-    return _singleton;
-  }
-
-  SocketManager._internal();
-
-  static Future configure(String url) async {
-    baseUrl = url;
+  SocketManager(this.url) {
     socket = IO.io(url, <String, dynamic>{
       'transports': ['websocket'],
     });

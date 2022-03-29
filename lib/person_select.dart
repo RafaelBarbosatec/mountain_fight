@@ -19,9 +19,11 @@ class _PersonSelectState extends State<PersonSelect> {
   PageController _pageController = PageController();
   TextEditingController _textEditingController = TextEditingController();
   GlobalKey<FormState> _form = GlobalKey();
+  late SocketManager _socketManager;
 
   @override
   void initState() {
+    _socketManager = BonfireInjector.instance.get();
     _textEditingController.text = _lastNick;
     sprites.add(SpriteSheetHero.hero1);
     sprites.add(SpriteSheetHero.hero2);
@@ -29,20 +31,26 @@ class _PersonSelectState extends State<PersonSelect> {
     sprites.add(SpriteSheetHero.hero4);
     sprites.add(SpriteSheetHero.hero5);
 
-    SocketManager().listenConnection((_) {
+    _socketManager.listenConnection((_) {
       setState(() {
         statusServer = 'CONNECTED';
       });
     });
-    SocketManager().listenError((_) {
+    _socketManager.listenError((_) {
       setState(() {
         statusServer = 'ERROR: $_';
       });
     });
 
-    SocketManager().listen('message', _listen);
+    _socketManager.listen('message', _listen);
 
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _socketManager.dispose();
+    super.dispose();
   }
 
   @override
@@ -301,7 +309,7 @@ class _PersonSelectState extends State<PersonSelect> {
 
   void _goGame() {
     if (_form.currentState?.validate() == true) {
-      if (SocketManager().connected) {
+      if (_socketManager.connected) {
         setState(() {
           loading = true;
         });
@@ -314,7 +322,7 @@ class _PersonSelectState extends State<PersonSelect> {
 
   void _joinGame() {
     _lastNick = _textEditingController.text;
-    SocketManager().send('message', {
+    _socketManager.send('message', {
       'action': 'CREATE',
       'data': {'nick': _lastNick, 'skin': count}
     });
@@ -326,7 +334,7 @@ class _PersonSelectState extends State<PersonSelect> {
         loading = false;
       });
       if (data['data']['nick'] == _textEditingController.text) {
-        SocketManager().cleanListeners();
+        _socketManager.cleanListeners();
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(

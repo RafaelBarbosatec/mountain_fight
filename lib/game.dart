@@ -33,15 +33,17 @@ class Game extends StatefulWidget {
 class _GameState extends State<Game> {
   GameController _controller = GameController();
   bool firstUpdate = false;
+  late SocketManager _socketManager;
   @override
   void initState() {
+    _socketManager = BonfireInjector.instance.get();
     _setupSocketControl();
     super.initState();
   }
 
   @override
   void dispose() {
-    SocketManager().dispose();
+    _socketManager.dispose();
     super.dispose();
   }
 
@@ -127,7 +129,7 @@ class _GameState extends State<Game> {
   }
 
   void _setupSocketControl() {
-    SocketManager().listen('message', (data) {
+    _socketManager.listen('message', (data) {
       if (data['action'] == 'PLAYER_JOIN' &&
           data['data']['id'] != widget.playerId) {
         _addRemotePlayer(data['data']);
@@ -146,7 +148,6 @@ class _GameState extends State<Game> {
       data['nick'],
       personPosition,
       _getSprite(data['skin'] ?? 0),
-      SocketManager(),
     );
     if (data['life'] != null) {
       enemy.life = double.tryParse(data['life'].toString()) ?? 0.0;
@@ -155,7 +156,7 @@ class _GameState extends State<Game> {
     _controller.addGameComponent(
       AnimatedObjectOnce(
         animation: SpriteSheetHero.smokeExplosion,
-        size: Vector2.all(32),
+        size: Vector2.all(tileSize),
         position: Vector2(
           personPosition.x,
           personPosition.y,

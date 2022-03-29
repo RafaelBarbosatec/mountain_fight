@@ -30,11 +30,7 @@ class _InterfaceOverlayState extends State<InterfaceOverlay>
     implements GameListener {
   LocalPlayer? _player;
   final double _sizeBar = 100;
-  final double _maxLife = 100;
-  final double _maxStamina = 100;
   List<String> nickNames = [];
-  double life = 0;
-  double stamina = 0;
 
   @override
   void initState() {
@@ -163,7 +159,7 @@ class _InterfaceOverlayState extends State<InterfaceOverlay>
               alignment: Alignment.centerLeft,
               child: Container(
                 height: 10,
-                width: _sizeBar * (controller.life / _maxLife),
+                width: _sizeBar * (controller.life / controller.maxLife),
                 decoration: BoxDecoration(
                   color: Colors.green,
                   borderRadius: BorderRadius.circular(2),
@@ -191,7 +187,7 @@ class _InterfaceOverlayState extends State<InterfaceOverlay>
               alignment: Alignment.centerLeft,
               child: Container(
                 height: 10,
-                width: _sizeBar * (controller.stamina / _maxStamina),
+                width: _sizeBar * (controller.stamina / controller.maxStamina),
                 decoration: BoxDecoration(
                   color: Colors.orange,
                   borderRadius: BorderRadius.circular(2),

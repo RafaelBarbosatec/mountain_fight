@@ -1,19 +1,18 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:mountain_fight/main.dart';
+import 'package:mountain_fight/player/remote_player/remote_player_controller.dart';
 import 'package:mountain_fight/player/sprite_sheet_hero.dart';
-import 'package:mountain_fight/socket/SocketManager.dart';
-import 'package:mountain_fight/socket/server_player_control.dart';
 
 class RemotePlayer extends SimpleEnemy
-    with ServerRemotePlayerControl, ObjectCollision {
+    with UseStateController<RemotePlayerController>, ObjectCollision {
   final int id;
   final String nick;
   late TextPaint _textConfig;
   Vector2 sizeTextNick = Vector2.zero();
 
-  RemotePlayer(this.id, this.nick, Vector2 initPosition,
-      SpriteSheet spriteSheet, SocketManager socketManager)
+  RemotePlayer(
+      this.id, this.nick, Vector2 initPosition, SpriteSheet spriteSheet)
       : super(
           animation: SimpleDirectionAnimation(
             idleUp: Future.value(
@@ -53,7 +52,6 @@ class RemotePlayer extends SimpleEnemy
       ),
     );
     sizeTextNick = _textConfig.measureText(nick);
-    setupServerPlayerControl(socketManager, id);
     setupCollision(
       CollisionConfig(
         collisions: [
@@ -112,8 +110,7 @@ class RemotePlayer extends SimpleEnemy
     );
   }
 
-  @override
-  void serverAttack(Direction? direction) {
+  void execAttack(Direction? direction) {
     var anim = SpriteSheetHero.attackAxe;
     this.simpleAttackRange(
       id: id,
@@ -141,5 +138,12 @@ class RemotePlayer extends SimpleEnemy
   @override
   bool checkCanReceiveDamage(AttackFromEnum attacker, double damage, from) {
     return false;
+  }
+
+  void execShowDamage(double damage) {
+    this.showDamage(
+      damage,
+      config: TextStyle(color: Colors.red, fontSize: 14),
+    );
   }
 }

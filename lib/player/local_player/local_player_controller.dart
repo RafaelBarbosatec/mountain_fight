@@ -19,13 +19,22 @@ import 'package:mountain_fight/socket/socket_message.dart';
 /// Rafaelbarbosatec
 /// on 29/03/22
 class LocalPlayerController extends StateController<LocalPlayer> {
+  final double maxStamina = 100;
   double stamina = 100;
+  double maxLife = 100;
   double life = 100;
   Direction? cDirection;
 
   final SocketManager _socketManager;
 
   LocalPlayerController(this._socketManager);
+
+  @override
+  void onReady(LocalPlayer component) {
+    life = component.life;
+    maxLife = component.maxLife;
+    super.onReady(component);
+  }
 
   @override
   void update(double dt) {
