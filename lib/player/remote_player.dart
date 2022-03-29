@@ -139,5 +139,7 @@ class RemotePlayer extends SimpleEnemy
   }
 
   @override
-  void receiveDamage(double damage, from) {}
+  bool checkCanReceiveDamage(AttackFromEnum attacker, double damage, from) {
+    return false;
+  }
 }

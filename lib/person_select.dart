@@ -108,9 +108,14 @@ class _PersonSelectState extends State<PersonSelect> {
                                   ),
                                 ),
                                 style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(
-                                    Colors.orange,
-                                  ),
+                                  backgroundColor:
+                                      MaterialStateProperty.resolveWith<Color?>(
+                                          (Set<MaterialState> states) {
+                                    return states
+                                            .contains(MaterialState.disabled)
+                                        ? null
+                                        : Colors.orange;
+                                  }),
                                   shape: MaterialStateProperty.all(
                                     RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8),

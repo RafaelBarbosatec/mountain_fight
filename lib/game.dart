@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:mountain_fight/main.dart';
-import 'package:mountain_fight/player/game_player.dart';
+import 'package:mountain_fight/player/local_player/local_player.dart';
 import 'package:mountain_fight/player/remote_player.dart';
 import 'package:mountain_fight/player/sprite_sheet_hero.dart';
 import 'package:mountain_fight/socket/SocketManager.dart';
@@ -68,7 +68,7 @@ class _GameState extends State<Game> {
             ),
           ],
         ),
-        player: GamePlayer(
+        player: LocalPlayer(
           widget.playerId,
           widget.nick,
           Vector2(widget.position.x * tileSize, widget.position.y * tileSize),
