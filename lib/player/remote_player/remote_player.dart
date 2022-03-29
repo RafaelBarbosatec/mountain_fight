@@ -14,32 +14,7 @@ class RemotePlayer extends SimpleEnemy
   RemotePlayer(
       this.id, this.nick, Vector2 initPosition, SpriteSheet spriteSheet)
       : super(
-          animation: SimpleDirectionAnimation(
-            idleUp: Future.value(
-              spriteSheet.createAnimation(row: 0, stepTime: 0.1),
-            ),
-            idleDown: Future.value(
-              spriteSheet.createAnimation(row: 1, stepTime: 0.1),
-            ),
-            idleLeft: Future.value(
-              spriteSheet.createAnimation(row: 2, stepTime: 0.1),
-            ),
-            idleRight: Future.value(
-              spriteSheet.createAnimation(row: 3, stepTime: 0.1),
-            ),
-            runUp: Future.value(
-              spriteSheet.createAnimation(row: 4, stepTime: 0.1),
-            ),
-            runDown: Future.value(
-              spriteSheet.createAnimation(row: 5, stepTime: 0.1),
-            ),
-            runLeft: Future.value(
-              spriteSheet.createAnimation(row: 6, stepTime: 0.1),
-            ),
-            runRight: Future.value(
-              spriteSheet.createAnimation(row: 7, stepTime: 0.1),
-            ),
-          ),
+          animation: SpriteSheetHero.animationBySpriteSheet(spriteSheet),
           position: initPosition,
           size: Vector2.all(tileSize * 1.5),
           life: 100,
