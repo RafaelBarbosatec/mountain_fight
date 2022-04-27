@@ -112,7 +112,7 @@ class RemotePlayerController extends StateController<RemotePlayer> {
   }
 
   @override
-  void update(double dt) {
+  void update(double dt, RemotePlayer component) {
     _move(_currentMove);
   }
 

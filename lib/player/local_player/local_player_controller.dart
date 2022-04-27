@@ -37,9 +37,9 @@ class LocalPlayerController extends StateController<LocalPlayer> {
   }
 
   @override
-  void update(double dt) {
-    life = component?.life ?? 0;
-    if (component?.isDead == false) {
+  void update(double dt, LocalPlayer component) {
+    life = component.life;
+    if (component.isDead == false) {
       _verifyStamina(dt);
     }
   }
