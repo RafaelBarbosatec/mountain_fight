@@ -40,12 +40,12 @@ class LocalPlayerController extends StateController<LocalPlayer> {
   void update(double dt, LocalPlayer component) {
     life = component.life;
     if (component.isDead == false) {
-      _verifyStamina(dt);
+      _verifyStamina(dt, component);
     }
   }
 
-  void _verifyStamina(double dt) {
-    if (component?.checkInterval('STAMINA', 150, dt) == true) {
+  void _verifyStamina(double dt, LocalPlayer component) {
+    if (component.checkInterval('STAMINA', 150, dt) == true) {
       stamina += 2;
       if (stamina > 100) {
         stamina = 100;

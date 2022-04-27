@@ -113,31 +113,28 @@ class RemotePlayerController extends StateController<RemotePlayer> {
 
   @override
   void update(double dt, RemotePlayer component) {
-    _move(_currentMove);
+    _move(_currentMove, component);
   }
 
-  void _move(Direction? direction) {
-    if (component == null) {
-      return;
-    }
-    double speed = component!.speed;
+  void _move(Direction? direction, RemotePlayer component) {
+    double speed = component.speed;
     switch (direction) {
       case Direction.left:
-        component!.moveLeft(speed);
+        component.moveLeft(speed);
         break;
       case Direction.right:
-        component!.moveRight(speed);
+        component.moveRight(speed);
         break;
       case Direction.upRight:
         double speedDiagonal = (speed * Movement.REDUCTION_SPEED_DIAGONAL);
-        component!.moveUpRight(
+        component.moveUpRight(
           speedDiagonal,
           speedDiagonal,
         );
         break;
       case Direction.downRight:
         double speedDiagonal = (speed * Movement.REDUCTION_SPEED_DIAGONAL);
-        component!.moveDownRight(
+        component.moveDownRight(
           speedDiagonal,
           speedDiagonal,
         );
@@ -145,26 +142,26 @@ class RemotePlayerController extends StateController<RemotePlayer> {
         break;
       case Direction.downLeft:
         double speedDiagonal = (speed * Movement.REDUCTION_SPEED_DIAGONAL);
-        component!.moveDownLeft(
+        component.moveDownLeft(
           speedDiagonal,
           speedDiagonal,
         );
         break;
       case Direction.upLeft:
         double speedDiagonal = (speed * Movement.REDUCTION_SPEED_DIAGONAL);
-        component!.moveUpLeft(
+        component.moveUpLeft(
           speedDiagonal,
           speedDiagonal,
         );
         break;
       case Direction.up:
-        component!.moveUp(speed);
+        component.moveUp(speed);
         break;
       case Direction.down:
-        component!.moveDown(speed);
+        component.moveDown(speed);
         break;
       default:
-        component!.idle();
+        component.idle();
     }
   }
 }
