@@ -90,7 +90,7 @@ class RemotePlayerController extends StateController<RemotePlayer> {
   void serverReceiveDamage(double damage) {
     if (component?.isDead == false) {
       if (component!.life > 0) {
-        component!.life -= damage;
+        component?.removeLife(damage);
         component?.execShowDamage(damage);
         if (component!.life <= 0) {
           component!.die();

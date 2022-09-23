@@ -90,9 +90,6 @@ class RemotePlayer extends SimpleEnemy
     this.simpleAttackRange(
       id: id,
       animationRight: anim,
-      animationLeft: anim,
-      animationUp: anim,
-      animationDown: anim,
       interval: 0,
       direction: direction,
       animationDestroy: SpriteSheetHero.smokeExplosion,

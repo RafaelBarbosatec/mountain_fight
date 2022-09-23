@@ -51,7 +51,7 @@ class _GameState extends State<Game> {
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       tileSize = max(constraints.maxHeight, constraints.maxWidth) / 30;
-      return BonfireTiledWidget(
+      return BonfireWidget(
         gameController: _controller,
         joystick: Joystick(
           keyboardConfig: KeyboardConfig(),
@@ -76,9 +76,9 @@ class _GameState extends State<Game> {
           Vector2(widget.position.x * tileSize, widget.position.y * tileSize),
           _getSprite(widget.idCharacter),
         ),
-        map: TiledWorldMap(
+        map: WorldMapByTiled(
           'tile/map.json',
-          forceTileSize: Size(tileSize, tileSize),
+          forceTileSize: Vector2.all(tileSize),
           objectsBuilder: {
             'tree': (p) => Tree(p.position),
           },
@@ -150,7 +150,7 @@ class _GameState extends State<Game> {
       _getSprite(data['skin'] ?? 0),
     );
     if (data['life'] != null) {
-      enemy.life = double.tryParse(data['life'].toString()) ?? 0.0;
+      enemy.update(double.tryParse(data['life'].toString()) ?? 0.0);
     }
     _controller.addGameComponent(enemy);
     _controller.addGameComponent(

@@ -92,7 +92,6 @@ class LocalPlayer extends SimplePlayer
 
   @override
   void die() {
-    life = 0;
     gameRef.add(
       AnimatedObjectOnce(
         animation: SpriteSheetHero.smokeExplosion,
