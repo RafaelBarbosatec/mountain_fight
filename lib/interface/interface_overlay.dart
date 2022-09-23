@@ -124,7 +124,7 @@ class _InterfaceOverlayState extends State<InterfaceOverlay>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              _player?.nick ?? '',
+              controller.component?.nick ?? '',
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
@@ -206,15 +206,6 @@ class _InterfaceOverlayState extends State<InterfaceOverlay>
   @override
   void updateGame() {
     if (!mounted) return;
-    // _player = widget.gameController.player as LocalPlayer?;
-    // if (_player != null) {
-    //   if (life != _player!.life || stamina != _player!.stamina) {
-    //     setState(() {
-    //       life = _player!.life;
-    //       stamina = _player!.stamina;
-    //     });
-    //   }
-    // }
     if (nickNames.length !=
         (widget.gameController.livingEnemies?.length ?? 0)) {
       setState(() {

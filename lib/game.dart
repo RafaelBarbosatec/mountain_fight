@@ -87,7 +87,6 @@ class _GameState extends State<Game> {
         collisionAreaColor: Colors.purple.withOpacity(0.4),
         cameraConfig: CameraConfig(
           moveOnlyMapArea: true,
-          smoothCameraEnabled: true,
           smoothCameraSpeed: 2.0,
         ),
         initialActiveOverlays: ['barLife'],
