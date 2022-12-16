@@ -1,6 +1,5 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
-import 'package:mountain_fight/player/local_player/local_player.dart';
 import 'package:mountain_fight/player/local_player/local_player_controller.dart';
 import 'package:mountain_fight/player/remote_player/remote_player.dart';
 
@@ -28,7 +27,6 @@ class InterfaceOverlay extends StatefulWidget {
 
 class _InterfaceOverlayState extends State<InterfaceOverlay>
     implements GameListener {
-  LocalPlayer? _player;
   final double _sizeBar = 100;
   List<String> nickNames = [];
 

@@ -5,7 +5,10 @@ import 'package:mountain_fight/player/remote_player/remote_player_controller.dar
 import 'package:mountain_fight/player/sprite_sheet_hero.dart';
 
 class RemotePlayer extends SimpleEnemy
-    with UseStateController<RemotePlayerController>, ObjectCollision {
+    with
+        UseStateController<RemotePlayerController>,
+        ObjectCollision,
+        UseBarLife {
   final int id;
   final String nick;
   late TextPaint _textConfig;
@@ -37,17 +40,17 @@ class RemotePlayer extends SimpleEnemy
         ],
       ),
     );
+
+    setupBarLife(
+      size: Vector2(width * 1.5, size.y * 0.1),
+      borderWidth: 2,
+      borderRadius: BorderRadius.circular(2),
+    );
   }
 
   @override
   void render(Canvas canvas) {
     _renderNickName(canvas);
-    this.drawDefaultLifeBar(
-      canvas,
-      height: size.y * 0.1,
-      borderWidth: 2,
-      borderRadius: BorderRadius.circular(2),
-    );
     super.render(canvas);
   }
 
